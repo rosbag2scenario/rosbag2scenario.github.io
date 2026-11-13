@@ -8,243 +8,241 @@
 <title>Rosbag2Scenario</title>
 <meta name="description" content="Rosbag2Scenario reconstructs recorded traffic from on-board perception into OpenSCENARIO scenarios and re-simulates real disengagements in CARLA with a handover to the driving stack and reactive rear-cone traffic.">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230f7b74'/%3E%3Cpath d='M3 11h10M5 7h6' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230e7c74'/%3E%3Cpath d='M3 11h10M5 7h6' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
 
 <header class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Project page &middot; paper under double-blind review</p>
-    <h1>Rosbag2Scenario<span class="sub">From Real-World Disengagements to Replayable Scenarios</span></h1>
-    <p class="meta"><strong>Anonymous Authors</strong> &middot; affiliation withheld for double-blind review</p>
-    <ul class="links">
-      <li><span class="muted">Paper: under review</span></li>
-      <li><span class="muted">Code: released upon acceptance</span></li>
-      <li><a href="#videos">Re-simulation videos</a></li>
-      <li><a href="#bibtex">BibTeX</a></li>
+  <div class="col">
+    <h1>Rosbag2Scenario</h1>
+    <p class="subtitle">From Real-World Disengagements to Replayable Scenarios</p>
+    <span class="status">Under double-blind review</span>
+    <p class="authors">Anonymous Authors</p>
+    <p class="affil">Affiliation withheld for double-blind review</p>
+    <ul class="buttons">
+      <li><span class="btn off" title="The paper is under review"><span class="row"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1h7l3 3v11H3zM9.5 1.5V4.5h3"/></svg>Paper</span><small>under review</small></span></li>
+      <li><span class="btn off" title="The code is released upon acceptance"><span class="row"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.3 4.2 1.5 8l3.8 3.8 1-1L3.5 8l2.8-2.8zm5.4 0-1 1L12.5 8l-2.8 2.8 1 1L14.5 8z"/></svg>Code</span><small>released upon acceptance</small></span></li>
+      <li><a class="btn" href="#videos"><span class="row"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Video</span><small>re-simulations</small></a></li>
+      <li><a class="btn" href="#bibtex"><span class="row"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h10v12l-5-3-5 3z"/></svg>BibTeX</span><small>cite</small></a></li>
     </ul>
   </div>
 </header>
 
-<nav class="toc" aria-label="Sections">
-  <div class="wrap">
-    <ul>
-      <li><a href="#summary">Summary</a></li>
-      <li><a href="#pipeline">Pipeline</a></li>
-      <li><a href="#steps">Recording to re-simulation</a></li>
-      <li><a href="#results">Results</a></li>
-      <li><a href="#videos">Videos</a></li>
-      <li><a href="#limitations">Limitations</a></li>
-      <li><a href="#bibtex">BibTeX</a></li>
-    </ul>
+<div class="teaser">
+  <div class="wide">
+    <video autoplay muted loop playsinline preload="metadata" poster="media/d1-reproduced.jpg" width="1440" height="300" aria-label="Re-simulation of disengagement D1, front cameras">
+      <source src="media/d1-reproduced.mp4" type="video/mp4">
+    </video>
+    <p>A recorded disengagement re-simulated in CARLA. The ego replays the recording, the driving stack takes over shortly before the recorded intervention, and it stops behind the truck that blocks its lane, as the real stack did.</p>
   </div>
-</nav>
+</div>
 
 <main>
 
-<section id="summary">
-  <div class="wrap">
-    <div class="prose">
-      <h2><span class="num">01</span>Summary</h2>
-      <p class="summary">Automated vehicles record large amounts of data during on-road testing, yet they still meet situations that end in a <em>disengagement</em>, an unplanned manual intervention. Reproducing such an event in simulation needs a complete scene built from fragmented on-board perception, and traffic that reacts when a revised driving stack deviates from the recording. Rosbag2Scenario is a pipeline that reconstructs the recorded traffic from on-board perception data into OpenSCENARIO scenarios and re-simulates them in CARLA. All actors, including the ego vehicle, replay the recording until a handover shortly before the disengagement. After it, the driving stack controls the ego and only vehicles in a rear cone become reactive. On nine real disengagements, the re-simulation matches the recording within centimeters up to the handover and reproduces five of them. The per-step errors attribute each failed reproduction to one step of the pipeline.</p>
-    </div>
+<section id="abstract">
+  <div class="col justify">
+    <h2>Abstract</h2>
+    <p class="lead">Automated vehicles record large amounts of driving data during on-road testing, yet they still encounter situations that lead to unplanned manual interventions, known as disengagements. Investigating their root causes and validating subsequent fixes requires reproducing these situations in simulation. Reproducing and subsequently solving a disengagement in simulation requires a complete scene from fragmented on-board perception and traffic that reacts when a revised driving stack deviates from the recording. Existing approaches focus on a few relevant actors, rely on non-reactive log replay, or are closed-source. We present Rosbag2Scenario, an open-source pipeline that reconstructs the recorded traffic from on-board perception data into OpenSCENARIO scenarios and re-simulates them in CARLA. All actors, including the ego vehicle, replay the recording until a handover shortly before the disengagement, after which the driving stack controls the ego vehicle and only vehicles in a rear cone become reactive. On nine real disengagements, the re-simulation matches the recording within centimeters up to the handover and reproduces five of them. We evaluate the per-step errors and attribute each failed reproduction to one step.</p>
+  </div>
+  <div class="wide" style="margin-top:1.6rem">
     <ul class="stats">
-      <li class="stat"><b>5 of 9</b><span>recorded disengagements reproduced in closed loop</span></li>
-      <li class="stat"><b>63 / 111</b><span>tracker gaps rejoined, with no wrong link</span></li>
-      <li class="stat"><b>4&ndash;7&nbsp;mm</b><span>median execution error of vehicles and ego up to the handover</span></li>
-      <li class="stat"><b>0.8&nbsp;m</b><span>mean traffic deviation at the disengagement under the hybrid policy, against 5.6&nbsp;m with all traffic reactive</span></li>
+      <li><b>5 of 9</b><span>recorded disengagements reproduced in closed loop</span></li>
+      <li><b>63 / 111</b><span>tracker gaps rejoined, with no wrong link</span></li>
+      <li><b>4&ndash;7&nbsp;mm</b><span>median execution error of vehicles and ego up to the handover</span></li>
+      <li><b>0.8&nbsp;m</b><span>mean traffic deviation at the disengagement under the hybrid policy, against 5.6&nbsp;m with all traffic reactive</span></li>
     </ul>
   </div>
 </section>
 
-<section id="pipeline">
-  <div class="wrap">
-    <div class="prose">
-      <h2><span class="num">02</span>Pipeline overview</h2>
-      <p>The pipeline turns a recorded drive into a scenario for any OpenSCENARIO-compatible simulator. A <strong>perception source</strong> provides the object tracks, either as recorded by the on-board tracker or regenerated offline from the recorded camera and LiDAR data. <strong>Track reconstruction</strong> filters, associates and completes these tracks into one continuous trajectory per actor. The <strong>export</strong> writes the actors and the recorded ego trajectory into an OpenSCENARIO file, together with a traffic plan that gives each vehicle a prescribed or reactive control policy. The perception source, the reconstruction method, the traffic policy and the driving stack can each be replaced on their own.</p>
+<section id="overview" class="band">
+  <div class="wide">
+    <h2>Pipeline Overview</h2>
+    <div class="card">
+      <figure class="scroll-x" style="margin-top:0">
+        <div class="plate"><img src="fig/pipeline.png" width="2000" height="496" alt="Block diagram. Input: a ROS bag with object tracks, camera and LiDAR, and ego state, plus an optional Lanelet2 map. Perception source: online recorded tracker output, or offline relabeling of recorded sensor data. Track reconstruction: filter, associate, complete. Scenario export: OpenSCENARIO and SUMO export with prescribed, reactive or hybrid rear-cone traffic. Output: a .xosc scenario and a .json traffic plan."></div>
+        <figcaption>Rosbag2Scenario from the recording to the OpenSCENARIO file and the traffic plan (section numbers refer to the paper).</figcaption>
+      </figure>
     </div>
-    <figure class="wide-scroll">
-      <div class="plate"><img src="fig/pipeline.png" width="2000" height="496" alt="Block diagram. Input: a ROS bag with object tracks, camera and LiDAR, and ego state, plus an optional Lanelet2 map. Perception source: online recorded tracker output, or offline relabeling of recorded sensor data. Track reconstruction: filter, associate, complete. Scenario export: OpenSCENARIO and SUMO export with prescribed, reactive or hybrid rear-cone traffic. Output: a .xosc scenario and a .json traffic plan."></div>
-      <figcaption>Rosbag2Scenario from the recording to the OpenSCENARIO file and the traffic plan (Fig. 2 of the paper; section numbers refer to the paper).</figcaption>
-    </figure>
+    <div class="col justify" style="padding:0">
+      <p>A <strong>perception source</strong> provides the object tracks, either as recorded by the on-board tracker or regenerated offline from the recorded camera and LiDAR data. <strong>Track reconstruction</strong> filters, associates and completes these tracks into one continuous trajectory per actor. The <strong>export</strong> writes the actors and the recorded ego trajectory into an OpenSCENARIO file, together with a traffic plan that gives each vehicle a prescribed or reactive control policy. The perception source, the reconstruction method, the traffic policy and the driving stack can each be replaced independently.</p>
+    </div>
   </div>
 </section>
 
-<section id="steps">
-  <div class="wrap">
-    <div class="prose">
-      <h2><span class="num">03</span>From recording to re-simulation</h2>
-      <p>Four steps take one recorded disengagement to a closed-loop test of the driving stack.</p>
+<section id="method">
+  <div class="wide">
+    <h2>From Recording to Re-simulation</h2>
+
+    <div class="card">
+      <h3><span class="n">1.</span>Take the tracks the stack perceived</h3>
+      <div class="justify">
+        <p>The input is a ROS bag with the ego pose, the object tracks and, optionally, the driving mode, which yields the disengagement time <i>t<sub>d</sub></i>. By default the pipeline uses the online tracker output: it exists for every drive without extra computation and is what the stack perceived. Against human labels on a real recording, these tracks reach the highest car AP and HOTA, with a position RMSE of 0.28&nbsp;m. Offline labels recover more of the labeled cars but need 394&nbsp;s of GPU time for 20&nbsp;s of data.</p>
+        <p style="margin:0">These tracks are fragmented. Occlusions and limited sensor range leave tracks that start late, end early or break apart, so actors replayed naively appear and disappear mid-scene.</p>
+      </div>
     </div>
-    <ol class="steps">
-      <li>
-        <span class="step-no" aria-hidden="true">1</span>
-        <div class="step-body prose">
-          <h3>Take the tracks the stack perceived</h3>
-          <p>The input is a ROS bag with the ego pose, the object tracks and, optionally, the driving mode, which yields the disengagement time <i>t<sub>d</sub></i>. By default the pipeline uses the online tracker output: it exists for every drive without extra computation and is what the stack perceived. Against human labels on a real recording, these tracks reach the highest car AP and HOTA, with a position RMSE of 0.28&nbsp;m. Offline labels recover more of the labeled cars but need 394&nbsp;s of GPU time for 20&nbsp;s of data.</p>
-          <p>These tracks are fragmented. Occlusions and limited sensor range leave tracks that start late, end early or break apart, so actors replayed naively appear and disappear mid-scene.</p>
-        </div>
-      </li>
-      <li>
-        <span class="step-no" aria-hidden="true">2</span>
-        <div class="step-body">
-          <div class="prose">
-            <h3>Reconstruct one continuous trajectory per actor</h3>
-            <p><em>Filter</em> rejects invalid samples and short tracklets. <em>Association</em> links two fragments only if they pass gates on class, size, speed and heading and their endpoints agree with bounded-acceleration motion predicted across the gap in both directions. A lane fallback handles curves and braking, and a link whose best alternative is nearly as good is left unlinked. <em>Completion</em> estimates the boundary states with a forward-backward constant-acceleration smoother, fills the gap with a cubic Hermite curve, accepts it only if the motion is dynamically plausible, and extends track ends along the lane so that actors drive into and out of the detection range.</p>
-          </div>
-          <div class="two-up">
-            <figure>
-              <div class="plate"><img src="fig/reconstruction.png" width="1000" height="592" loading="lazy" alt="Two panels on a two-lane road. (a) Association: the forward prediction of ID 7 and the backward prediction of ID 12 meet in the association gate, so they are linked; ID 9 fails the heading check. (b) Completion: hollow dots fill the occluded gap and extend both ends beyond the detection range."></div>
-              <figcaption>An actor lost as ID&nbsp;7 during an occlusion returns as ID&nbsp;12. (a) Both predictions meet inside the association gate, while ID&nbsp;9 fails the heading check. (b) Completion bridges the occlusion and extends both ends.</figcaption>
-            </figure>
-            <figure>
-              <div class="plate"><img src="fig/real-gap-example.png" width="759" height="515" loading="lazy" alt="Plot of a real tracker gap of 3.1 seconds: position and speed of a car before and after the gap, with the gap filled by constant velocity, Hermite, Zhu-inspired and the proposed completion."></div>
-              <figcaption>A real gap from D7: a car pulling away behind the ego is lost for 3.1&nbsp;s and returns under a new ID.</figcaption>
-            </figure>
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="step-no" aria-hidden="true">3</span>
-        <div class="step-body">
-          <div class="prose">
-            <h3>Export with a late handover and hybrid traffic</h3>
-            <p>The ego replays its recorded trajectory until the handover <i>t<sub>h</sub></i>&nbsp;=&nbsp;<i>t<sub>d</sub></i>&nbsp;&minus;&nbsp;&Delta;<i>t</i><sub>pre</sub>. The driving stack already runs during the replay, so it receives meaningful pose and velocity feedback, and the lead time lets it act before the recorded disengagement. At the handover, only the vehicles in a rear cone behind the ego (half-angle 90&deg;, range 100&nbsp;m) switch from prescribed to reactive motion, controlled by SUMO in co-simulation. Traffic ahead and oncoming keeps its recorded motion.</p>
-            <p>Both choices are measured. Traffic that is reactive from the start drifts away from the recording before the ego behaves differently, and even on an empty road the stack-driven ego drifts from its recorded trajectory.</p>
-          </div>
-          <div class="two-up">
-            <figure>
-              <div class="plate"><img src="fig/traffic-drift.png" width="759" height="385" loading="lazy" alt="Line plot of mean traffic deviation over time for four policies, aligned at the handover. Log replay stays at zero, the hybrid rear-cone policy rises slowly to below 1 m at the disengagement, all reactive from handover reaches about 3 m, all reactive from start about 6 m."></div>
-              <figcaption>Mean deviation of moving vehicles within 50&nbsp;m of the ego from their reconstructed trajectories, over nine drives with a log-replayed ego, aligned at the handover.</figcaption>
-            </figure>
-            <figure>
-              <div class="plate"><img src="fig/ego-drift.png" width="759" height="385" loading="lazy" alt="Line plot of ego deviation on an empty road: near zero during log replay, then rising to about 1 m five seconds after the handover and about 1.8 m after ten seconds."></div>
-              <figcaption>Deviation of the ego from its recorded trajectory on an empty road: 1.2&nbsp;cm during log replay, 1.0&nbsp;m after 5&nbsp;s and 1.8&nbsp;m after 10&nbsp;s under stack control.</figcaption>
-            </figure>
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="step-no" aria-hidden="true">4</span>
-        <div class="step-body prose">
-          <h3>Re-simulate, score and reuse as a regression test</h3>
-          <p>The stack under test drives the ego in CARLA from the handover on, with simulated camera and LiDAR data. An event counts as reproduced if the stack shows the behavior of the real stack before the disengagement, for example a sustained stop within 2&nbsp;m of the recorded stop position; each criterion is derived from the recording. For every event the error of each step is measured: the total deviation of the re-simulation from the recording splits exactly into a reconstruction error and an execution error, <i>e</i><sub>total</sub>&nbsp;=&nbsp;<i>e</i><sub>rec</sub>&nbsp;+&nbsp;<i>e</i><sub>exec</sub>. A reproduced event can then be rerun on later versions of the stack.</p>
-        </div>
-      </li>
-    </ol>
+
+    <div class="card">
+      <h3><span class="n">2.</span>Reconstruct one continuous trajectory per actor</h3>
+      <div class="justify">
+        <p><em>Filter</em> rejects invalid samples and short tracklets. <em>Association</em> links two fragments only if they pass gates on class, size, speed and heading and their endpoints agree with bounded-acceleration motion predicted across the gap in both directions. A lane fallback handles curves and braking, and a link whose best alternative is nearly as good is left unlinked. <em>Completion</em> estimates the boundary states with a forward-backward constant-acceleration smoother, fills the gap with a cubic Hermite curve, accepts it only if the motion is dynamically plausible, and extends track ends along the lane so that actors drive into and out of the detection range.</p>
+      </div>
+      <div class="two">
+        <figure>
+          <div class="plate"><img src="fig/reconstruction.png" width="1000" height="592" alt="Two panels on a two-lane road. (a) Association: the forward prediction of ID 7 and the backward prediction of ID 12 meet in the association gate, so they are linked; ID 9 fails the heading check. (b) Completion: hollow dots fill the occluded gap and extend both ends beyond the detection range."></div>
+          <figcaption>An actor lost as ID&nbsp;7 during an occlusion returns as ID&nbsp;12. (a) Both predictions meet inside the association gate, while ID&nbsp;9 fails the heading check. (b) Completion bridges the occlusion and extends both ends.</figcaption>
+        </figure>
+        <figure>
+          <div class="plate"><img src="fig/real-gap-example.png" width="759" height="515" alt="Plot of a real tracker gap of 3.1 seconds: position and speed of a car before and after the gap, with the gap filled by constant velocity, Hermite, Zhu-inspired and the proposed completion."></div>
+          <figcaption>A real gap from D7: a car pulling away behind the ego is lost for 3.1&nbsp;s and returns under a new ID.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="n">3.</span>Export with a late handover and hybrid traffic</h3>
+      <div class="justify">
+        <p>The ego replays its recorded trajectory until the handover <i>t<sub>h</sub></i>&nbsp;=&nbsp;<i>t<sub>d</sub></i>&nbsp;&minus;&nbsp;&Delta;<i>t</i><sub>pre</sub>. The driving stack already runs during the replay, so it receives meaningful pose and velocity feedback, and the lead time lets it act before the recorded disengagement. At the handover, only the vehicles in a rear cone behind the ego (half-angle 90&deg;, range 100&nbsp;m) switch from prescribed to reactive motion, controlled by SUMO in co-simulation. Traffic ahead and oncoming keeps its recorded motion.</p>
+        <p>Both choices are measured. Traffic that is reactive from the start drifts away from the recording before the ego behaves differently, and even on an empty road the stack-driven ego drifts from its recorded trajectory.</p>
+      </div>
+      <div class="two">
+        <figure>
+          <div class="plate"><img src="fig/traffic-drift.png" width="759" height="385" alt="Line plot of mean traffic deviation over time for four policies, aligned at the handover. Log replay stays at zero, the hybrid rear-cone policy rises slowly to below 1 m at the disengagement, all reactive from handover reaches about 3 m, all reactive from start about 6 m."></div>
+          <figcaption>Mean deviation of moving vehicles within 50&nbsp;m of the ego from their reconstructed trajectories, over nine drives with a log-replayed ego, aligned at the handover.</figcaption>
+        </figure>
+        <figure>
+          <div class="plate"><img src="fig/ego-drift.png" width="759" height="385" alt="Line plot of ego deviation on an empty road: near zero during log replay, then rising to about 1 m five seconds after the handover and about 1.8 m after ten seconds."></div>
+          <figcaption>Deviation of the ego from its recorded trajectory on an empty road: 1.2&nbsp;cm during log replay, 1.0&nbsp;m after 5&nbsp;s and 1.8&nbsp;m after 10&nbsp;s under stack control.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="n">4.</span>Re-simulate, score and reuse as a regression test</h3>
+      <div class="justify">
+        <p style="margin:0">The stack under test drives the ego in CARLA from the handover on, with simulated camera and LiDAR data. An event counts as reproduced if the stack shows the behavior of the real stack before the disengagement, for example a sustained stop within 2&nbsp;m of the recorded stop position; each criterion is derived from the recording. For every event the error of each step is measured: the total deviation of the re-simulation from the recording splits exactly into a reconstruction error and an execution error, <i>e</i><sub>total</sub>&nbsp;=&nbsp;<i>e</i><sub>rec</sub>&nbsp;+&nbsp;<i>e</i><sub>exec</sub>. A reproduced event can then be rerun on later versions of the stack.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section id="results">
-  <div class="wrap">
-    <div class="prose">
-      <h2><span class="num">04</span>Results</h2>
+<section id="results" class="band">
+  <div class="wide">
+    <h2>Results</h2>
+    <div class="col justify" style="padding:0">
       <p>The setup runs CARLA&nbsp;0.9.16 with its ScenarioRunner and SUMO&nbsp;1.27.1 for the reactive vehicles. The stack under test is an adapted Autoware Universe stack on ROS&nbsp;2 Humble with BEVFusion perception, on one desktop computer with an RTX&nbsp;5080 GPU. The evaluation uses nine disengagements recorded with a research vehicle in urban traffic, D1&ndash;D9, and three drives in CARLA's Town10 map, where the simulator provides ground truth for vehicles the tracker lost.</p>
+    </div>
+
+    <div class="card">
       <h3>Reconstruction of fragmented tracks</h3>
-      <p>Three 180&nbsp;s drives in Town10 with forty vehicles each contain 111 tracker gaps of 49 vehicles. Rosbag2Scenario rejoins 63 of them and creates no wrong link. The proximity rule of Zhu et&nbsp;al. succeeds where the vehicle barely moves but rejoins only 17 and 15 of the 56 gaps with a moving vehicle, where ours rejoins 33. Given the correct pairing, our completion fills all 111 gaps with an RMSE of 0.88&nbsp;m (median 0.54&nbsp;m per gap, 98&nbsp;% below 2&nbsp;m).</p>
+      <div class="justify">
+        <p>Three 180&nbsp;s drives in Town10 with forty vehicles each contain 111 tracker gaps of 49 vehicles. Rosbag2Scenario rejoins 63 of them and creates no wrong link. The proximity rule of Zhu et&nbsp;al. succeeds where the vehicle barely moves but rejoins only 17 and 15 of the 56 gaps with a moving vehicle, where ours rejoins 33. Given the correct pairing, our completion fills all 111 gaps with an RMSE of 0.88&nbsp;m (median 0.54&nbsp;m per gap, 98&nbsp;% below 2&nbsp;m). In the nine recorded disengagements, association accepts 348 links between 819 vehicle track fragments, and half of the 496 resulting vehicle tracks are joined from several fragments or extended at a track end.</p>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Rejoined</th><th>Rejoined, moving</th><th>Wrong links</th><th>RMSE [m]</th><th>RMSE moving [m]</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Constant velocity</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>1.00</td><td>1.16</td></tr>
+            <tr><td>Hermite</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>1.21</td><td>1.23</td></tr>
+            <tr><td>Zhu et al., 2&nbsp;s gate</td><td>58</td><td>17</td><td>2</td><td>1.17</td><td>1.25</td></tr>
+            <tr><td>Zhu et al., 5&nbsp;s gate</td><td>62</td><td>15</td><td>8</td><td>1.17</td><td>1.25</td></tr>
+            <tr class="best"><td>Ours</td><td>63</td><td>33</td><td>0</td><td>0.88</td><td>0.96</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tcap">Reconstruction of 111 tracker gaps in three CARLA drives (paper, Table II). Rejoined counts gaps whose two fragments end up as one actor; wrong links join different vehicles.</p>
     </div>
-    <div class="table-scroll" style="max-width:var(--measure)">
-      <table>
-        <thead>
-          <tr><th>Method</th><th>Rejoined, all</th><th>Rejoined, moving</th><th>Wrong</th><th>RMSE all [m]</th><th>RMSE moving [m]</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Constant velocity</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>1.00</td><td>1.16</td></tr>
-          <tr><td>Hermite</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>1.21</td><td>1.23</td></tr>
-          <tr><td>Zhu et al., 2&nbsp;s gate</td><td>58</td><td>17</td><td>2</td><td>1.17</td><td>1.25</td></tr>
-          <tr><td>Zhu et al., 5&nbsp;s gate</td><td>62</td><td>15</td><td>8</td><td>1.17</td><td>1.25</td></tr>
-          <tr class="best"><td>Ours</td><td>63</td><td>33</td><td>0</td><td>0.88</td><td>0.96</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="tcap">Reconstruction of 111 tracker gaps in three CARLA drives (paper, Table II). Rejoined counts gaps whose two fragments end up as one actor; Wrong counts links between different vehicles.</p>
 
-    <div class="prose" style="margin-top:2rem">
-      <p>In the nine recorded disengagements, association accepts 348 links between 819 vehicle track fragments, withdraws 26 after completion and leaves 34 ambiguous pairs unlinked. Half of the 496 resulting vehicle tracks are joined from several fragments or extended at a track end.</p>
+    <div class="card">
       <h3>Reactive traffic and handover</h3>
-      <p>With the ego on its recorded trajectory, log replay keeps vehicles within centimeters of the reconstruction on every drive. Vehicles reactive from the start are 3.3&nbsp;m off at the handover and 5.6&nbsp;m at the disengagement; releasing all vehicles at the handover still reaches 2.6&nbsp;m. The hybrid policy equals log replay up to the handover and reaches a mean of 0.8&nbsp;m at the disengagement (0.001&ndash;1.9&nbsp;m per drive). In the median over drives, 80&nbsp;% of its samples stay within 2&nbsp;m, against 63&nbsp;% and 60&nbsp;% for the two all-reactive policies.</p>
+      <div class="justify">
+        <p style="margin:0">With the ego on its recorded trajectory, log replay keeps vehicles within centimeters of the reconstruction on every drive. Vehicles reactive from the start are 3.3&nbsp;m off at the handover and 5.6&nbsp;m at the disengagement; releasing all vehicles at the handover still reaches 2.6&nbsp;m. The hybrid policy equals log replay up to the handover and reaches a mean of 0.8&nbsp;m at the disengagement (0.001&ndash;1.9&nbsp;m per drive). In the median over drives, 80&nbsp;% of its samples stay within 2&nbsp;m, against 63&nbsp;% and 60&nbsp;% for the two all-reactive policies.</p>
+      </div>
+    </div>
+
+    <div class="card">
       <h3>Disengagement reproduction</h3>
-      <p>With the handover 5&nbsp;s before the disengagement, reconstruction moves the recorded samples by a median of 0.06&nbsp;m up to the handover, execution adds 4&nbsp;mm for the vehicles and 7&nbsp;mm for the ego, and 98.5&nbsp;% of the expected vehicle samples are present. The simulated stack tracks 87.6&nbsp;% of the vehicles that the real stack tracked. At the disengagement, the simulated ego differs from the recorded one by a median of 1.0&nbsp;m along its path, 0.06&nbsp;m laterally and 0.8&nbsp;m/s in speed. Creating a scenario takes 0.5&ndash;3.5&nbsp;min per recording on a desktop CPU, for scenes with 74&ndash;248 actors.</p>
-    </div>
-
-    <div class="table-scroll">
-      <table class="dis">
-        <thead>
-          <tr><th>ID</th><th>Situation</th><th>Cone</th><th>Cov.</th><th>&le;&nbsp;2&nbsp;m</th><th><i>e<sub>d</sub></i></th><th>Outcome</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>D1</td><td>truck blocks lane</td><td>6</td><td>100.0</td><td>90.8</td><td>0.41</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
-          <tr><td>D2</td><td>truck partly blocks lane</td><td>4</td><td>98.5</td><td>68.8</td><td>0.63</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
-          <tr><td>D3</td><td>protruding parking car</td><td>10</td><td>100.0</td><td>73.4</td><td>4.11</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
-          <tr><td>D4</td><td>reversing car, parked coach</td><td>18</td><td>91.2</td><td>64.7</td><td>9.86</td><td class="out"><span class="tag na">not established</span></td></tr>
-          <tr><td>D5</td><td>close pass of parked car</td><td>1</td><td>100.0</td><td>97.6</td><td>11.20</td><td class="out"><span class="tag div">diverged</span></td></tr>
-          <tr><td>D6</td><td>pedestrians at right turn</td><td>1</td><td>95.9</td><td>77.9</td><td>0.02</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
-          <tr><td>D7</td><td>lane change beside a car</td><td>10</td><td>98.7</td><td>82.6</td><td>2.04</td><td class="out"><span class="tag div">diverged</span></td></tr>
-          <tr><td>D8</td><td>taxi about to reverse</td><td>0</td><td>97.5</td><td>97.5</td><td>1.03</td><td class="out"><span class="tag div">diverged</span></td></tr>
-          <tr><td>D9</td><td>cyclist, pedestrians at crosswalk</td><td>2</td><td>83.9</td><td>80.1</td><td>0.22</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="tcap">Re-simulation of nine recorded disengagements (paper, Table III). Cone is the number of reactive rear-cone vehicles. Cov. and &le;&nbsp;2&nbsp;m are the shares [%] of expected vehicle samples present before <i>t<sub>h</sub></i> and within 2&nbsp;m of the reconstruction from <i>t<sub>h</sub></i> to <i>t<sub>d</sub></i>&nbsp;+&nbsp;5&nbsp;s. <i>e<sub>d</sub></i> is the ego position error at <i>t<sub>d</sub></i> [m].</p>
-
-    <div class="prose" style="margin-top:2rem">
-      <p>The stack under test stops behind the blocking truck (D1), waits behind the partly blocking truck (D2), approaches the protruding car without a sustained stop (D3), holds for the pedestrians at the right turn (D6), and stops before a crosswalk for a crossing cyclist and two pedestrians (D9). The measured errors and the logs of both stacks attribute each failure to one step. In D5 (<em>perception</em>), the simulated stack perceives angled parked cars farther from its path than the real stack did, because no vehicle model matches the detected box, and passes 2.7&nbsp;s earlier. In D7 (<em>localization</em>), the real stack likely had a 0.5&ndash;0.6&nbsp;m localization offset that the simulated ego does not have. In D8 (<em>planning</em>), the simulated stack stops for a pedestrian and holds that stop, so the situation that prompted the takeover does not arise.</p>
+      <div class="justify">
+        <p>With the handover 5&nbsp;s before the disengagement, reconstruction moves the recorded samples by a median of 0.06&nbsp;m up to the handover, execution adds 4&nbsp;mm for the vehicles and 7&nbsp;mm for the ego, and 98.5&nbsp;% of the expected vehicle samples are present. The simulated stack tracks 87.6&nbsp;% of the vehicles that the real stack tracked. At the disengagement, the simulated ego differs from the recorded one by a median of 1.0&nbsp;m along its path, 0.06&nbsp;m laterally and 0.8&nbsp;m/s in speed. Creating a scenario takes 0.5&ndash;3.5&nbsp;min per recording on a desktop CPU, for scenes with 74&ndash;248 actors.</p>
+      </div>
+      <div class="tablewrap">
+        <table class="dis">
+          <thead>
+            <tr><th>ID</th><th>Situation</th><th>Cone</th><th>Cov.</th><th>&le;&nbsp;2&nbsp;m</th><th><i>e<sub>d</sub></i></th><th>Outcome</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>D1</td><td>truck blocks lane</td><td>6</td><td>100.0</td><td>90.8</td><td>0.41</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
+            <tr><td>D2</td><td>truck partly blocks lane</td><td>4</td><td>98.5</td><td>68.8</td><td>0.63</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
+            <tr><td>D3</td><td>protruding parking car</td><td>10</td><td>100.0</td><td>73.4</td><td>4.11</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
+            <tr><td>D4</td><td>reversing car, parked coach</td><td>18</td><td>91.2</td><td>64.7</td><td>9.86</td><td class="out"><span class="tag na">not established</span></td></tr>
+            <tr><td>D5</td><td>close pass of parked car</td><td>1</td><td>100.0</td><td>97.6</td><td>11.20</td><td class="out"><span class="tag div">diverged</span></td></tr>
+            <tr><td>D6</td><td>pedestrians at right turn</td><td>1</td><td>95.9</td><td>77.9</td><td>0.02</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
+            <tr><td>D7</td><td>lane change beside a car</td><td>10</td><td>98.7</td><td>82.6</td><td>2.04</td><td class="out"><span class="tag div">diverged</span></td></tr>
+            <tr><td>D8</td><td>taxi about to reverse</td><td>0</td><td>97.5</td><td>97.5</td><td>1.03</td><td class="out"><span class="tag div">diverged</span></td></tr>
+            <tr><td>D9</td><td>cyclist, pedestrians at crosswalk</td><td>2</td><td>83.9</td><td>80.1</td><td>0.22</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tcap">Re-simulation of nine recorded disengagements (paper, Table III). Cone is the number of reactive rear-cone vehicles. Cov. and &le;&nbsp;2&nbsp;m are the shares [%] of expected vehicle samples present before <i>t<sub>h</sub></i> and within 2&nbsp;m of the reconstruction from <i>t<sub>h</sub></i> to <i>t<sub>d</sub></i>&nbsp;+&nbsp;5&nbsp;s. <i>e<sub>d</sub></i> is the ego position error at <i>t<sub>d</sub></i> [m].</p>
+      <div class="justify" style="margin-top:1rem">
+        <p style="margin:0">The stack under test stops behind the blocking truck (D1), waits behind the partly blocking truck (D2), approaches the protruding car without a sustained stop (D3), holds for the pedestrians at the right turn (D6), and stops before a crosswalk for a crossing cyclist and two pedestrians (D9). The measured errors and the logs of both stacks attribute each failure to one step. In D5 (<em>perception</em>), the simulated stack perceives angled parked cars farther from its path than the real stack did, because no vehicle model matches the detected box, and passes 2.7&nbsp;s earlier. In D7 (<em>localization</em>), the real stack likely had a 0.5&ndash;0.6&nbsp;m localization offset that the simulated ego does not have. In D8 (<em>planning</em>), the simulated stack stops for a pedestrian and holds that stop, so the situation that prompted the takeover does not arise.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="videos">
-  <div class="wrap">
-    <div class="prose">
-      <h2><span class="num">05</span>Re-simulated disengagements</h2>
-      <p>The clips show the simulated cameras of the ego: the three front cameras for D1 and D7, and all six (front row: left, center, right; back row: rear left, center, right) for the D2 pair, where the vehicles behind the ego matter. The banner switches when the driving stack takes over from the replayed recording. Real camera footage is not shown.</p>
+  <div class="wide">
+    <h2>Re-simulated Disengagements</h2>
+    <p class="note" style="text-align:center;max-width:var(--col);margin:0 auto 1.2rem">Simulated ego cameras only; real camera footage is not shown. The banner switches when the driving stack takes over from the replayed recording.</p>
+    <div class="carousel" id="carousel">
+      <div class="tabs" role="tablist" hidden>
+        <button type="button" role="tab">D1 reproduced</button>
+        <button type="button" role="tab">D7 diverged</button>
+        <button type="button" role="tab">D2 hybrid</button>
+        <button type="button" role="tab">D2 log replay</button>
+      </div>
+      <figure class="slide card">
+        <video controls muted playsinline preload="none" poster="media/d1-reproduced.jpg" width="1440" height="300"><source src="media/d1-reproduced.mp4" type="video/mp4"></video>
+        <figcaption><span class="tag ok">reproduced</span><b>D1, truck blocks the lane.</b> After the handover the stack under test stops behind the truck, as the real stack did. Front cameras.</figcaption>
+      </figure>
+      <figure class="slide card">
+        <video controls muted playsinline preload="none" poster="media/d7-diverged.jpg" width="1440" height="300"><source src="media/d7-diverged.mp4" type="video/mp4"></video>
+        <figcaption><span class="tag div">diverged</span><b>D7, lane change beside a car (localization).</b> A 0.5&ndash;0.6&nbsp;m localization offset of the real stack is the likely cause. The simulated ego localizes without it, and the close approach that prompted the intervention does not arise. Front cameras.</figcaption>
+      </figure>
+      <figure class="slide card">
+        <video controls muted playsinline preload="none" poster="media/d2-regression-hybrid.jpg" width="1280" height="548"><source src="media/d2-regression-hybrid.mp4" type="video/mp4"></video>
+        <figcaption><span class="tag ok">regression test</span><b>D2, updated stack, hybrid policy.</b> The ego drives around the truck that partly blocks its lane; the two vehicles behind it in the left lane brake and follow without contact. Six cameras, rear row below.</figcaption>
+      </figure>
+      <figure class="slide card">
+        <video controls muted playsinline preload="none" poster="media/d2-regression-logreplay.jpg" width="1280" height="548"><source src="media/d2-regression-logreplay.mp4" type="video/mp4"></video>
+        <figcaption><span class="tag div">regression test</span><b>D2, updated stack, log replay.</b> With all traffic prescribed, the same two vehicles keep their recorded motion and crash into the ego. Six cameras, rear row below.</figcaption>
+      </figure>
+      <div class="nav"><button type="button" data-step="-1">&#8592; Previous</button><span class="count"></span><button type="button" data-step="1">Next &#8594;</button></div>
     </div>
-    <div class="gallery">
-      <figure class="clip full">
-        <video controls muted playsinline preload="none" poster="media/d1-reproduced.jpg" width="1440" height="300">
-          <source src="media/d1-reproduced.mp4" type="video/mp4">
-        </video>
-        <figcaption><span class="tag ok">reproduced</span><b>D1, truck blocks the lane.</b> After the handover the stack under test stops behind the truck, as the real stack did.</figcaption>
-      </figure>
-      <figure class="clip full">
-        <video controls muted playsinline preload="none" poster="media/d7-diverged.jpg" width="1440" height="300">
-          <source src="media/d7-diverged.mp4" type="video/mp4">
-        </video>
-        <figcaption><span class="tag div">diverged</span><b>D7, lane change beside a car (localization).</b> A 0.5&ndash;0.6&nbsp;m localization offset of the real stack is the likely cause. The simulated ego localizes without it, and the close approach that prompted the intervention does not arise.</figcaption>
-      </figure>
-      <figure class="clip">
-        <video controls muted playsinline preload="none" poster="media/d2-regression-hybrid.jpg" width="1280" height="548">
-          <source src="media/d2-regression-hybrid.mp4" type="video/mp4">
-        </video>
-        <figcaption><span class="tag ok">regression test</span><b>D2, updated stack, hybrid policy.</b> The ego drives around the truck that partly blocks its lane; the two vehicles behind it in the left lane brake and follow without contact.</figcaption>
-      </figure>
-      <figure class="clip">
-        <video controls muted playsinline preload="none" poster="media/d2-regression-logreplay.jpg" width="1280" height="548">
-          <source src="media/d2-regression-logreplay.mp4" type="video/mp4">
-        </video>
-        <figcaption><span class="tag div">regression test</span><b>D2, updated stack, log replay.</b> With all traffic prescribed, the same two vehicles keep their recorded motion and crash into the ego.</figcaption>
-      </figure>
-    </div>
-    <p class="pair-note" style="max-width:var(--measure)" style="margin-top:1.2rem">The D2 pair shows why reactive rear traffic matters: once the stack resolves the situation, the scenario is only usable with reactive vehicles behind the ego. On the stack version that was driven on the road, the re-simulation of D2 ends as the real drive did, with the ego waiting behind the truck.</p>
+    <p class="note" style="max-width:var(--col);margin:0 auto">The D2 pair shows why reactive rear traffic matters: once the stack resolves the situation, the scenario is only usable with reactive vehicles behind the ego. On the stack version that was driven on the road, the re-simulation of D2 ends as the real drive did, with the ego waiting behind the truck.</p>
   </div>
 </section>
 
-<section id="limitations">
-  <div class="wrap"><div class="prose">
-    <h2><span class="num">06</span>Limitations</h2>
-    <ul class="limits">
-      <li><strong>What can be re-simulated.</strong> The five reproduced events are planning-related: an object in the recorded scene determines the behavior of the stack. Events caused by perception or localization errors are outside the scope of a re-simulation from object tracks, because the simulated stack perceives the reconstructed objects anew and localizes without the real error.</li>
-      <li><strong>Small margins after the handover.</strong> The diverged events were decided by clearances of 0.1&ndash;0.4&nbsp;m and by timing within a second, which the pipeline does not preserve after the handover.</li>
-      <li><strong>Tracker artifacts and vehicle models.</strong> The box of a partly visible standing vehicle can shift so far that it is replayed as moving (D4). Spawned vehicle models differ from the recorded vehicles; in D4 the model is wider for 95&nbsp;% of the vehicles. Several limits originate in the tracker, so a better tracker improves the pipeline directly.</li>
-      <li><strong>Dynamics at the switch.</strong> Released vehicles lose speed when they switch from prescribed to physical motion, and the simulated ego brakes harder than commanded (D3).</li>
-      <li><strong>Scene and validity.</strong> Actors that were never perceived and traffic signals, which are not reconstructed and reported as green, limit the scene. Reconstruction is scored on simulated drives on one map, where traffic mostly cruises at one speed or stands. The nine disengagements are case studies.</li>
-    </ul>
-  </div></div>
+<section id="limitations" class="band">
+  <div class="col">
+    <h2>Limitations</h2>
+    <div class="card" style="margin:0">
+      <ul class="limits">
+        <li><strong>What can be re-simulated.</strong> The five reproduced events are planning-related: an object in the recorded scene determines the behavior of the stack. Events caused by perception or localization errors are outside the scope of a re-simulation from object tracks, because the simulated stack perceives the reconstructed objects anew and localizes without the real error.</li>
+        <li><strong>Small margins after the handover.</strong> The diverged events were decided by clearances of 0.1&ndash;0.4&nbsp;m and by timing within a second, which the pipeline does not preserve after the handover.</li>
+        <li><strong>Tracker artifacts and vehicle models.</strong> The box of a partly visible standing vehicle can shift so far that it is replayed as moving (D4). Spawned vehicle models differ from the recorded vehicles; in D4 the model is wider for 95&nbsp;% of the vehicles. Several limits originate in the tracker, so a better tracker improves the pipeline directly.</li>
+        <li><strong>Dynamics at the switch.</strong> Released vehicles lose speed when they switch from prescribed to physical motion, and the simulated ego brakes harder than commanded (D3).</li>
+        <li style="margin:0"><strong>Scene and validity.</strong> Actors that were never perceived and traffic signals, which are not reconstructed and reported as green, limit the scene. Reconstruction is scored on simulated drives on one map, where traffic mostly cruises at one speed or stands. The nine disengagements are case studies.</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <section id="bibtex">
-  <div class="wrap"><div class="prose">
-    <h2><span class="num">07</span>BibTeX</h2>
+  <div class="col">
+    <h2>BibTeX</h2>
     <div class="bib">
 <pre id="bibtex-entry">@misc{rosbag2scenario,
   title  = {Rosbag2Scenario: From Real-World Disengagements
@@ -255,23 +253,36 @@
 }</pre>
       <button class="copy" type="button" hidden>Copy</button>
     </div>
-  </div></div>
+  </div>
 </section>
 
 </main>
 
 <footer>
-  <div class="wrap">This page is anonymized for double-blind review. All videos and figures show simulation; no real-world camera footage is included.</div>
+  <div class="col">Anonymized for double-blind review. All videos and figures show simulation; no real-world camera footage is included. No cookies, trackers or external resources.</div>
 </footer>
 
 <script>
 (function () {
-  var b = document.querySelector("button.copy"), pre = document.getElementById("bibtex-entry");
-  if (!b || !navigator.clipboard) return;
-  b.hidden = false;
-  b.addEventListener("click", function () {
-    navigator.clipboard.writeText(pre.textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
-  });
+  var c = document.getElementById("carousel"), slides = c.querySelectorAll(".slide"),
+      tabs = c.querySelectorAll(".tabs button"), count = c.querySelector(".count"), i = 0;
+  function show(k) {
+    i = (k + slides.length) % slides.length;
+    slides.forEach(function (s, j) { s.classList.toggle("on", j === i); if (j !== i) s.querySelector("video").pause(); });
+    tabs.forEach(function (t, j) { t.setAttribute("aria-selected", j === i ? "true" : "false"); });
+    count.textContent = (i + 1) + " / " + slides.length;
+  }
+  c.classList.add("js"); c.querySelector(".tabs").hidden = false;
+  tabs.forEach(function (t, j) { t.addEventListener("click", function () { show(j); }); });
+  c.querySelectorAll(".nav button").forEach(function (b) { b.addEventListener("click", function () { show(i + Number(b.dataset.step)); }); });
+  show(0);
+  var b = document.querySelector(".copy"), pre = document.getElementById("bibtex-entry");
+  if (b && navigator.clipboard) {
+    b.hidden = false;
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(pre.textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+    });
+  }
 })();
 </script>
 </body>
