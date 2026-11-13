@@ -188,7 +188,7 @@
     <p class="tcap">Re-simulation of nine recorded disengagements (paper, Table III). Cone is the number of reactive rear-cone vehicles. Cov. and &le;&nbsp;2&nbsp;m are the shares [%] of expected vehicle samples present before <i>t<sub>h</sub></i> and within 2&nbsp;m of the reconstruction from <i>t<sub>h</sub></i> to <i>t<sub>d</sub></i>&nbsp;+&nbsp;5&nbsp;s. <i>e<sub>d</sub></i> is the ego position error at <i>t<sub>d</sub></i> [m].</p>
 
     <div class="prose" style="margin-top:2rem">
-      <p>The stack under test stops behind the blocking truck (D1), waits behind the partly blocking truck (D2), approaches the protruding car without a sustained stop (D3), holds for the pedestrians at the right turn (D6), and stops before a crosswalk for a crossing cyclist and two pedestrians (D9). The measured errors and the logs of both stacks attribute each failure to one step. In D5 (<em>perception</em>), the simulated stack perceives angled parked cars farther from its path than the real stack did, because no vehicle model matches the detected box, and passes 2.7&nbsp;s earlier. In D7 (<em>perception</em>), the real stack likely had a 0.5&ndash;0.6&nbsp;m localization offset that the simulated ego does not have. In D8 (<em>planning</em>), the simulated stack stops for a pedestrian and holds that stop, so the situation that prompted the takeover does not arise.</p>
+      <p>The stack under test stops behind the blocking truck (D1), waits behind the partly blocking truck (D2), approaches the protruding car without a sustained stop (D3), holds for the pedestrians at the right turn (D6), and stops before a crosswalk for a crossing cyclist and two pedestrians (D9). The measured errors and the logs of both stacks attribute each failure to one step. In D5 (<em>perception</em>), the simulated stack perceives angled parked cars farther from its path than the real stack did, because no vehicle model matches the detected box, and passes 2.7&nbsp;s earlier. In D7 (<em>localization</em>), the real stack likely had a 0.5&ndash;0.6&nbsp;m localization offset that the simulated ego does not have. In D8 (<em>planning</em>), the simulated stack stops for a pedestrian and holds that stop, so the situation that prompted the takeover does not arise.</p>
     </div>
   </div>
 </section>
@@ -210,7 +210,7 @@
         <video controls muted playsinline preload="none" poster="media/d7-diverged.jpg" width="1440" height="300">
           <source src="media/d7-diverged.mp4" type="video/mp4">
         </video>
-        <figcaption><span class="tag div">diverged</span><b>D7, lane change beside a car.</b> The simulated ego localizes without the likely offset of the real stack, and the close approach that prompted the intervention does not arise.</figcaption>
+        <figcaption><span class="tag div">diverged</span><b>D7, lane change beside a car (localization).</b> A 0.5&ndash;0.6&nbsp;m localization offset of the real stack is the likely cause. The simulated ego localizes without it, and the close approach that prompted the intervention does not arise.</figcaption>
       </figure>
       <figure class="clip">
         <video controls muted playsinline preload="none" poster="media/d2-regression-hybrid.jpg" width="1280" height="548">
