@@ -1,0 +1,10 @@
+id,situation,cone,coverage_percent,within_2m_percent,ego_error_m,outcome,paper_symbol
+D1,truck blocks lane,6,100.0,90.8,0.41,reproduced,check
+D2,truck partly blocks lane,4,98.5,68.8,0.63,reproduced,check
+D3,protruding parking car,10,100.0,73.4,4.11,reproduced,check
+D4,"reversing car; parked coach",18,91.2,64.7,9.86,diverged in an accurately reproduced scene,circle
+D5,close pass of parked car,1,100.0,97.6,11.20,diverged because the scene differs,cross
+D6,pedestrians at right turn,1,95.9,77.9,0.02,reproduced,check
+D7,lane change beside a car,10,98.7,82.6,2.04,diverged in an accurately reproduced scene,circle
+D8,taxi about to reverse,0,97.5,97.5,1.03,diverged in an accurately reproduced scene,circle
+D9,"cyclist; pedestrians at crosswalk",2,83.9,80.1,0.22,reproduced,check

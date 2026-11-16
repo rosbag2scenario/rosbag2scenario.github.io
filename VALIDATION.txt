@@ -1,0 +1,75 @@
+Website consolidation, 16 November 2026
+
+Reference: submitted Rosbag2Scenario.pdf, eight pages; source Final 32a5002.
+PDF SHA-256: dcd2fb89a846329c2a13e752218335f3ae6eb45e5b85bd70307c0a01debc8bfb
+The later manuscript revision was not incorporated.
+
+Evidence checks
+- All nine Table III numerical rows and five reproduced outcomes retained.
+- 111 natural scored gaps: 56 moving, 55 nearly stationary; 3296 timestamps.
+- Pooled RMSEs retain Table II values: CV 1.00, Hermite 1.21, Zhu 1.17,
+  ours 0.88 m. Exported coordinates reproduce per-gap RMSE to < 0.00002 m.
+- Four real illustrations include the archived Cartesian Zhu-inspired curve;
+  no ground truth or error ranking is assigned to real gaps.
+- D7 ambiguity timeline derives from actual fragment samples and candidate
+  links. Global margin remains 0.7748, below 1.
+- Empty-road drift data and source-clock-aligned commands are archived data;
+  deviation at +5/+10 s is 0.99222/1.78082 m, as in the paper figure.
+- Map overlays apply the configured projection, with no new fitted transform.
+- Reconstruction settings verified against the saved D1/D6/D7 configurations
+  and byte-identical implementation files in their recorded code versions.
+
+Media checks
+- D1 is a byte-identical copy of the supplied anonymized submission video:
+  real and simulated cameras, rear-cone visualization and R markers.
+- D2 and D7 now have six simulated cameras and BEV composed from matching
+  camera/traffic CARLA frame IDs; all available actors are included.
+- Every actor in traffic frames has a source actor; no radius-based selection.
+- D2 pair: identical 222 camera timestamps, 22.2 s, common fixed map bounds.
+- R markers use actual release times; D2/D7 cone shading is removed.
+- The requested 90-degree opening wording and all event labels are retained.
+- No simulated trajectories are changed; original run parameters are retained.
+- D1 and the newly rendered D2/D7 frames inspected visually.
+
+Chromium checks
+- All 115 gaps, expandable gallery selection and motion filters pass.
+- Thumbnails preserve XY geometry and include physical scale bars.
+- D1 appears once; static gap/drift plots are no-JavaScript fallbacks.
+- D7 video and detailed case notes are available in an expandable section.
+- Zhu is present in real and benchmark views. No XY-scale/download controls.
+- Map selection, command views, ambiguity cursor and keyboard slider pass.
+- D2 synchronized play, seek to 12 s and pause pass (< 0.15 s difference).
+- Enlarged comparison, focused runs, Escape/close and return to inline pass.
+- Desktop default page height: 10,860 px, previously 16,719 px (1440x1000).
+- D2 begins at 2,342 px, previously 12,264 px.
+- Mobile view, enlarged player and dark-theme gallery inspected visually.
+- Body fits 320, 390 and 768 px viewports, including loaded videos.
+- No JavaScript errors or external requests; videos start paused.
+- No-JavaScript fallback and both paper-result tables remain available.
+- Local links, media hashes and public-data path checks pass.
+
+No new simulator experiments. No manuscript files changed.
+Local revision saved; upload archive refreshed.
+
+Follow-up: earlier method figure, heading and additional SIM videos
+- The reconstruction schematic is 600 px wide at most and precedes the gap
+  explorer. Settings and their provenance note remain in the disclosure.
+- XY, speed and motion heading share the slider and method toggles. Heading
+  uses local neighboring path positions; values below 0.5 m/s are omitted,
+  and connections/interpolation break at the +/-180-degree wrap.
+- Heading math checked for straight/orthogonal motion, stationary paths,
+  single samples, angle wraps and valid samples next to missing values.
+- D3/D6/D8 rendered from the archived Table III runs, with 171 synchronized
+  camera/state frames each, all actors, six simulated cameras and actual R
+  markers. Simulation pixels only. No additional cone overlay.
+- New video frames inspected visually at the recorded intervention time.
+- All four expandable case clips load and seek to 12 seconds in Chromium;
+  each is 1600x1000, 17.1 seconds. No duplicate video sources.
+- All 115 gaps checked across all three plots, including heading toggles
+  and cursor; new video disclosures and mobile widths pass.
+- Published numerical results and D1 submission bytes are unchanged.
+
+Publication: consolidated update of the existing anonymous GitHub Pages
+repository, using the original Anonymous Authors commit identity. No new
+hosting service or domain. Public text and media metadata checked for local
+usernames and absolute source paths; the validator uses generic path checks.

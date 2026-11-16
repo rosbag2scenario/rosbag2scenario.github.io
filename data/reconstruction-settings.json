@@ -1,0 +1,74 @@
+{
+  "scope": "Archived reconstruction recipe used for the D1, D6 and D7 real-gap examples.",
+  "code_versions": {
+    "D1": "cd8a9868d3eb141d8bae0f18fdc4aa3d0158f0ea",
+    "D6": "3d50a1b336c7789e4fec2a95af98b388c0b5e7e2",
+    "D7": "3d50a1b336c7789e4fec2a95af98b388c0b5e7e2"
+  },
+  "code_sha256": {
+    "association.py": "8768d80aa93f6104150da686b4e52ae0f25cbad7ab30a2dd32ff6e88774b726c",
+    "pipeline.py": "863be65e2d5e7a24bbc042019ecb754f4cdb12181412efd80f4850f53798a9b7",
+    "motion.py": "89d7548ebbdcfca57b29eb7b43dbbb88a32e63df73a08b5aaddc808bb1536015",
+    "observation_model.py": "d8ac1e0b8e691d2d6a7c1d4a74b9f6eecb9dfdbaff34bd27445acb4b278c4fdc"
+  },
+  "configuration_sha256": {
+    "D1": "7204c4f10cc80881672620722299cc9f37e6ccc8c76fc6d0b3245c80b37baa25",
+    "D6": "6506d35fbfce7866287072c53ee580240e17fd2b65a6a5a9a2cf83ed1507c409",
+    "D7": "ecd4a381ff3b8322f92d858aef0bf7d8e2e20613ba44358203d4ec794c8f6ade"
+  },
+  "configuration_steps": [
+    {
+      "name": "source.online",
+      "settings": {
+        "split_gap": 0.35,
+        "reuse_run_evidence": false,
+        "max_jump_speed_mps": 50.0
+      }
+    },
+    {
+      "name": "filter.min_evidence",
+      "settings": {}
+    },
+    {
+      "name": "associate.ours",
+      "settings": {
+        "hz": 5.0,
+        "max_gap": 5.0,
+        "ambiguity_margin": 1.0,
+        "boundary_model": "uncertainty",
+        "overrides": null,
+        "link_fallback": "lane",
+        "max_speed_mps": 45.0,
+        "max_heading_change_deg": 100.0,
+        "heading_source": "travel"
+      }
+    },
+    {
+      "name": "fill.ours",
+      "settings": {
+        "hz": 5.0,
+        "max_gap": 5.0,
+        "ambiguity_margin": 1.0,
+        "boundary_model": "uncertainty",
+        "gap_policy": "joint",
+        "condition_selected_boundaries": false,
+        "failed_fit_policy": "observed",
+        "road_support_policy": "relative",
+        "observation_model": "end_aware",
+        "extend_m": 10.0,
+        "extend_max_s": 2.0
+      }
+    }
+  ],
+  "motion_defaults": {
+    "position_sigma": 0.3,
+    "jerk_variance": 2.0,
+    "max_speed": 60.0,
+    "max_acceleration": 8.0,
+    "max_braking": 8.0,
+    "max_lateral_acceleration": 6.0,
+    "max_observation_adjustment": 1.0,
+    "validation_dt": 0.02,
+    "stopped_speed": 0.2
+  }
+}

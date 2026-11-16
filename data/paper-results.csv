@@ -1,0 +1,6 @@
+method,rejoined_all,rejoined_moving,wrong_links,rmse_all_m,rmse_moving_m
+Constant velocity,,,,1.00,1.16
+Hermite,,,,1.21,1.23
+Zhu-inspired 2 s,58,17,2,1.17,1.25
+Zhu-inspired 5 s,62,15,8,1.17,1.25
+Ours,63,33,0,0.88,0.96

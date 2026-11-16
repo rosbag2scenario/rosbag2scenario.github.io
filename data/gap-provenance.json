@@ -1,0 +1,23 @@
+{
+  "population": "111 scored natural output gaps; correct fragment pairs supplied for completion",
+  "benchmark_sources": {
+    "cases_sha256": "37643198642cc08f0d15c6b4baa6f790d153e272e75ccedbbf5aee87f64ee68d",
+    "scores_sha256": "f3b563da3aa228516ff08e6babadf9b1a33fe7c70014dec82e768332abd9249f",
+    "lane_baseline_function_sha256": "134501b63d53b0b30e7c972b1e63854d08b5b3b064ebb226032fa0bd36205863"
+  },
+  "real_sources": {
+    "method_curves_sha256": "64f2267cd25535e9f04fbce2e631e2092a7b575ea102ccc7f28de6d648d455ec",
+    "fragment_series_sha256": "a97475a875fc72c69b723c7e5cbec23bfefb3ecd080b53df8a6d10f798beaf5b"
+  },
+  "coordinate_system": "Each gap translated and rotated locally; physical distances preserved.",
+  "speed": "Method speed is a finite difference of exported XY samples; observed speed is tracker-reported.",
+  "real_examples": 4,
+  "pooled_rmse_m": {
+    "linear": 0.9979093791950604,
+    "hermite": 1.211768929021086,
+    "zhu": 1.1686615829570397,
+    "ours": 0.8805075229453315
+  },
+  "all_cases_included": 111,
+  "real_examples_note": "Illustrative continuity examples without ground truth; no error ranking. Real examples use the archived Cartesian Zhu-inspired completion; the benchmark uses the lane-aware configuration from Table II."
+}
