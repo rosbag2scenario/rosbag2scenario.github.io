@@ -35,13 +35,15 @@ const assert=require('node:assert/strict');
  await page.click('#browse-gaps');await page.selectOption('#gap-kind','real');await page.locator('#gallery-browser summary').click();await page.locator('#gap-explorer').screenshot({path:'/tmp/rosbag-final-explorer.png'});
  assert.equal(await page.locator('#gap-direction [data-cursor] line').count(),0);
  const headingPaths=await page.locator('#gap-direction > path').count();await page.locator('#gap-methods input[value=ours]').uncheck();assert.equal(await page.locator('#gap-direction > path').count(),headingPaths-1);await page.locator('#gap-methods input[value=ours]').check();
+ assert.equal(await page.locator('[data-motion-case]').count(),7);assert.equal(await page.locator('.motion-grid img').count(),28);
+ for(const detail of await page.locator('.motion-details').all()){await detail.locator('summary').click();await detail.locator('img').first().scrollIntoViewIfNeeded();await detail.locator('summary').click();}
  await page.locator('#case-notes > summary').click();
- for(const clip of await page.locator('.case-clip').all()){await clip.locator('summary').click();const v=clip.locator('video');await v.evaluate(async n=>{n.load();await new Promise((resolve,reject)=>{n.onloadedmetadata=resolve;n.onerror=reject});n.currentTime=12;await new Promise(resolve=>n.onseeked=resolve);});assert.equal(await v.evaluate(n=>n.videoWidth),1600);assert.equal(await v.evaluate(n=>n.videoHeight),1000);assert(Math.abs(await v.evaluate(n=>n.duration)-17.1)<.05);await clip.locator('summary').click();}
+ for(const clip of await page.locator('.case-clip').all()){await clip.locator('summary').click();const v=clip.locator('video');await v.evaluate(async n=>{n.load();await new Promise((resolve,reject)=>{n.onloadedmetadata=resolve;n.onerror=reject});n.currentTime=12;await new Promise(resolve=>n.onseeked=resolve);});assert.equal(await v.evaluate(n=>n.videoWidth),1920);assert.equal(await v.evaluate(n=>n.videoHeight),1470);assert(Math.abs(await v.evaluate(n=>n.duration)-17.1)<.05);await clip.locator('.encounter-motion').scrollIntoViewIfNeeded();assert(await clip.locator('.motion-grid img').evaluateAll(imgs=>imgs.every(i=>i.complete && i.naturalWidth>0)));if(await clip.locator('[data-motion-case=d3]').count())await clip.screenshot({path:'/tmp/rosbag-standard-d3-case.png'});await clip.locator('summary').click();}
  await page.locator('#case-notes > summary').click();
  const video=page.locator('#comparison-video');await video.scrollIntoViewIfNeeded();
  assert.equal(await page.locator('#comparison video').count(),1);assert(await video.evaluate(v=>v.controls));
  await video.evaluate(async v=>{v.load();await new Promise((resolve,reject)=>{v.onloadedmetadata=resolve;v.onerror=reject;});v.currentTime=12;await new Promise(resolve=>v.onseeked=resolve);});
- assert.deepEqual(await video.evaluate(v=>[v.videoWidth,v.videoHeight,v.duration]),[1920,900,22.2]);
+ assert.deepEqual(await video.evaluate(v=>[v.videoWidth,v.videoHeight,v.duration]),[3840,1470,22.2]);
  await video.evaluate(v=>v.play());await page.waitForTimeout(700);assert(await video.evaluate(v=>!v.paused && v.currentTime>12));await video.evaluate(v=>v.pause());
  await video.evaluate(v=>v.requestFullscreen());assert(await page.evaluate(()=>document.fullscreenElement?.id==='comparison-video'));await page.evaluate(()=>document.exitFullscreen());
  await page.locator('#regression').screenshot({path:'/tmp/rosbag-native-comparison.png'});

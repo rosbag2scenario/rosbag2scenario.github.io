@@ -303,3 +303,10 @@ video { min-width: 0; }
 .gap-timeplots { display: grid; gap: 12px; min-width: 0; }
 .case-clip { margin-top: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
 @media (max-width: 700px) { .gap-plots { grid-template-columns: 1fr; } }
+
+/* Case-matched plots remain legible as individual panels on narrow screens. */
+.motion-details { margin: 18px 0; text-align: left; }
+.encounter-motion { margin: 24px 0; text-align: left; }
+.motion-grid { gap: 18px; }
+.motion-grid img { display: block; width: 100%; height: auto; background: white; border: 1px solid var(--line); border-radius: 6px; }
+@media(max-width:700px) { .motion-grid { grid-template-columns: 1fr; } }

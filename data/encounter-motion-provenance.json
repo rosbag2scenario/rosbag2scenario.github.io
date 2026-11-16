@@ -1,0 +1,12 @@
+{
+  "extraction_script_sha256": "52c50f2fb51f44d134c5114502c38e86d2b7d342be8c1fdbe30781cb9085ea87",
+  "comparison_script_sha256": "f5aa70f180f107c2c786aefaae9fecf3d15da4586e13d1e0527b03f6dbfb9db1",
+  "standard_report_script_sha256": "19c69d82eda2c571efc9024036968246de3486ba4c32894618ee4dcff3a5ba03",
+  "exporter_sha256": "2f2c775e8c5d80e6bc4ed679c9b07f10679f9db7953f39bd32145af880ecf6c9",
+  "d1": {
+    "run": "AWE-20261116-004752",
+    "simulation_mcap_sha256": "83d9b40c053643bf4b04f2edf966bdd544cd852a5bcae6c5d28a1bdadefcaa88",
+    "real_extraction_sha256": "82619c811e6a190ca075fa9be2c7d34278d1d91ed91297915ba3e42d53493863",
+    "source_clock_origin_sim_s": 29.969588983803988
+  }
+}

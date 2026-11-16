@@ -82,7 +82,7 @@ counter belongs to that recording; it is not a count of recovered links.
 
 REGENERATION
 See tools/export_gaps.py, tools/export_support.py, tools/export_settings.py and
-tools/render_simulation.py. They take explicit
+tools/render_standard_sim.py. They take explicit
 local input paths and do not need to be run to view this static site.
 Source hashes and definitions are in gap-provenance.json and
 media-provenance.json; supporting-source hashes are in support.json. Private recordings, raw logs and local filesystem
@@ -107,15 +107,39 @@ for unstable low-speed directions, not an evaluation or acceptance threshold.
 It is neither tracker box yaw nor a new heading-accuracy measurement.
 
 ADDITIONAL CASE VIDEOS
-D3 AWE-20261110-195922, D6 AWE-20261110-201649 and D8 AWE-20261110-203002
-match the archived Table III coverage/within-2m rows. Each contains 171
+D3 AWE-20261111-115708, D6 AWE-20261110-201649 and D8 AWE-20261110-203002
+identify the displayed encounters. D3 is the requested H2v2AL5SSXPG4G
+variant, replacing the previously selected D3 video. Each contains 171
 matching camera/state frames. Only the simulation half is extracted.
 
-D2 COMBINED PLAYER
-The two aligned D2 exports are composed side by side into a single 1920x900,
-22.2 s video. All 222 frames are retained; each side has six cameras and the
-complete BEV with matching map bounds. Camera pixels retain their resolution;
-the BEV is resized proportionally. Duplicate legends are replaced by one
-shared legend and source-relative clock. Input hashes and complete render
-provenance remain nested under d2-comparison.inputs in media-provenance.json.
-No browser synchronization, custom timeline or custom fullscreen UI is used.
+D2 COMBINED PLAYER AND STANDARD BEV
+The D2 pair is composed side by side into one 3840x1470, 22.2 s video. All
+222 frames are retained, with six simulation cameras and the standard BEV
+panel for each side. Both simulated ego poses contribute to the usual
+BEV extent calculation so the two views have identical bounds at each frame.
+The standard submission draw_bev and sample functions are copied unchanged
+into tools/standard_bev.py. All actor states are passed to the renderer,
+without the original 50 m scoring-radius eligibility filter; the normal
+viewport clips at its edges. No cone shading is added. Camera extraction
+uses only the simulation half of the original mosaic. Lanelet hashes match
+the original standard render. Real camera pixels never enter these exports.
+
+ENCOUNTER MOTION PLOTS
+Seven sets accompany D1, the two D2 runs, D3, D6, D7 and D8. Each uses its
+own recorded/simulated comparison and source clock. The four panels show
+speed, position along the recorded path (simulation minus recording),
+commanded acceleration, and achieved acceleration. Handover and recorded
+takeover times are marked on every panel. Plot windows retain the recorded
+comparison interval, including signal data after the camera capture ends.
+Missing signals remain gaps; they are not replaced with zero.
+Achieved acceleration uses the standard report's five-sample centered speed
+average followed by a time derivative on the 0.1 s grid. Three boundary
+samples are omitted to avoid convolution padding artifacts. This is a display
+of existing signals, not a new event classification or simulator experiment.
+D1 signals are extracted from AWE-20261116-004752, using its saved source-clock
+origin and the existing D1 real-signal extraction. D3 is AWE-20261111-115708.
+Its takeover speeds (2.52 / 2.51 m/s) and along-path difference (-3.0 m)
+match the supplied reference screenshot. These illustrative signals do not
+replace the paper's published aggregate measurements.
+Town10 is a tracker/ground-truth capture, not a paired real-drive encounter;
+no real-vs-sim command comparison is assigned to that benchmark video.

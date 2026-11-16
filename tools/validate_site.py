@@ -62,11 +62,11 @@ for name,m in media.items():
 assert media['d1-submission']['sha256']==media['d1-submission']['source_sha256']
 comparison=media['d2-comparison'];a,b=[comparison['inputs'][n]['render'] for n in ['d2-regression-hybrid','d2-regression-logreplay']]
 assert comparison['composition']['frames']==222 and comparison['composition']['all_actors']
-assert comparison['encoding']['streams'][0]['width']==1920
-assert comparison['encoding']['streams'][0]['height']==900
+assert comparison['encoding']['streams'][0]['width']==3840
+assert comparison['encoding']['streams'][0]['height']==1470
 assert float(comparison['encoding']['format']['duration'])==22.2
 assert a['frames']==b['frames']==222
-assert a['map_bounds']==b['map_bounds'] and a['source_start_s']==b['source_start_s']
+assert a['map_bounds_by_frame']==b['map_bounds_by_frame'] and a['source_start_s']==b['source_start_s']
 assert [r['t'] for r in a['timing']]==[r['t'] for r in b['timing']]
 assert all(r['all_actors'] for r in [a,b])
 assert all(r['cone_overlay'] is False for r in [a,b])
@@ -82,3 +82,20 @@ assert 'equal-scale' not in h.ids and 'download-case' not in h.ids
 for p in [ROOT/'index.html',ROOT/'site.js',*list((ROOT/'data').iterdir())]:
     if p.is_file():assert not re.search(r'/home/|/media/|/tmp/|file://',p.read_text()),p
 print('PASS: local links, 111 benchmark cases, 4 real examples, 3296 timestamps, published RMSEs, all nine event rows, media hashes, public-path scan.')
+
+motion_cases=json.loads((ROOT/'data/encounter-motion.json').read_text())
+assert len(motion_cases)==7
+assert motion_cases['d3']['run']==media['d3-reproduced']['render']['run']=='AWE-20261111-115708'
+assert round(motion_cases['d3']['takeover']['real_speed'],2)==2.52
+assert round(motion_cases['d3']['takeover']['sim_speed'],2)==2.51
+assert round(motion_cases['d3']['takeover']['along_path_difference'],1)==-3.0
+for case,m in motion_cases.items():
+    for suffix in ['speed','position','command','achieved']:assert (ROOT/f'fig/motion/{case}-{suffix}.svg').exists()
+    assert len(m['series']['t'])==len(m['series']['a_cmd_sim'])==len(m['series']['a_sim'])
+    assert m['t_h']<m['t_d']
+for case,name in [('d6','d6-reproduced'),('d7','d7-diverged'),('d8','d8-diverged')]:
+    assert motion_cases[case]['run']==media[name]['render']['run']
+assert motion_cases['d1']['run']=='AWE-20261116-004752'
+for case,name in [('d2-hybrid','d2-regression-hybrid'),('d2-replay','d2-regression-logreplay')]:
+    assert motion_cases[case]['run']==comparison['inputs'][name]['render']['run']
+print('PASS: seven case-matched four-panel plot sets, requested D3 run and screenshot values, usual BEV renderer and aligned D2 frames.')
