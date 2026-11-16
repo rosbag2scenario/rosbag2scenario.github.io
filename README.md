@@ -6,7 +6,7 @@ supports byte-range requests for video seeking. No build step, tracking or
 third-party requests are required.
 
 - `index.html`, `style.css`, `site.js`: concise pipeline, early D2 comparison
-  in one side-by-side video with native playback and fullscreen, published results, an expandable
+  in one side-by-side video with native playback and fullscreen, evaluation results, an expandable
   gap gallery, temporal ambiguity and digital-twin inspection.
 - `data/gaps.json`: 111 benchmark cases and four real-gap illustrations.
 - `data/association.json`: the archived 2 s / 5 s × 5 m / 10 m association sweep,

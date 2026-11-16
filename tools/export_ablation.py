@@ -40,7 +40,7 @@ def export(cases_path, scores_path, diagnostic_code, output):
     assert [round(summary[g]['methods']['joint']['rmse_m'], 2) for g in ['all', 'moving']] == [.88, .96]
     output.write_text(json.dumps(dict(
         scope='Correct fragment pairs supplied; same inputs and completion method; all 111 gaps including rejected fits.',
-        ablation='joint_uniform disables the extra observation uncertainty near trajectory starts and ends; joint retains end-aware weighting.',
+        ablation='joint_uniform is the baseline without age-dependent observation weighting; joint adds higher position uncertainty near fragment starts and ends. Both use the same boundary-fit uncertainty estimates.',
         summary=summary, per_case=records,
         provenance=dict(execution='Recomputed aggregates from existing per-sample errors; no reconstruction or simulator rerun.',
             source_sha256={name: hashlib.sha256(p.read_bytes()).hexdigest() for name, p in

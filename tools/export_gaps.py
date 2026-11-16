@@ -65,7 +65,7 @@ def export(args):
             f=[v for v in f if t0-3<=v['t']<=t1+3];a=series([v['t'] for v in f],[[v['x'],v['y']] for v in f],t0,origin,rot);a['speed']=clean([v['v'] for v in f]);obs.append(a)
         methods={k:series(cur['times'],cur[m],t0,origin,rot) for k,m in [('linear','linear'),('hermite','raw_hermite'),('zhu','zhu_component'),('ours','ours')]}
         cases.append({'id':f'R{len(cases)-110:02d}','kind':'real','drive':drive,'title':title,'duration':t1-t0,'observed':obs,'methods':methods,'truth':None,'rmse':None})
-    out={'schema':1,'methods':{'linear':'Constant velocity','hermite':'Hermite','zhu':'Zhu-inspired','ours':'Ours'},'cases':cases}
+    out={'schema':1,'methods':{'linear':'Constant velocity','hermite':'Hermite','zhu':'Zhu-inspired','ours':'End-aware (ours)'},'cases':cases}
     (o/'gaps.json').write_text(json.dumps(out,separators=(',',':'),allow_nan=False)+'\n')
     with (o/'gap-scores.csv').open('w') as f:
         c=csv.DictWriter(f,fieldnames=list(csvrows[0]),lineterminator='\n');c.writeheader();c.writerows(csvrows)

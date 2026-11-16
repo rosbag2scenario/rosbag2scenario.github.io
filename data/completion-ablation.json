@@ -1,6 +1,6 @@
 {
   "scope": "Correct fragment pairs supplied; same inputs and completion method; all 111 gaps including rejected fits.",
-  "ablation": "joint_uniform disables the extra observation uncertainty near trajectory starts and ends; joint retains end-aware weighting.",
+  "ablation": "joint_uniform is the baseline without age-dependent observation weighting; joint adds higher position uncertainty near fragment starts and ends. Both use the same boundary-fit uncertainty estimates.",
   "summary": {
     "all": {
       "gaps": 111,

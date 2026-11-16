@@ -24,9 +24,11 @@ greedy linking and identity scoring are shared. No new run was needed.
 
 END-AWARE COMPLETION ABLATION
 data/completion-ablation.json contains the saved uniform/end-aware comparison
-on the same 111 natural gaps (56 moving). Uniform weighting disables the extra
-uncertainty near the beginning and end of each observed trajectory. Both
-variants use the same inputs, boundary fits, 10 Hz completion and scoring.
+on the same 111 natural gaps (56 moving). The uniform baseline uses the same
+observation-noise rule regardless of position within a fragment. End-aware
+weighting adds higher position uncertainty near fragment beginnings and ends.
+Both retain the boundary-fit uncertainty estimates and use the same inputs,
+boundary fits, 10 Hz completion and scoring.
 RMSE pools the 3296 ground-truth timestamps, including fits rejected by motion
 checks: one uniform fit and three end-aware fits. Uniform weighting yields
 0.931920 m overall and 1.019993 m moving; end-aware weighting yields 0.880508 m

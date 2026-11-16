@@ -51,12 +51,12 @@ association=json.loads((ROOT/'data/association.json').read_text())
 assert association['population']['all']==111 and association['population']['moving']==56
 assert len(association['rows'])==4
 for result in association['rows']:
-    label=f"Zhu et al., {result['gate_s']:g} s / {result['dist_m']:g} m"
+    label=f"Zhu-inspired, {result['gate_s']:g} s / {result['dist_m']:g} m"
     row=next(r for r in h.rows if r and r[0].replace('\u00a0',' ')==label)
     assert [int(v) for v in row[1:]]==[result['rejoined'],result['moving'],result['links']['wrong']]
 ablation=json.loads((ROOT/'data/completion-ablation.json').read_text())
 assert len(ablation['per_case'])==111
-for method,label in [('joint_uniform','Ours, uniform weights'),('joint','Ours, end-aware')]:
+for method,label in [('joint_uniform','Uniform weighting (baseline)'),('joint','End-aware weighting (ours)')]:
     row=next(r for r in h.rows if r and r[0]==label)
     expected=[]
     for group in ['all','moving']:

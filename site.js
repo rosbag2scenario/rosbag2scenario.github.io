@@ -116,10 +116,10 @@
       for(const s of [...selected.observed,...Object.values(selected.methods),...(selected.truth?[selected.truth]:[])])s.direction=motionHeading(s);
       $('gap-heading').textContent=selected.title || `${selected.id} · ${selected.duration.toFixed(2)} s tracker gap`;
       document.querySelectorAll('.gap-card').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.case===selected.id)));
-      $('gap-description').textContent=selected.kind==='real'?`${selected.drive} · ${selected.duration.toFixed(2)} s without tracker observations. Filled and open blue dots are the two observed fragments.`:`${selected.id} · ${selected.drive} · ${selected.duration.toFixed(2)} s gap · ${selected.motion.replaceAll('_',' ')}. Association: ${selected.outcome.replaceAll('_',' ')}. Correct pairing is supplied for the completion comparison.`;
+      $('gap-description').textContent=selected.kind==='real'?`${selected.drive} · ${selected.duration.toFixed(2)} s without tracker observations. Filled and open blue dots are the two observed fragments.`:`${selected.id} · ${selected.drive} · ${selected.duration.toFixed(2)} s gap · ${selected.motion.replaceAll('_',' ')}. Full-pipeline association: ${selected.outcome.replaceAll('_',' ')}. Correct pairing is supplied for the completion comparison.`;
       for(const label of $('gap-methods').querySelectorAll('label'))label.hidden=!(label.dataset.method in selected.methods);
       const ts=selected.observed.flatMap(s=>s.t);timeRange=[Math.min(...ts),Math.max(...ts)];
-      $('gap-context').textContent=selected.kind==='real'?'Compare how the methods connect the observed fragments. The missing motion in this real recording has no ground truth; the benchmark gallery provides the accuracy comparison.':'Compare each completion with simulator ground truth. The errors below describe this gap; the paper reports results pooled across all 111 gaps.';
+      $('gap-context').textContent=selected.kind==='real'?'Compare how the methods connect the observed fragments. The missing motion in this real recording has no ground truth; the benchmark gallery provides the accuracy comparison.':'Compare each completion with simulator ground truth. The errors above describe this gap; the completion table pools errors across all 111 gaps.';
       $('gap-metrics').replaceChildren();
       if(selected.rmse){
         const table=document.createElement('table');const cap=document.createElement('caption');cap.textContent='This gap: XY RMSE against simulator ground truth [m] ↓ (lower is better)';table.append(cap);
@@ -140,7 +140,7 @@
     $('gap-kind').addEventListener('change',chooseList);$('gap-motion').addEventListener('change',chooseList);$('gap-case').addEventListener('change',choose);
     chooseList();
   }
-  explorer().catch(()=>{const fallback=document.querySelector('#gap-explorer noscript');if(fallback)$('gap-detail').insertAdjacentHTML('beforeend',fallback.textContent);$('gap-description').textContent='The explorer could not load. Please use the published results and static example.';});
+  explorer().catch(()=>{const fallback=document.querySelector('#gap-explorer noscript');if(fallback)$('gap-detail').insertAdjacentHTML('beforeend',fallback.textContent);$('gap-description').textContent='The explorer could not load. Please use the evaluation results and static example.';});
 
   async function support(){
     const response=await fetch('data/support.json');if(!response.ok)throw Error('Supporting data unavailable');
@@ -199,11 +199,11 @@
     function commands(){
       const mode=$('motion-view').value;let ss,unit,legend;
       if(mode==='speed'){
-        ss=[series('recorded',m.t,m.recorded_speed,'#2f6bc8'),series('simulated',m.t,m.simulated_speed,'#da7d16'),series('command',ct,m.commands.map(c=>c.speed),'#087f73')];unit='Speed [m/s]';legend='Blue: recorded speed · orange: simulated speed · green: target speed published by the stack.';
+        ss=[series('recorded',m.t,m.recorded_speed,'#2f6bc8'),series('simulated',m.t,m.simulated_speed,'#da7d16'),series('command',ct,m.commands.map(c=>c.speed),'#087f73')];unit='Speed [m/s]';legend='Blue: recorded speed · orange: simulated speed · green: target speed requested by the stack.';
       }else if(mode==='components'){
         ss=[series('along',m.t,m.along,'#2f6bc8'),series('cross',m.t,m.cross,'#087f73')];unit='Signed position difference [m]';legend='Blue: along-path difference (negative = simulation behind) · green: lateral difference.';
       }else{
-        ss=[series('command',ct,m.commands.map(c=>c[mode]),'#087f73')];unit=mode==='acceleration'?'Published acceleration [m/s²]':'Steering tire angle [rad]';legend='Green: command published by the stack. During replay the recorded motion drives the ego.';
+        ss=[series('command',ct,m.commands.map(c=>c[mode]),'#087f73')];unit=mode==='acceleration'?'Commanded acceleration [m/s²]':'Steering tire angle [rad]';legend='Green: command requested by the stack. During replay the recorded motion drives the ego.';
       }
       cp=plot($('motion-command'),ss,{title:unit,zero:false,xlabel:'Time from handover [s]',ylabel:unit});
       dp=plot($('motion-drift'),[series('deviation',m.t,m.deviation,'#da7d16')],{title:'Ego position deviation',xlabel:'Time from handover [s]',ylabel:'XY position deviation [m]'});

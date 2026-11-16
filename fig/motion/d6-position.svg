@@ -371,7 +371,7 @@ L 248.638611 42.56284
     <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #58657b" x="250.385711" y="56.958554" transform="rotate(-0 250.385711 56.958554)">takeover</text>
    </g>
    <g id="text_38">
-    <text style="font-weight: 700; font-size: 13.2px; font-family: 'DejaVu Sans'; text-anchor: start" x="52.089842" y="17.56284" transform="rotate(-0 52.089842 17.56284)">Position along the recorded path</text>
+    <text style="font-weight: 700; font-size: 13.2px; font-family: 'DejaVu Sans'; text-anchor: start" x="52.089842" y="17.56284" transform="rotate(-0 52.089842 17.56284)">Along-path position difference</text>
    </g>
   </g>
   <g id="axes_3">

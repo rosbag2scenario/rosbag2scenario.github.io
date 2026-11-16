@@ -35,7 +35,7 @@ def export(a):
         probe=lambda v:float(np.interp(td,t,v))
         rr,ss,dd=probe(vr),probe(vs),probe(ds)
         summary=f'At the recorded takeover: real ego {rr:.2f} m/s; simulated ego {ss:.2f} m/s. The simulated ego is {abs(dd):.1f} m '+('behind' if dd<0 else 'ahead of')+' the recorded ego along its path.'
-        charts=[('Speed','Speed [m/s]',[(vr,BLUE),(vs,ORANGE)],'Vehicle speed on both sides.'),('Position along the recorded path','Simulation − recording [m]',[(ds,ORANGE)],'Positive: simulated ego ahead.'),('Commanded acceleration','Acceleration [m/s²]',[(ar,BLUE),(ass,ORANGE)],'Acceleration requested by each stack.'),('Achieved acceleration','Acceleration [m/s²]',[(dr,BLUE),(dss,ORANGE)],'Smoothed rate of change of speed.')]
+        charts=[('Speed','Speed [m/s]',[(vr,BLUE),(vs,ORANGE)],'Vehicle speed on both sides.'),('Along-path position difference','Simulation − recording [m]',[(ds,ORANGE)],'Positive: simulated ego ahead.'),('Commanded acceleration','Acceleration [m/s²]',[(ar,BLUE),(ass,ORANGE)],'Acceleration requested by each stack.'),('Achieved acceleration','Acceleration [m/s²]',[(dr,BLUE),(dss,ORANGE)],'Smoothed rate of change of speed.')]
         fig,axes=plt.subplots(2,2,figsize=(14,8.2),dpi=160)
         for ax,(name,unit,series,caption) in zip(axes.flat,charts):
             for values,color in series:ax.plot(t,values,color=color,lw=1.65)
