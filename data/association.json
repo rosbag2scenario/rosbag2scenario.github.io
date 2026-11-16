@@ -1,0 +1,83 @@
+{
+  "population": {
+    "all": 111,
+    "moving": 56,
+    "near_stationary": 55,
+    "drives": 3
+  },
+  "method": "Zhu-inspired proximity association; greedy one-to-one links ordered by endpoint distance and then time gap.",
+  "definitions": {
+    "gates": "Strict upper bounds on elapsed time and smoothed XY endpoint distance.",
+    "rejoined": "The two fragments of a benchmark gap occur in the same output chain; the chain can contain other wrong links.",
+    "wrong_links": "Links between different ground-truth vehicle identities across the full candidate pool, not only the 111 benchmark gaps.",
+    "unscorable": "At least one endpoint lacks a supported ground-truth identity; excluded from correct/wrong link counts."
+  },
+  "rows": [
+    {
+      "gate_s": 2.0,
+      "dist_m": 5.0,
+      "rejoined": 58,
+      "moving": 17,
+      "stationary": 41,
+      "links": {
+        "correct": 144,
+        "wrong": 2,
+        "unscorable": 27
+      },
+      "rejoined_in_chain_with_wrong_link": 5,
+      "source": "paper_table_ii"
+    },
+    {
+      "gate_s": 5.0,
+      "dist_m": 5.0,
+      "rejoined": 62,
+      "moving": 15,
+      "stationary": 47,
+      "links": {
+        "correct": 149,
+        "wrong": 8,
+        "unscorable": 43
+      },
+      "rejoined_in_chain_with_wrong_link": 1,
+      "source": "paper_table_ii"
+    },
+    {
+      "gate_s": 2.0,
+      "dist_m": 10.0,
+      "rejoined": 76,
+      "moving": 34,
+      "stationary": 42,
+      "links": {
+        "correct": 162,
+        "wrong": 9,
+        "unscorable": 33
+      },
+      "rejoined_in_chain_with_wrong_link": 13,
+      "source": "archived_supplementary_sweep"
+    },
+    {
+      "gate_s": 5.0,
+      "dist_m": 10.0,
+      "rejoined": 77,
+      "moving": 29,
+      "stationary": 48,
+      "links": {
+        "correct": 164,
+        "wrong": 19,
+        "unscorable": 55
+      },
+      "rejoined_in_chain_with_wrong_link": 15,
+      "source": "archived_supplementary_sweep"
+    }
+  ],
+  "provenance": {
+    "study": "town10-gap-checks-20261112",
+    "execution": "Existing archived sweep; no new run for the website. Its script checks both 5 m rows against all 111 published pair outcomes and checks the coarse sweep links against the baseline implementation.",
+    "files": {
+      "out/rejoin_sweep.json": "747a27aabe87ef0650d28c69161045dc43b5d48a1e22e66ddeb45e8818e53890",
+      "out/rejoin_pairs.csv": "7bca93a71b701461247499b397f6025e1674e08b1471e1580cda4677d9a73335",
+      "scripts/rejoin.py": "a176da7da84fd87a216ecabb6225c6ea26b863bf68e1c613a320df2c92245262",
+      "scripts/common_local.py": "e033e43419eb3c33f7013014f24ee73ee344449bab52998202cc7bf85a3e40d4"
+    }
+  }
+}

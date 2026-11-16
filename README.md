@@ -9,6 +9,9 @@ third-party requests are required.
   in one side-by-side video with native playback and fullscreen, published results, an expandable
   gap gallery, temporal ambiguity and digital-twin inspection.
 - `data/gaps.json`: 111 benchmark cases and four real-gap illustrations.
+- `data/association.json`: the archived 2 s / 5 s × 5 m / 10 m association sweep,
+  with link counts, metric definitions and source hashes. Export with
+  `tools/export_association.py --study PATH --output data/association.json`.
 - `data/support.json`: observed ambiguity fragments, four map overlays and
   the paper's empty-road commands, speed and drift series.
 - `data/reconstruction-settings.json`: verified configuration and code hashes

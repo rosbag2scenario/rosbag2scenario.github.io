@@ -47,6 +47,13 @@ for c in x['cases']:
         assert 'zhu' in c['methods']
 assert len(tot['ours'])==3296
 for k,v in methods.items():assert round(math.sqrt(sum(tot[k])/len(tot[k])),2)==v
+association=json.loads((ROOT/'data/association.json').read_text())
+assert association['population']['all']==111 and association['population']['moving']==56
+assert len(association['rows'])==4
+for result in association['rows']:
+    label=f"Zhu et al., {result['gate_s']:g} s / {result['dist_m']:g} m"
+    row=next(r for r in h.rows if r and r[0].replace('\u00a0',' ')==label)
+    assert [int(v) for v in row[1:]]==[result['rejoined'],result['moving'],result['links']['wrong']]
 with (ROOT/'data/disengagements.csv').open() as f:events=list(csv.DictReader(f))
 assert len(events)==9 and sum(r['outcome']=='reproduced' for r in events)==5
 for e in events:

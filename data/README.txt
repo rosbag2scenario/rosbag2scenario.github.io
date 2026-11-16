@@ -2,7 +2,24 @@ Rosbag2Scenario — supplementary material for the submitted manuscript
 
 This supplement follows the submitted eight-page manuscript, not a later draft.
 Tables II and III are transcribed without changing the numerical results or
-reclassifying any event. No new simulator runs were made for this website.
+reclassifying any event. The association table also includes the archived
+2 s / 10 m and 5 s / 10 m gate settings on the same 111-gap benchmark.
+No new simulator runs were made for this website.
+
+ASSOCIATION GATE COMPARISON
+data/association.json records all four Zhu-inspired configurations and the
+source hashes for the archived town10-gap-checks-20261112 threshold sweep.
+The 2 s / 10 m setting rejoins 76 gaps (34 moving), with 9 wrong links;
+the 5 s / 10 m setting rejoins 77 (29 moving), with 19 wrong links.
+The archived script verifies the 5 m settings against all 111 published pair
+outcomes and the coarse sweep against the baseline linking implementation.
+The exporter also checks agreement between the archived coarse and fine sweeps.
+Rejoined means the two benchmark fragments belong to the same output chain;
+that chain may contain other wrong links. Wrong links are counted across the
+full candidate pool. Correct/wrong/unscorable link totals and the counts of
+rejoined gaps in chains containing a wrong link are retained in the JSON.
+Only the time and endpoint-distance gates vary; preprocessing, vehicle pool,
+greedy linking and identity scoring are shared. No new run was needed.
 
 GAP EXPLORER
 111 scored natural tracker gaps from the three Town10 evaluation drives.
@@ -21,7 +38,7 @@ Hermite fallback where a lane bridge is unavailable. For the web export its
 coordinates were recovered using the archived function and every per-sample
 error was checked against the saved result. This is a rendering/export step,
 not a new experimental condition. Existing stored predictions are used for
-constant velocity, raw Hermite and our method. No new ablation is added.
+constant velocity, raw Hermite and our method. Completion results are unchanged.
 
 For display, each gap is translated and rotated into local coordinates.
 This preserves physical distances and removes absolute locations. The

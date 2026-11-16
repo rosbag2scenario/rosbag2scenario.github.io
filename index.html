@@ -76,7 +76,7 @@
 <div class="wide">
 <h2>Published Results</h2>
 <div class="col justify" style="padding:0">
-<p>Evaluation combines three Town10 drives with simulator ground truth and nine real urban disengagements. The tables below retain the submitted results.</p>
+<p>Evaluation combines three Town10 drives with simulator ground truth and nine real urban disengagements. The tables retain the submitted results and extend the association comparison with two wider-distance gates.</p>
 </div><ul class="stats">
 <li><b>5 of 9</b><span>recorded disengagements reproduced in closed loop</span></li>
 <li><b>63 / 111</b><span>tracker gaps rejoined, with no wrong link</span></li>
@@ -86,7 +86,7 @@
 <div class="card" id="reconstruction-results">
 <h3>Reconstruction of fragmented tracks</h3>
 <div class="justify">
-<p>Two tests separate finding the right fragments from filling the missing motion. Both use 111 tracker gaps from three CARLA drives, including 56 gaps in moving-vehicle tracks (paper, Table II).</p>
+<p>Two tests separate finding the right fragments from filling the missing motion. Both use the same 111 tracker gaps from three CARLA drives, including 56 gaps in moving-vehicle tracks.</p>
 </div>
 <div class="two reconstruction-tests">
 <div>
@@ -98,13 +98,15 @@
 <tr><th scope="col">Method</th><th scope="col">Rejoined<br>all</th><th scope="col">Rejoined<br>moving</th><th scope="col">Wrong<br>links</th></tr>
 </thead>
 <tbody>
-<tr><td>Zhu et al., 2 s gate</td><td>58</td><td>17</td><td>2</td></tr>
-<tr><td>Zhu et al., 5 s gate</td><td>62</td><td>15</td><td>8</td></tr>
+<tr><td>Zhu et al., 2 s / 5 m</td><td>58</td><td>17</td><td>2</td></tr>
+<tr><td>Zhu et al., 5 s / 5 m</td><td>62</td><td>15</td><td>8</td></tr>
+<tr><td>Zhu et al., 2 s / 10 m</td><td>76</td><td>34</td><td>9</td></tr>
+<tr><td>Zhu et al., 5 s / 10 m</td><td>77</td><td>29</td><td>19</td></tr>
 <tr class="best"><td>Ours</td><td>63</td><td>33</td><td>0</td></tr>
 </tbody>
 </table>
 </div>
-<p class="tcap">More rejoined gaps and fewer wrong links are better. A wrong link joins fragments from different vehicles.</p>
+<p class="tcap">Gates specify maximum time gap / endpoint distance. The 5 m rows and ours are from Table II; the 10 m rows extend the comparison on the same benchmark. Rejoined counts gaps in the same output chain; wrong links count joins between different vehicles across the full candidate pool.</p>
 </div>
 <div>
 <h4 id="completion-title">2. Completion: how well is the motion recovered?</h4>
@@ -122,7 +124,7 @@
 </tbody>
 </table>
 </div>
-<p class="tcap">Lower XY position RMSE is better. The 2 s and 5 s association gates use the same completion method.</p>
+<p class="tcap">Lower XY position RMSE is better (paper, Table II). All four association-gate settings use the same completion method.</p>
 </div>
 </div>
 </div>
