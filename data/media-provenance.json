@@ -1,7 +1,7 @@
 {
   "d7-diverged": {
     "video": "media/d7-diverged.mp4",
-    "sha256": "ae0a2c97650f6fb7f715cb21468a23dc839a0d2b1db654a7c0a29a35e2f1ee60",
+    "sha256": "e72403c6208effd7204989ac7d9468648a8455a2e258866d03e39be22014a4df",
     "origin": "Standard simulation-only rendering of AWE-20261110-212645",
     "render": {
       "case": "D7",
@@ -1939,7 +1939,14 @@
       "traffic_frames_sha256": "f889fc435d54e62b9b3e7a0f6f85f24c4561e6ac112bdb60c827040dee432c0c",
       "lanelet_sha256": "139b0a3b85e01b705532fcfe6a0afa70898f1c611957fccb27348ee5bd746f9c",
       "standard_drawing_sha256": "8039ae74b5a81c9038ca4eb65c1ab948f50ed9e1050d4f06f64b9fb39585fbc9",
-      "renderer_sha256": "223fd1a658939900664da0c58ff831ff3725f8ef00ffbdb9448fdce59a9b2ffd"
+      "renderer_sha256": "54eb0be4fdc155f73b2de351b902cfeff0c647886d2d367914132993eaf91b7e",
+      "reactivity_marker_display": {
+        "hidden_actor_ids": [
+          "reconstructed_1e02bbabf882",
+          "reconstructed_4270f8bcf604"
+        ],
+        "scope": "Video annotation only; actor motion, release events and study measurements are unchanged."
+      }
     },
     "encoding": {
       "programs": [],
@@ -1953,7 +1960,7 @@
       ],
       "format": {
         "duration": "17.100000",
-        "size": "22398260"
+        "size": "22396896"
       }
     }
   },

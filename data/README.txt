@@ -202,3 +202,11 @@ ego, grey before handover and green after it. Existing R markers are
 unchanged. Log replay retains prescribed motion and has no reactive overlay.
 Control-state text and the clock sit beside the BEV above the native player
 controls. Page content, plots, frame timing and actor motion are unchanged.
+
+D7 MARKER DISPLAY
+The D7 video omits the R annotations for parked-vehicle actors
+reconstructed_1e02bbabf882 and reconstructed_4270f8bcf604. This is a
+video-only annotation change. Their recorded release events, actor motion,
+study measurements, cone overlay and timing are unchanged. The renderer
+accepts one --hide-reactivity-marker argument per actor; the IDs are retained
+in media provenance. D2 and all other clips are unchanged.

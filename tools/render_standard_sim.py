@@ -18,6 +18,8 @@ def render(a):
     for f in frames.values():
         for r in f.get('transitions') or []:released.setdefault(r['id'],r['time_s'])
     actor_ids={r['id'] for r in refs};assert all(set(f['states'])<=actor_ids for f in frames.values())
+    hidden_markers=set(a.hide_reactivity_marker)
+    assert hidden_markers<=actor_ids, 'Unknown actor requested for marker suppression'
     ego_index=next(i for i,r in enumerate(refs) if r['id']=='ego')
     pair=None
     if a.paired_run:
@@ -68,7 +70,7 @@ def render(a):
         if ego and audit['options'].get('traffic_mode')!='kinematic':
             angles=ego[2]+np.pi+np.linspace(-np.pi/4,np.pi/4,61)
             cone=[tuple(ego[:2])]+[(ego[0]+100*np.cos(angle),ego[1]+100*np.sin(angle)) for angle in angles]
-        draw_bev(image,dict(bounds=bounds,roads=visible,actors=[dict(id=r['id'],path=[]) for r in refs],road_color='#637588',road_width=2,reactive_ids=active,heading_arrows=True,cone=cone,cone_active=handover is not None and t>=handover),f,(15,905,1400,480))
+        draw_bev(image,dict(bounds=bounds,roads=visible,actors=[dict(id=r['id'],path=[]) for r in refs],road_color='#637588',road_width=2,reactive_ids=active-hidden_markers,heading_arrows=True,cone=cone,cone_active=handover is not None and t>=handover),f,(15,905,1400,480))
         for j,(label,color) in enumerate([('Blue: reconstructed recording','#47c7ec'),('Orange: simulation','#ffab54'),('Green R: reactive vehicle','#70ed91'),('Red: position error > 2 m','#ed6470'),('Grey: lane boundaries','#b0b8c8')]):d.text((1440,910+j*34),label,font=font(21),fill=color)
         autonomous=handover is not None and t>=handover
         mode='Autonomous' if autonomous else 'Replay'
@@ -82,6 +84,8 @@ def render(a):
         if index==0:image.save(out.with_name(out.stem+'-before.jpg'))
     assert not dec.stdout.read(1);dec.stdout.close();enc.stdin.close();assert dec.wait()==0 and enc.wait()==0
     meta=dict(case=a.case,run=run.name,frames=len(times),all_actors=True,cone_overlay=audit['options'].get('traffic_mode')!='kinematic',cone_visualization=dict(opening_deg=90,range_m=100,anchor='simulated ego',activation_source_s=handover),camera_rows=dict(source_y=[45,360],source_height=300,output_height=400,gutter_removed=True),status_position=[1440,1088],clock_position=[1440,1152],mode_overlay=dict(modes=['Replay','Autonomous'],handover_source_s=handover,disengagement_source_s=event,disengagement_video_s=event-start if event is not None else None,event_position=[1440,1197],event_callout=False,camera_outline=False),view='Usual ego-centered BEV; all actors considered, no scoring-radius filter',source_start_s=start,timing=times,map_bounds_by_frame=bounds_log,source_video_sha256=digest(video),source_states_sha256=digest(rp/'source.json'),traffic_frames_sha256=digest(rp/'traffic/frames.jsonl'),lanelet_sha256=digest(Path(a.lanelet)),standard_drawing_sha256=digest(Path(__file__).with_name('standard_bev.py')),renderer_sha256=digest(Path(__file__)))
+    if hidden_markers:
+        meta['reactivity_marker_display']=dict(hidden_actor_ids=sorted(hidden_markers),scope='Video annotation only; actor motion, release events and study measurements are unchanged.')
     out.with_suffix('.json').write_text(json.dumps(meta,indent=2)+'\n')
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--run',required=True);p.add_argument('--lanelet',required=True);p.add_argument('--output',required=True);p.add_argument('--title',required=True);p.add_argument('--case',required=True);p.add_argument('--paired-run');render(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--run',required=True);p.add_argument('--lanelet',required=True);p.add_argument('--output',required=True);p.add_argument('--title',required=True);p.add_argument('--case',required=True);p.add_argument('--paired-run');p.add_argument('--hide-reactivity-marker',action='append',default=[]);render(p.parse_args())
