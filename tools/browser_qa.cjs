@@ -52,6 +52,6 @@ const assert=require('node:assert/strict');
  await page.setViewportSize({width:1440,height:1000});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'/tmp/rosbag-final-hero.png'});
  await page.emulateMedia({colorScheme:'dark'});await page.locator('#gap-explorer').screenshot({path:'/tmp/rosbag-v2-dark-gallery.png'});await page.emulateMedia({colorScheme:'light'});
  console.log('Layout',await page.evaluate(()=>({height:document.body.scrollHeight,regressionTop:document.querySelector('#regression').offsetTop})));
- const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto('http://127.0.0.1:8765');assert(await nojs.locator('#gap-explorer noscript').isVisible());assert(await nojs.locator('#results table').count()===2);
+ const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto('http://127.0.0.1:8765');assert(await nojs.locator('#gap-explorer noscript').isVisible());assert(await nojs.locator('#results table').count()===3);
  assert.equal(errors.length,0);assert.equal(external.length,0);console.log('PASS: all 115 cases, both motion filters, one D1 player, collapsed gallery, 111 scaled thumbnails, native comparison playback/seek/fullscreen, full-encounter maps, command views, temporal ambiguity, 320/390/768 widths, no-JS fallback, no page errors or external requests.');await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

@@ -156,6 +156,12 @@ tr.best td { font-weight: 700; color: var(--heading); }
 .dis th:nth-child(2), .dis td:nth-child(2) { text-align: left; white-space: normal; min-width: 11rem; }
 td.out { text-align: center; }
 .tcap { color: var(--muted); font-size: .86rem; line-height: 1.5; margin: .8rem 0 0; }
+.reconstruction-tests th, .reconstruction-tests td { white-space: normal; }
+@media (max-width: 560px) {
+  .reconstruction-tests table { font-size: .8rem; }
+  .reconstruction-tests th, .reconstruction-tests td { padding: .55rem .25rem; }
+  .reconstruction-tests thead th { font-size: .68rem; letter-spacing: .01em; }
+}
 .tag { display: inline-block; padding: .1rem .55rem; border-radius: 999px; border: 1px solid currentColor; font-size: .76rem; font-weight: 650; white-space: nowrap; }
 .tag.ok { color: var(--ok); }
 .tag.div { color: var(--div); }

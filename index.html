@@ -56,8 +56,8 @@
 </div>
 
 <div class="pipeline-steps">
-<div><h3>1. Read the observed scene</h3><p>Start from the ego pose and object tracks in a ROS bag. The online tracker provides what the driving stack perceived; offline perception is an optional source.</p></div>
-<div><h3>2. Repair fragmented tracks</h3><p>Filter tracklets, associate compatible fragments and complete their motion across gaps. <a href="#gaps">Inspect the completion methods and ambiguous links.</a></p></div>
+<div><h3>1. Read the observed scene</h3><p>Start from the ego pose and object tracks in a ROS bag. The online tracker provides what the driving stack perceived; offline perception labels can be used as an optional source.</p></div>
+<div><h3>2. Repair fragmented tracks</h3><p>Filter fragmented trajectories, associate compatible fragments and complete their motion across gaps. <a href="#gaps">Inspect the completion methods and ambiguous links.</a></p></div>
 <div><h3>3. Export and hand over</h3><p>Export OpenSCENARIO and a traffic plan. Replay the ego until shortly before the recorded disengagement, then hand control to the driving stack. Vehicles in the rear cone (90° opening, 100 m range) become reactive.</p></div>
 <div><h3>4. Test the driving stack</h3><p>Run the reconstructed encounter in CARLA/SUMO. Compare its behavior with the recording and reuse reproduced events to test a revised stack.</p></div>
 </div></div>
@@ -83,26 +83,48 @@
 <li><b>4–7 mm</b><span>median execution error of vehicles and ego up to the handover</span></li>
 <li><b>0.8 m</b><span>mean traffic deviation at the disengagement under the hybrid policy, against 5.6 m with all traffic reactive</span></li>
 </ul>
-<div class="card">
+<div class="card" id="reconstruction-results">
 <h3>Reconstruction of fragmented tracks</h3>
 <div class="justify">
-<p>The benchmark measures association separately from completion. Completion receives the correct fragment pairs; association must find those pairs among the observed tracks.</p>
+<p>Two tests separate finding the right fragments from filling the missing motion. Both use 111 tracker gaps from three CARLA drives, including 56 gaps in moving-vehicle tracks (paper, Table II).</p>
 </div>
+<div class="two reconstruction-tests">
+<div>
+<h4 id="association-title">1. Association: which fragments belong together?</h4>
+<p>Find compatible fragments among the observed tracks and rejoin them into one actor.</p>
 <div class="tablewrap">
-<table>
+<table aria-labelledby="association-title">
 <thead>
-<tr><th>Method</th><th>Rejoined</th><th>Rejoined, moving</th><th>Wrong links</th><th>RMSE [m]</th><th>RMSE moving [m]</th></tr>
+<tr><th scope="col">Method</th><th scope="col">Rejoined<br>all</th><th scope="col">Rejoined<br>moving</th><th scope="col">Wrong<br>links</th></tr>
 </thead>
 <tbody>
-<tr><td>Constant velocity</td><td>–</td><td>–</td><td>–</td><td>1.00</td><td>1.16</td></tr>
-<tr><td>Hermite</td><td>–</td><td>–</td><td>–</td><td>1.21</td><td>1.23</td></tr>
-<tr><td>Zhu et al., 2 s gate</td><td>58</td><td>17</td><td>2</td><td>1.17</td><td>1.25</td></tr>
-<tr><td>Zhu et al., 5 s gate</td><td>62</td><td>15</td><td>8</td><td>1.17</td><td>1.25</td></tr>
-<tr class="best"><td>Ours</td><td>63</td><td>33</td><td>0</td><td>0.88</td><td>0.96</td></tr>
+<tr><td>Zhu et al., 2 s gate</td><td>58</td><td>17</td><td>2</td></tr>
+<tr><td>Zhu et al., 5 s gate</td><td>62</td><td>15</td><td>8</td></tr>
+<tr class="best"><td>Ours</td><td>63</td><td>33</td><td>0</td></tr>
 </tbody>
 </table>
 </div>
-<p class="tcap">Reconstruction of 111 tracker gaps in three CARLA drives (paper, Table II). Rejoined counts gaps whose two fragments end up as one actor; wrong links join different vehicles.</p>
+<p class="tcap">More rejoined gaps and fewer wrong links are better. A wrong link joins fragments from different vehicles.</p>
+</div>
+<div>
+<h4 id="completion-title">2. Completion: how well is the motion recovered?</h4>
+<p>Supply the correct fragment pairs, fill each gap and compare the reconstructed positions with ground truth.</p>
+<div class="tablewrap">
+<table aria-labelledby="completion-title">
+<thead>
+<tr><th scope="col">Method</th><th scope="col">RMSE [m]<br>all</th><th scope="col">RMSE [m]<br>moving</th></tr>
+</thead>
+<tbody>
+<tr><td>Constant velocity</td><td>1.00</td><td>1.16</td></tr>
+<tr><td>Hermite</td><td>1.21</td><td>1.23</td></tr>
+<tr><td>Zhu et al.</td><td>1.17</td><td>1.25</td></tr>
+<tr class="best"><td>Ours</td><td>0.88</td><td>0.96</td></tr>
+</tbody>
+</table>
+</div>
+<p class="tcap">Lower XY position RMSE is better. The 2 s and 5 s association gates use the same completion method.</p>
+</div>
+</div>
 </div>
 <div class="card">
 <h3>Reactive traffic and handover</h3>
