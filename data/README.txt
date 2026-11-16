@@ -87,8 +87,14 @@ command-gate switch (t_d). The simulation changes from Replay to Autonomous at
 the actual handover; it remains autonomous at the recorded disengagement.
 The clock and persistent t_d label use video time (source time minus the first
 camera timestamp, 0.05 s). The 11.967668 s video event is shown as 12.0 s to match
-the clock precision. A red event callout appears then, with a 1.5 s outline of
-the real-camera panels. All 172 original frame timestamps are retained.
+the clock precision. The large mode badges indicate the transition; there is
+no additional event banner or camera outline. All 172 original frame timestamps
+are retained.
+The D2 comparison and D3/D6/D7/D8 simulation videos use the same prominent
+Driving mode styling beside their clocks and explicit t_d labels. Mode changes
+from Replay to Autonomous at actual ego handover and stays autonomous at t_d.
+They have no extra disengagement callout or camera outline. These overlays do
+not change camera frames, BEV geometry, traffic state, or playback timing.
 D1 is a presentation rerun with an ambulance
 proxy for the blocking truck, separate from the scored Table III run.
 

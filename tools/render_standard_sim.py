@@ -1,5 +1,6 @@
 """Adapt the usual submission renderer to six SIM cameras; archived inputs only."""
 import argparse,hashlib,json,subprocess,xml.etree.ElementTree as ET
+from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 import numpy as np
 from PIL import Image,ImageDraw,ImageFont
@@ -35,6 +36,7 @@ def render(a):
     enc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','1920x1470','-r','10','-i','-','-an','-c:v','libx264','-threads','4','-preset','medium','-crf','19','-pix_fmt','yuv420p','-movflags','+faststart',str(out)],stdin=subprocess.PIPE)
     font=lambda size:ImageFont.truetype(FONT,size)
     times=[];bounds_log=[];start=cameras[0]['source_s'];handover=audit.get('actual_source_s');event=audit['options'].get('event_s')
+    event_label=str(Decimal(str(round(event-start,6))).quantize(Decimal('0.1'),rounding=ROUND_HALF_UP)) if event is not None else None
     for index,c in enumerate(cameras):
         raw=dec.stdout.read(1920*800*3);assert len(raw)==1920*800*3
         row=frames[c['frame']];t=row['time'];assert abs(t-c['source_s'])<.001
@@ -67,16 +69,19 @@ def render(a):
             angles=ego[2]+np.pi+np.linspace(-np.pi/4,np.pi/4,61)
             cone=[tuple(ego[:2])]+[(ego[0]+100*np.cos(angle),ego[1]+100*np.sin(angle)) for angle in angles]
         draw_bev(image,dict(bounds=bounds,roads=visible,actors=[dict(id=r['id'],path=[]) for r in refs],road_color='#637588',road_width=2,reactive_ids=active,heading_arrows=True,cone=cone,cone_active=handover is not None and t>=handover),f,(15,905,1400,480))
-        for j,(label,color) in enumerate([('Blue: reconstructed recording','#47c7ec'),('Orange: simulation','#ffab54'),('Green R: reactive vehicle','#70ed91'),('Red: position error > 2 m','#ed6470'),('Grey: lane boundaries','#b0b8c8')]):d.text((1440,924+j*45),label,font=font(21),fill=color)
-        phase='Recorded ego motion' if handover is None or t<handover else 'Driving stack in control'
-        d.text((1440,1160),phase,font=font(23),fill='#ffcf87')
-        if event is not None and t>=event:d.text((1440,1196),'Recorded intervention time reached',font=font(21),fill='#ffcf87')
-        d.text((1440,1234),f't = {t-start:.1f} s',font=font(23),fill='white')
+        for j,(label,color) in enumerate([('Blue: reconstructed recording','#47c7ec'),('Orange: simulation','#ffab54'),('Green R: reactive vehicle','#70ed91'),('Red: position error > 2 m','#ed6470'),('Grey: lane boundaries','#b0b8c8')]):d.text((1440,910+j*34),label,font=font(21),fill=color)
+        autonomous=handover is not None and t>=handover
+        mode='Autonomous' if autonomous else 'Replay'
+        d.rectangle((1440,1088,1904,1138),fill='#15382e' if autonomous else '#243348',outline='#70ed91' if autonomous else '#a6b7ce',width=2)
+        bold=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',23)
+        d.text((1452,1098),f'Driving mode: {mode}',font=bold,fill='white')
+        d.text((1440,1152),f't = {t-start:.1f} s',font=font(27),fill='white')
+        if event is not None:d.text((1440,1197),f'Disengagement t_d = {event_label} s',font=font(23),fill='#ffb5b5')
         enc.stdin.write(image.tobytes());times.append({'frame':c['frame'],'t':round(t-start,5),'source_s':t});bounds_log.append(bounds)
         if index==120:image.save(out.with_suffix('.jpg'))
         if index==0:image.save(out.with_name(out.stem+'-before.jpg'))
     assert not dec.stdout.read(1);dec.stdout.close();enc.stdin.close();assert dec.wait()==0 and enc.wait()==0
-    meta=dict(case=a.case,run=run.name,frames=len(times),all_actors=True,cone_overlay=audit['options'].get('traffic_mode')!='kinematic',cone_visualization=dict(opening_deg=90,range_m=100,anchor='simulated ego',activation_source_s=handover),camera_rows=dict(source_y=[45,360],source_height=300,output_height=400,gutter_removed=True),status_position=[1440,1160],clock_position=[1440,1234],view='Usual ego-centered BEV; all actors considered, no scoring-radius filter',source_start_s=start,timing=times,map_bounds_by_frame=bounds_log,source_video_sha256=digest(video),source_states_sha256=digest(rp/'source.json'),traffic_frames_sha256=digest(rp/'traffic/frames.jsonl'),lanelet_sha256=digest(Path(a.lanelet)),standard_drawing_sha256=digest(Path(__file__).with_name('standard_bev.py')),renderer_sha256=digest(Path(__file__)))
+    meta=dict(case=a.case,run=run.name,frames=len(times),all_actors=True,cone_overlay=audit['options'].get('traffic_mode')!='kinematic',cone_visualization=dict(opening_deg=90,range_m=100,anchor='simulated ego',activation_source_s=handover),camera_rows=dict(source_y=[45,360],source_height=300,output_height=400,gutter_removed=True),status_position=[1440,1088],clock_position=[1440,1152],mode_overlay=dict(modes=['Replay','Autonomous'],handover_source_s=handover,disengagement_source_s=event,disengagement_video_s=event-start if event is not None else None,event_position=[1440,1197],event_callout=False,camera_outline=False),view='Usual ego-centered BEV; all actors considered, no scoring-radius filter',source_start_s=start,timing=times,map_bounds_by_frame=bounds_log,source_video_sha256=digest(video),source_states_sha256=digest(rp/'source.json'),traffic_frames_sha256=digest(rp/'traffic/frames.jsonl'),lanelet_sha256=digest(Path(a.lanelet)),standard_drawing_sha256=digest(Path(__file__).with_name('standard_bev.py')),renderer_sha256=digest(Path(__file__)))
     out.with_suffix('.json').write_text(json.dumps(meta,indent=2)+'\n')
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--run',required=True);p.add_argument('--lanelet',required=True);p.add_argument('--output',required=True);p.add_argument('--title',required=True);p.add_argument('--case',required=True);p.add_argument('--paired-run');render(p.parse_args())

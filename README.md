@@ -46,6 +46,9 @@ submission renderer, preserved in `tools/standard_bev.py`. D2 uses reciprocal
 Rendering reuses archived frames; it does not execute a simulator.
 The simulation-only clips use recorded R markers and a rear-cone overlay. The page retains the
 author-requested 90° total-opening wording; recorded metadata remains intact.
+Their highlighted Driving mode badge sits beside the clock and explicit
+disengagement time. It changes from Replay to Autonomous at ego handover;
+the recorded disengagement does not change simulation mode.
 The D1 clip retains the supplied real/SIM/BEV composition and timing. Its camera
 labels are enlarged and the 10-pixel camera-row gap is removed. The FFmpeg filter
 is saved in `tools/d1-layout.ffmpeg`; apply it to the original submission video
@@ -58,7 +61,8 @@ handover and disengagement times from `data/encounter-motion.json` and converts
 them to the video clock using its first source timestamp. The real-drive badge
 changes to Manual at the recorded external/remote command-gate switch; the
 simulation changes from Replay to Autonomous at handover and stays autonomous.
-The red camera outline lasts 1.5 s after the recorded disengagement.
+The large mode badges indicate the transition without an additional event banner
+or camera outline.
 
 `tools/figures/pipeline.tex` and `pipeline.tikz` preserve the pipeline drawing
 source with the website's trajectory terminology; the manuscript is untouched.

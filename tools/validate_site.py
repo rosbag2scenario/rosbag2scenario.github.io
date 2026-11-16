@@ -88,6 +88,7 @@ assert overlay['timing_unchanged']
 assert abs(overlay['disengagement_video_s']-(d1_motion['t_d']-overlay['source_start_s']))<1e-9
 assert abs(overlay['handover_video_s']-(d1_motion['t_h']-overlay['source_start_s']))<1e-9
 assert overlay['real_modes']==['Autonomous','Manual'] and overlay['simulation_modes']==['Replay','Autonomous']
+assert overlay['event_callout'] is False and overlay['real_camera_outline'] is False
 assert hashlib.sha256((ROOT/overlay['renderer']).read_bytes()).hexdigest()==overlay['renderer_sha256']
 comparison=media['d2-comparison'];a,b=[comparison['inputs'][n]['render'] for n in ['d2-regression-hybrid','d2-regression-logreplay']]
 assert comparison['composition']['frames']==222 and comparison['composition']['all_actors']
@@ -103,6 +104,11 @@ for render in [a,b,*[m['render'] for m in media.values() if 'render' in m]]:
     assert render['camera_rows']['gutter_removed']
     assert render['cone_visualization']['opening_deg']==90 and render['cone_visualization']['range_m']==100
     assert render['status_position'][1]<1300 and render['clock_position'][1]<1300
+    mode=render['mode_overlay']
+    assert mode['modes']==['Replay','Autonomous']
+    assert mode['event_callout'] is False and mode['camera_outline'] is False
+    assert math.isclose(mode['disengagement_video_s'],mode['disengagement_source_s']-render['source_start_s'])
+    assert mode['handover_source_s']<mode['disengagement_source_s']
 assert all(k not in h.ids for k in ['gap-time','motion-time','map-zoom','map-position','compare-play','comparison-dialog'])
 support=json.loads((ROOT/'data/support.json').read_text())
 assert len(support['maps'])==4 and len(support['ambiguity']['fragments'])==5

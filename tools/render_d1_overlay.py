@@ -42,17 +42,13 @@ def render(source, output, timing, source_start):
     badge(980, 'Replay', '243348', 'a6b7ce', f'lt(t,{handover:.9f})')
     badge(980, 'Autonomous', '15382e', '70ed91', f'gte(t,{handover:.9f})')
 
-    # Remove the previous footer status. Keep the clock and event callout in
+    # Remove the previous footer status. Keep the clock and event time in
     # the unused legend column, above the native player's controls.
     box(0, 1026, 1920, 54, '0e1726')
-    box(1435, 830, 465, 166, '17263a')
+    box(1435, 830, 465, 110, '17263a')
     text(r't = %{eif\:floor(t+0.05)\:d}.%{eif\:mod(floor((t+0.05)*10)\,10)\:d} s',
          1455, 847, 32, bold=True, expansion=True)
     text(f'Disengagement t_d = {event:.1f} s', 1455, 900, 23, '0xffb5b5')
-    box(1435, 940, 465, 56, 'b91c1c', f'gte(t,{event:.9f})')
-    text('RECORDED DISENGAGEMENT', 1450, 958, 22, enable=f'gte(t,{event:.9f})', bold=True)
-    # A red outline briefly pops up around the real cameras at disengagement.
-    box(0, 64, 960, 433, 'ff5555', f'between(t,{event:.9f},{event + 1.5:.9f})', 5)
 
     base = Path(__file__).with_name('d1-layout.ffmpeg').read_text().strip()
     graph = base.removesuffix('[out]') + '[layout];[layout]' + ','.join(filters) + '[out]'
@@ -69,7 +65,7 @@ def render(source, output, timing, source_start):
                     displayed_disengagement_s=round(event, 1),
                     real_modes=['Autonomous', 'Manual'], simulation_modes=['Replay', 'Autonomous'],
                     mode_y=8, clock_position=[1455, 847], event_position=[1455, 900],
-                    event_callout_y=940, real_camera_outline_duration_s=1.5,
+                    event_callout=False, real_camera_outline=False,
                     timing_unchanged=True,
                     renderer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                     filter_sha256=hashlib.sha256(filter_path.read_bytes()).hexdigest())
