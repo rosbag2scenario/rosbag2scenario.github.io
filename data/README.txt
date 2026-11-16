@@ -45,9 +45,12 @@ The ambiguity figure is a D7 association example. Its global assignment
 margin is 0.77; the method leaves the connection unjoined at margin <= 1.
 
 MEDIA
-D1 uses the exact anonymized submission video supplied by the author, including
+D1 uses the anonymized submission video supplied by the author, including
 real cameras, simulation and the author-supplied rear-cone/R overlay. The
-file is copied byte-for-byte. D1 is a presentation rerun with an ambulance
+original layout and timing are retained; readable camera labels replace the
+small labels and the 10-pixel camera-row gap is removed. The original source
+hash and presentation filter are retained in media provenance.
+D1 is a presentation rerun with an ambulance
 proxy for the blocking truck, separate from the scored Table III run.
 
 The D2 hybrid/log-replay pair and D3/D6/D7/D8 are rendered anew from their existing

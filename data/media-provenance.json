@@ -1964,10 +1964,10 @@
   },
   "d1-submission": {
     "video": "media/d1-submission.mp4",
-    "origin": "Exact anonymized submission video supplied by the author; real cameras, simulation and BEV. Presentation rerun with ambulance proxy.",
+    "origin": "Author-supplied anonymized submission video; original real/SIM/BEV layout with readable camera labels and the camera-row gap removed.",
     "source_sha256": "de98fe3d3ec9b6f275bdf79919630516592a126a35ae3a62e11761215f51d84d",
-    "cone_visualization": "Author-supplied rear-cone overlay; green R follows recorded release events. Video retained without editing.",
-    "sha256": "de98fe3d3ec9b6f275bdf79919630516592a126a35ae3a62e11761215f51d84d",
+    "cone_visualization": "Author-supplied rear-cone overlay; green R follows recorded release events.",
+    "sha256": "307a346d5d9e0acd5fa34f5314ca31a121198f3624f118fdb3e9a9a970aa050f",
     "encoding": {
       "programs": [],
       "streams": [
@@ -1980,8 +1980,24 @@
       ],
       "format": {
         "duration": "17.200000",
-        "size": "9224171"
+        "size": "9999771"
       }
+    },
+    "layout_edit": {
+      "filter": "tools/d1-layout.ffmpeg",
+      "removed_source_rows": [
+        295,
+        305
+      ],
+      "camera_label_rows": [
+        95,
+        295
+      ],
+      "camera_label_height_px": 23,
+      "camera_label_font_px": 18,
+      "frames": 172,
+      "timing_unchanged": true,
+      "layout": "Real cameras left, simulated cameras right, original BEV below. Remove the 10-pixel row separator, shift the lower content up, pad 10 pixels at bottom, overlay readable camera names."
     }
   },
   "d3-reproduced": {

@@ -59,7 +59,11 @@ for name,m in media.items():
         assert m['render']['all_actors'] and m['render']['cone_overlay'] is True
         assert m['render']['frames']==len(m['render']['timing'])
     assert hashlib.sha256((ROOT/m['video']).read_bytes()).hexdigest()==m['sha256'],name
-assert media['d1-submission']['sha256']==media['d1-submission']['source_sha256']
+d1=media['d1-submission']
+assert d1['source_sha256']=='de98fe3d3ec9b6f275bdf79919630516592a126a35ae3a62e11761215f51d84d'
+assert d1['layout_edit']['timing_unchanged'] and d1['layout_edit']['frames']==172
+assert float(d1['encoding']['format']['duration'])==17.2
+assert (ROOT/d1['layout_edit']['filter']).is_file()
 comparison=media['d2-comparison'];a,b=[comparison['inputs'][n]['render'] for n in ['d2-regression-hybrid','d2-regression-logreplay']]
 assert comparison['composition']['frames']==222 and comparison['composition']['all_actors']
 assert comparison['encoding']['streams'][0]['width']==3840

@@ -13,7 +13,7 @@ third-party requests are required.
   the paper's empty-road commands, speed and drift series.
 - `data/reconstruction-settings.json`: verified configuration and code hashes
   for the D1/D6/D7 real-gap recipe.
-- `media/`: exact anonymized D1 submission video; newly composed six-camera
+- `media/`: anonymized D1 submission video with readable camera labels and a closed row gap; newly composed six-camera
   simulation/BEV videos for the existing D2 pair and D3/D6/D7/D8; Town10 capture.
 - `fig/motion/`, `data/encounter-motion.json`: four matching motion plots for
   each encounter run, including both D2 variants.
@@ -41,7 +41,11 @@ submission renderer, preserved in `tools/standard_bev.py`. D2 uses reciprocal
 Rendering reuses archived frames; it does not execute a simulator.
 The simulation-only clips use recorded R markers and a rear-cone overlay. The page retains the
 author-requested 90° total-opening wording; recorded metadata remains intact.
-The supplied D1 video and all event labels are unchanged.
+The D1 clip retains the supplied real/SIM/BEV composition and timing. Its camera
+labels are enlarged and the 10-pixel camera-row gap is removed. The FFmpeg filter
+is saved in `tools/d1-layout.ffmpeg`; apply it to the original submission video
+with `-filter_complex_script tools/d1-layout.ffmpeg -map '[out]'`.
+All event labels are unchanged.
 
 GitHub Pages serves the root of `main` in
 `rosbag2scenario/rosbag2scenario.github.io`. The public site is
