@@ -6,7 +6,7 @@ supports byte-range requests for video seeking. No build step, tracking or
 third-party requests are required.
 
 - `index.html`, `style.css`, `site.js`: concise pipeline, early D2 comparison
-  with an enlarged synchronized player, published results, an expandable
+  in one side-by-side video with native playback and fullscreen, published results, an expandable
   gap gallery, temporal ambiguity and digital-twin inspection.
 - `data/gaps.json`: 111 benchmark cases and four real-gap illustrations.
 - `data/support.json`: observed ambiguity fragments, four map overlays and
@@ -17,7 +17,8 @@ third-party requests are required.
   simulation/BEV videos for the existing D2 pair and D3/D6/D7/D8; Town10 capture.
 - `tools/`: explicit-input export/render utilities and validation.
 
-The D1 presentation rerun is distinguished from the paper's scored run.
+Source distinctions, including the D1 presentation rerun, are recorded in
+`data/README.txt` and media provenance.
 Paper figures and results follow the submitted version. No manuscript files
 were changed and no new simulator experiments were performed.
 
@@ -25,7 +26,7 @@ Run `python3 tools/validate_site.py` for asset and evidence checks. With
 Playwright Chromium installed and the preview running, run
 `node tools/browser_qa.cjs`. `PLAYWRIGHT_PACKAGE` may point to an existing
 installation. Checks cover all 115 gaps, gallery selection, map and command
-views, temporal context, enlarged/inline synchronized playback, keyboard input,
+views, temporal context, native video playback/seeking/fullscreen,
 mobile widths and the no-JavaScript fallback. Screenshots go to `/tmp`.
 
 `tools/export_gaps.py`, `tools/export_support.py` and `tools/export_settings.py`
@@ -46,3 +47,11 @@ The gap explorer shows coordinated XY, speed and motion-heading plots. Heading
 is derived from neighboring local positions; low-speed values are omitted and
 angle-wrap crossings are broken. It is not vehicle body yaw. The introductory
 schematic precedes the examples; configuration details remain expandable.
+
+`tools/compose_comparison.py` combines the aligned D2 exports from a source
+checkout containing their videos and media provenance (`--root PATH`). It
+keeps all 222 frames and equal BEV extents, places each six-camera mosaic
+above its BEV, and shares the legend and clock. The original D2 exports
+are retained in Git history; only the combined video is served now.
+Map views show the whole encounter. Gap and command plots have no time
+slider; the ambiguity view retains its temporal inspection control.

@@ -73,3 +73,14 @@ Publication: consolidated update of the existing anonymous GitHub Pages
 repository, using the original Anonymous Authors commit identity. No new
 hosting service or domain. Public text and media metadata checked for local
 usernames and absolute source paths; the validator uses generic path checks.
+
+Simplified interaction and comparison update
+- Full-encounter maps only; removed zoom and along-path window controls.
+- Removed gap and command time sliders and their transient point markers.
+  Retained the ambiguity timeline control and command/method selection.
+- D2 is one side-by-side 1920x900 video, with 222 aligned frames, six cameras
+  and the full BEV per side, one legend and clock. Native browser playback,
+  seeking and fullscreen replace the custom two-player interface.
+- Shortened visible captions to explain the encounters and comparisons;
+  detailed source provenance remains in data documentation.
+- D1 media and all published numerical results are unchanged.

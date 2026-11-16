@@ -74,9 +74,9 @@
   }
   async function explorer(){
     const response=await fetch('data/gaps.json');if(!response.ok)throw Error('Data unavailable');
-    const data=await response.json();let selected,xyPlot,speedPlot,directionPlot, filtered=[], visible=12;
+    const data=await response.json();let selected,timeRange, filtered=[], visible=12;
     const shown=new Set(Object.keys(data.methods));
-    $('gap-methods').hidden=false;$('gap-scrub').hidden=false;
+    $('gap-methods').hidden=false;
     document.querySelector('#gap-explorer .explorer-controls').hidden=false;
     for(const [key,name] of Object.entries(data.methods)){
       const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.checked=true;input.value=key;
@@ -118,8 +118,8 @@
       document.querySelectorAll('.gap-card').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.case===selected.id)));
       $('gap-description').textContent=selected.kind==='real'?`${selected.drive} · ${selected.duration.toFixed(2)} s without tracker observations. Filled and open blue dots are the two observed fragments.`:`${selected.id} · ${selected.drive} · ${selected.duration.toFixed(2)} s gap · ${selected.motion.replaceAll('_',' ')}. Association: ${selected.outcome.replaceAll('_',' ')}. Correct pairing is supplied for the completion comparison.`;
       for(const label of $('gap-methods').querySelectorAll('label'))label.hidden=!(label.dataset.method in selected.methods);
-      const ts=selected.observed.flatMap(s=>s.t);$('gap-time').min=Math.min(...ts);$('gap-time').max=Math.max(...ts);$('gap-time').value=selected.duration/2;
-      $('gap-context').textContent=selected.kind==='real'?'Real-recording illustration: the missing motion is unobserved. These curves show continuity with the fragments, not accuracy against ground truth. Ours is the exported reconstruction; the references are constant velocity, Hermite and the archived Cartesian Zhu-inspired completion. Correct pairing is supplied; the Town10 benchmark uses the lane-aware Zhu-inspired configuration from Table II.':'Town10: ground truth comes from the simulator. Table II pools squared XY errors over all timestamps inside the 111 gaps. The values below are for this individual gap; a method need not be best on every case. Speed curves are derived from the displayed positions.';
+      const ts=selected.observed.flatMap(s=>s.t);timeRange=[Math.min(...ts),Math.max(...ts)];
+      $('gap-context').textContent=selected.kind==='real'?'Compare how the methods connect the observed fragments. The missing motion in this real recording has no ground truth; the benchmark gallery provides the accuracy comparison.':'Compare each completion with simulator ground truth. The errors below describe this gap; the paper reports results pooled across all 111 gaps.';
       $('gap-metrics').replaceChildren();
       if(selected.rmse){
         const table=document.createElement('table');const cap=document.createElement('caption');cap.textContent='This gap: XY RMSE against simulator ground truth [m]';table.append(cap);
@@ -133,18 +133,11 @@
       const series=selected.observed.map((s,i)=>({id:'observed',xy:s.xy,color:'#2f6bc8',dots:true,hollow:i===1,show:true,source:s}));
       if(selected.truth)series.push({id:'truth',xy:selected.truth.xy,color:'#343c44',show:true,source:selected.truth});
       for(const [k,s] of Object.entries(selected.methods))series.push({id:k,xy:s.xy,color:colors[k],dash:dash[k],show:shown.has(k),source:s});
-      xyPlot=plot($('gap-xy'),series,{title:'Observed fragments and completed path',xlabel:'Along-gap position [m]',ylabel:'Cross-gap position [m]'});
-      speedPlot=plot($('gap-speed'),series.map(s=>({...s,xy:s.source.t.map((t,i)=>[t,s.source.speed[i]])})),{height:220,xrange:[Number($('gap-time').min),Number($('gap-time').max)],title:'Speed before, inside and after the gap',gap:selected.duration,xlabel:'Time relative to gap start [s]',ylabel:'Speed [m/s]'});
-      directionPlot=plot($('gap-direction'),series.map(s=>({...s,xy:s.source.t.map((t,i)=>[t,s.source.direction[i]])})),{height:220,angular:true,xrange:[Number($('gap-time').min),Number($('gap-time').max)],title:'Heading: direction of motion',gap:selected.duration,xlabel:'Time relative to gap start [s]',ylabel:'Motion heading [°]'});
-      updateTime();
+      plot($('gap-xy'),series,{title:'Observed fragments and completed path',xlabel:'Along-gap position [m]',ylabel:'Cross-gap position [m]'});
+      plot($('gap-speed'),series.map(s=>({...s,xy:s.source.t.map((t,i)=>[t,s.source.speed[i]])})),{height:220,xrange:timeRange,title:'Speed before, inside and after the gap',gap:selected.duration,xlabel:'Time relative to gap start [s]',ylabel:'Speed [m/s]'});
+      plot($('gap-direction'),series.map(s=>({...s,xy:s.source.t.map((t,i)=>[t,s.source.direction[i]])})),{height:220,angular:true,xrange:timeRange,title:'Heading: direction of motion',gap:selected.duration,xlabel:'Time relative to gap start [s]',ylabel:'Motion heading [°]'});
     }
-    function updateTime(){
-      const t=Number($('gap-time').value);$('gap-clock').textContent=`${t.toFixed(2)} s`;xyPlot.cursor.replaceChildren();speedPlot.cursor.replaceChildren();directionPlot.cursor.replaceChildren();
-      for(const p of [speedPlot,directionPlot])p.cursor.append(el('line',{x1:p.X(t),x2:p.X(t),y1:p.top,y2:p.bottom,stroke:'#606b75','stroke-dasharray':'4 3'}));
-      const ss=[...selected.observed.map(s=>({s,color:'#2f6bc8'})),...(selected.truth?[{s:selected.truth,color:'#343c44'}]:[]),...Object.entries(selected.methods).filter(([k])=>shown.has(k)).map(([k,s])=>({s,color:colors[k]}))];
-      for(const {s,color} of ss){const p=at(s,t,'xy');if(p)xyPlot.cursor.append(el('circle',{cx:xyPlot.X(p[0]),cy:xyPlot.Y(p[1]),r:5,fill:color,stroke:'white','stroke-width':1.5}));for(const [key,chart] of [['speed',speedPlot],['direction',directionPlot]]){const v=at(s,t,key);if(v!==null)chart.cursor.append(el('circle',{cx:chart.X(t),cy:chart.Y(v),r:4,fill:color,stroke:'white','stroke-width':1}));}}
-    }
-    $('gap-kind').addEventListener('change',chooseList);$('gap-motion').addEventListener('change',chooseList);$('gap-case').addEventListener('change',choose);$('gap-time').addEventListener('input',updateTime);
+    $('gap-kind').addEventListener('change',chooseList);$('gap-motion').addEventListener('change',chooseList);$('gap-case').addEventListener('change',choose);
     chooseList();
   }
   explorer().catch(()=>{const fallback=document.querySelector('#gap-explorer noscript');if(fallback)$('gap-detail').insertAdjacentHTML('beforeend',fallback.textContent);$('gap-description').textContent='The explorer could not load. Please use the published results and static example.';});
@@ -181,9 +174,8 @@
     // A fixed equal-distance map scale; checkbox layers never change the extent.
     function map(){
       const c=data.maps.find(m=>m.case===$('map-case').value),svg=$('alignment-map');svg.replaceChildren();
-      const [a,b]=c.bounds,w=650,h=330,zoom=+$('map-zoom').value,point=c.recording[Math.round((c.recording.length-1)*Number($('map-position').value)/100)];
-      const unit=zoom?zoom/h:Math.max((b[0]-a[0])/w,(b[1]-a[1])/h),cx=zoom?point[0]:(a[0]+b[0])/2,cy=zoom?point[1]:(a[1]+b[1])/2;
-      $('map-position-control').hidden=!zoom;
+      const [a,b]=c.bounds,w=650,h=330;
+      const unit=Math.max((b[0]-a[0])/w,(b[1]-a[1])/h),cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
       const X=x=>415+(x-cx)/unit,Y=y=>190-(y-cy)/unit;
       svg.append(el('title',{},c.case+' map and ego-path alignment'));
       const defs=el('defs'),clip=el('clipPath',{id:'map-clip'});clip.append(el('rect',{x:90,y:25,width:w,height:h}));defs.append(clip);svg.append(defs);
@@ -200,7 +192,7 @@
       svg.append(el('text',{x:415,y:405,'font-size':14,'text-anchor':'middle'},'East from the first recorded ego pose [m]'));
       svg.append(el('text',{x:20,y:190,transform:'rotate(-90 20 190)','font-size':14,'text-anchor':'middle'},'North [m]'));
     }
-    $('map-case').addEventListener('change',map);$('map-zoom').addEventListener('change',map);$('map-position').addEventListener('input',map);$('map-layers').addEventListener('change',map);map();
+    $('map-case').addEventListener('change',map);$('map-layers').addEventListener('change',map);map();
     const m=data.motion;let cp,dp;
     const series=(id,t,v,color)=>({id,xy:t.map((t,i)=>[t,v[i]]),color,show:true});
     const ct=m.commands.map(c=>c.t);
@@ -216,58 +208,13 @@
       cp=plot($('motion-command'),ss,{title:unit,zero:false,xlabel:'Time from handover [s]',ylabel:unit});
       dp=plot($('motion-drift'),[series('deviation',m.t,m.deviation,'#da7d16')],{title:'Ego position deviation',xlabel:'Time from handover [s]',ylabel:'XY position deviation [m]'});
       for(const p of [cp,dp]){p.cursor.parentNode.insertBefore(el('line',{x1:p.X(0),x2:p.X(0),y1:p.top,y2:p.bottom,stroke:'#687583','stroke-dasharray':'4 4'}),p.cursor);p.cursor.parentNode.append(el('text',{x:p.X(0)+5,y:23,'font-size':11,fill:'#53606b'},'handover'));}
-      $('motion-legend').textContent=legend+' Orange in the right plot: distance from the recorded ego position.';motionTime();
+      $('motion-legend').textContent=legend+' Orange in the right plot: distance from the recorded ego position.';
     }
-    function motionTime(){
-      const t=+$('motion-time').value;$('motion-clock').textContent=(t>=0?'+':'')+t.toFixed(2)+' s';
-      for(const p of [cp,dp]){p.cursor.replaceChildren(el('line',{x1:p.X(t),x2:p.X(t),y1:p.top,y2:p.bottom,stroke:'#263542','stroke-width':1.5}));}
-      const v=key=>at({t:m.t,v:m[key]},t,'v');
-      $('motion-readout').textContent=`${t<0?'Recorded ego motion':'Stack controls ego'} · recorded speed ${v('recorded_speed').toFixed(2)} m/s · simulated speed ${v('simulated_speed').toFixed(2)} m/s · position deviation ${v('deviation').toFixed(3)} m.`;
-    }
-    $('motion-view').addEventListener('change',commands);$('motion-time').addEventListener('input',motionTime);commands();
+    $('motion-view').addEventListener('change',commands);commands();
   }
-  support().catch(error=>{console.error(error);$('motion-readout').textContent='Interactive evidence could not load. The paper figures and descriptions remain available.';});
+  support().catch(error=>{console.error(error);$('motion-status').textContent='Interactive evidence could not load. The paper figures and descriptions remain available.';});
 
-  const primary=$('hybrid-video'),secondary=$('replay-video'),play=$('compare-play'),slider=$('compare-time');
-  if(primary && secondary){
-    document.querySelector('#comparison .comparison-controls').hidden=false;
-    let busy=false, dragging=false, syncing=false;
-    const duration=()=>Math.min(primary.duration||0,secondary.duration||0);
-    const update=()=>{if(duration()>0)slider.max=duration();if(!dragging&&!syncing)slider.value=primary.currentTime;$('compare-clock').textContent=primary.currentTime.toFixed(1)+' s';};
-    const seek=t=>{syncing=true;primary.currentTime=t;secondary.currentTime=t;slider.value=t;$('compare-clock').textContent=t.toFixed(1)+' s';};
-    const stop=()=>{primary.pause();secondary.pause();play.textContent='Play both';};
-    const start=async()=>{
-      if(busy)return;busy=true;
-      try { if(primary.ended || primary.currentTime>=duration() && duration()>0){primary.currentTime=0;secondary.currentTime=0;}secondary.currentTime=primary.currentTime;await Promise.all([primary.play(),secondary.play()]);play.textContent='Pause both';$('compare-status').textContent='Synchronized source time · six simulated cameras and all-actor BEV per run.'; }
-      catch {stop();$('compare-status').textContent='Playback could not start. You can open either video with its individual controls.';}
-      finally{busy=false;}
-    };
-    play.addEventListener('click',()=>primary.paused?start():stop());
-    primary.addEventListener('play',()=>{if(!busy)start();});primary.addEventListener('pause',()=>{secondary.pause();play.textContent='Play both';});
-    primary.addEventListener('seeking',()=>{if(!syncing&&secondary.readyState>0)seek(Math.min(primary.currentTime,secondary.duration));});
-    secondary.addEventListener('play',()=>{if(primary.paused&&!busy)start();});
-    secondary.addEventListener('pause',()=>{if(!busy&&!primary.paused)primary.pause();});
-    secondary.addEventListener('seeking',()=>{if(!syncing&&primary.readyState>0&&Math.abs(primary.currentTime-secondary.currentTime)>.1)seek(secondary.currentTime);});
-    for(const v of [primary,secondary])v.addEventListener('seeked',()=>{if(!primary.seeking&&!secondary.seeking)syncing=false;});
-    for(const v of [primary,secondary]){v.addEventListener('loadedmetadata',update);v.addEventListener('ended',stop);}
-    primary.addEventListener('ratechange',()=>{secondary.playbackRate=primary.playbackRate;});
-    primary.addEventListener('timeupdate',()=>{update();if(!syncing&&!secondary.paused&&!secondary.seeking&&Math.abs(primary.currentTime-secondary.currentTime)>.15){syncing=true;secondary.currentTime=primary.currentTime;}});
-    slider.addEventListener('input',()=>{dragging=true;if(duration()>0)seek(Number(slider.value));$('compare-clock').textContent=Number(slider.value).toFixed(1)+' s';});slider.addEventListener('change',()=>{dragging=false;});
-    const comparison=$('comparison'),dialog=$('comparison-dialog'),expand=$('expand-comparison'),placeholder=document.createComment('inline comparison');
-    comparison.before(placeholder);expand.hidden=false;
-    function focusView(view){
-      dialog.dataset.view=view;
-      for(const button of dialog.querySelectorAll('[data-view]'))button.setAttribute('aria-pressed',String(button.dataset.view===view));
-    }
-    for(const button of dialog.querySelectorAll('[data-view]'))button.addEventListener('click',()=>focusView(button.dataset.view));
-    expand.addEventListener('click',()=>{
-      const playing=!primary.paused;stop();dialog.append(comparison);focusView('both');dialog.showModal();document.body.classList.add('comparison-open');$('close-comparison').focus();if(playing)start();
-    });
-    $('close-comparison').addEventListener('click',()=>dialog.close());
-    dialog.addEventListener('close',()=>{stop();placeholder.after(comparison);document.body.classList.remove('comparison-open');expand.focus({preventScroll:true});});
-
-  }
   const copy=document.querySelector('.copy');if(copy && navigator.clipboard){copy.hidden=false;copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('bibtex-entry').textContent);copy.textContent='Copied';}catch{copy.textContent='Select text to copy';}setTimeout(()=>copy.textContent='Copy',2000);});}
   // Pause videos when they leave the viewport; never autoplay on initial load.
-  if('IntersectionObserver' in window){const io=new IntersectionObserver(entries=>{for(const e of entries)if(!e.isIntersecting)e.target.pause();},{threshold:0});document.querySelectorAll('video:not(#hybrid-video):not(#replay-video)').forEach(v=>io.observe(v));const pairObserver=new IntersectionObserver(entries=>{for(const e of entries)if(!e.isIntersecting&&!$('comparison-dialog').open){primary.pause();secondary.pause();}},{threshold:0});pairObserver.observe($('comparison')); }
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(entries=>{for(const e of entries)if(!e.isIntersecting && !document.fullscreenElement)e.target.pause();},{threshold:0});document.querySelectorAll('video').forEach(v=>io.observe(v));}
 })();

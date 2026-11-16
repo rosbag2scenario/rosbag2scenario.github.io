@@ -52,7 +52,7 @@ proxy for the blocking truck, separate from the scored Table III run.
 
 The D2 hybrid/log-replay pair and D3/D6/D7/D8 are rendered anew from their existing
 raw camera mosaics and simulator states. Only simulation camera pixels are
-included in those six videos. Six cameras and BEV use exact matching CARLA
+included in these views. Six cameras and BEV use exact matching CARLA
 frame IDs. Every available actor is included, without a 50 m scoring filter.
 The two D2 runs share source times 0.05 to 22.15 s and the same map extent.
 R markers follow actual release transitions. These clips are presented without
@@ -110,3 +110,12 @@ ADDITIONAL CASE VIDEOS
 D3 AWE-20261110-195922, D6 AWE-20261110-201649 and D8 AWE-20261110-203002
 match the archived Table III coverage/within-2m rows. Each contains 171
 matching camera/state frames. Only the simulation half is extracted.
+
+D2 COMBINED PLAYER
+The two aligned D2 exports are composed side by side into a single 1920x900,
+22.2 s video. All 222 frames are retained; each side has six cameras and the
+complete BEV with matching map bounds. Camera pixels retain their resolution;
+the BEV is resized proportionally. Duplicate legends are replaced by one
+shared legend and source-relative clock. Input hashes and complete render
+provenance remain nested under d2-comparison.inputs in media-provenance.json.
+No browser synchronization, custom timeline or custom fullscreen UI is used.

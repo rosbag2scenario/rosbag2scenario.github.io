@@ -31,12 +31,12 @@
 
 <div class="teaser" id="demo">
   <div class="wide">
-    <video controls muted playsinline preload="none" poster="media/d1-submission.jpg" width="1920" height="1080" aria-label="D1 submission video: anonymized real cameras, simulated cameras and synchronized bird’s-eye view">
+    <video controls muted playsinline preload="none" poster="media/d1-submission.jpg" width="1920" height="1080" aria-label="D1: recorded cameras, simulated cameras and synchronized bird’s-eye view">
       <source src="media/d1-submission.mp4" type="video/mp4">
       <a href="media/d1-submission.mp4">Download the D1 video</a>
     </video>
     <p><strong>A recorded encounter becomes a closed-loop test.</strong> The driving stack takes over from recorded ego motion and stops behind the blocking vehicle. The anonymized real recording, six simulated cameras and a synchronized bird’s-eye view show the encounter together.</p>
-    <p class="note">D1 illustration with an ambulance model representing the blocking truck. This presentation rerun is separate from the scored run in Table III. This is the anonymized video supplied with the submission, including the rear-cone visualization and reactivity markers.</p>
+    <p class="note">The shaded rear cone selects following traffic; green R marks vehicles that react to the ego.</p>
     <nav class="section-links" aria-label="On this page"><a href="#overview">How it works</a><a href="#regression">Regression test</a><a href="#results">Results</a><a href="#alignment">Digital twin</a><a href="#limitations">Scope &amp; protocol</a></nav>
   </div>
 </div>
@@ -66,15 +66,8 @@
 <div class="wide">
 <h2>Why Following Traffic Must React</h2>
 <p class="section-intro">D2 on the updated driving stack: the ego passes the partly blocking truck. Compare how the two following vehicles respond under the hybrid policy and under log replay.</p>
-<button hidden="" id="expand-comparison" type="button">Enlarge comparison</button><div class="card" id="comparison"><div class="comparison-controls" hidden=""><button id="compare-play" type="button">Play both</button><label for="compare-time">Shared timeline</label><input id="compare-time" max="1" min="0" step="0.05" type="range" value="0"/><output id="compare-clock">0.0 s</output></div>
-<div class="two">
-<figure><h3>Hybrid policy</h3><video controls="" height="1000" id="hybrid-video" muted="" playsinline="" poster="media/d2-regression-hybrid.jpg" preload="none" width="1600"><source src="media/d2-regression-hybrid.mp4" type="video/mp4"/></video><figcaption>The vehicles behind the ego brake and follow without contact.</figcaption></figure>
-<figure><h3>Log replay</h3><video controls="" height="1000" id="replay-video" muted="" playsinline="" poster="media/d2-regression-logreplay.jpg" preload="none" width="1600"><source src="media/d2-regression-logreplay.mp4" type="video/mp4"/></video><figcaption>The same two vehicles retain their recorded motion and collide with the ego.</figcaption></figure>
-</div>
-
-<p class="note" id="compare-status" role="status">Shared source clock and map extent. Six simulated cameras and an all-actor BEV per run; green R marks vehicles under reactive control.</p>
-</div>
-<p class="section-intro">On the stack version used on the road, the re-simulation reproduces the wait behind the truck. On the updated stack, the hybrid policy supports the changed ego behavior. This is the regression-testing example described in the paper.</p>
+<figure class="card" id="comparison"><video controls muted playsinline preload="none" poster="media/d2-comparison.jpg" width="1920" height="900" id="comparison-video" aria-label="D2 side-by-side comparison: hybrid traffic on the left and log replay on the right"><source src="media/d2-comparison.mp4" type="video/mp4"></video><figcaption><strong>Left: hybrid traffic.</strong> Following vehicles brake and follow without contact. <strong>Right: log replay.</strong> They continue their recorded motion and collide with the ego.</figcaption></figure>
+<p class="section-intro">The original stack waits behind the truck. The updated stack passes it, while reactive following traffic adapts to the changed ego behavior.</p>
 </div>
 </section>
 
@@ -162,8 +155,8 @@
 <div id="gap-detail" tabindex="-1"><h3 id="gap-heading">Inspect a gap</h3>
 <p aria-live="polite" class="note" id="gap-description">Choose a gap from the gallery to inspect its observed fragments and completion methods.</p>
 <fieldset hidden="" id="gap-methods"><legend>Show completion methods</legend></fieldset>
-<div class="gap-plots plots"><svg aria-label="Local XY trajectories across the tracker gap" id="gap-xy" role="img" viewBox="0 0 500 340"></svg><div class="gap-timeplots"><svg aria-label="Speed over time, with the tracker gap shaded" id="gap-speed" role="img" viewBox="0 0 500 220"></svg><svg aria-label="Heading as direction of motion over time, relative to the along-gap axis" id="gap-direction" role="img" viewBox="0 0 500 220"></svg></div></div><p class="note">Heading is the direction of motion derived from adjacent path positions, relative to the along-gap axis (0°). It is omitted below 0.5 m/s and broken at ±180°; it does not measure vehicle body orientation.</p>
-<div class="comparison-controls" hidden="" id="gap-scrub"><label for="gap-time">Inspect time</label><input id="gap-time" max="1" min="0" step="0.01" type="range" value="0"/><output id="gap-clock"></output></div>
+<div class="gap-plots plots"><svg aria-label="Local XY trajectories across the tracker gap" id="gap-xy" role="img" viewBox="0 0 500 340"></svg><div class="gap-timeplots"><svg aria-label="Speed over time, with the tracker gap shaded" id="gap-speed" role="img" viewBox="0 0 500 220"></svg><svg aria-label="Heading as direction of motion over time, relative to the along-gap axis" id="gap-direction" role="img" viewBox="0 0 500 220"></svg></div></div><p class="note">Heading shows the direction of motion relative to the gap. It is hidden when the vehicle is nearly stationary.</p>
+
 <p class="plot-legend"><span class="observed-key">● ○</span> observed fragments   <span class="truth-key">━━</span> simulator ground truth (benchmark only)   <span class="gap-key">▧</span> interval without tracker observations</p>
 <div class="tablewrap" id="gap-metrics"></div>
 <p class="note" id="gap-context"></p>
@@ -185,26 +178,26 @@
 <tr><td>Track-end weighting</td><td>Position-noise multiplier rises to 1.5 at birth over 1 s, and to 3 at the end over 1.5 s.</td></tr>
 <tr><td>Completion checks</td><td>Cubic Hermite motion; limits of 60 m/s speed, 8 m/s² acceleration/braking and 6 m/s² lateral acceleration; validation step 0.02 s.</td></tr>
 <tr><td>Extension and fallback</td><td>Extend by at most 10 m and 2 s. Use lane support relative to the observed fragments; retain observed motion when a joint fit fails.</td></tr>
-</tbody></table></div><p class="note">Values are taken from the saved real-scene configuration and its recorded code version. They describe this reconstruction recipe, not event-specific behavioral acceptance thresholds.</p></details></div>
+</tbody></table></div><p class="note">Settings used to reconstruct the real-gap examples.</p></details></div>
 </section>
 
 <section id="alignment">
 <div class="wide">
 <h2>Aligning the Digital Twin</h2>
 <p class="section-intro">A useful reconstruction needs a shared map frame, a vehicle that responds to the stack, and a clear account of how motion departs from the recording after handover.</p>
-<div class="card"><h3>1. Put the map and trajectories in the same frame</h3><p>Recorded poses and Lanelet2 geometry are projected into the corrected simulation frame used by the experiments. CARLA coordinates are converted to the same right-handed XY convention. The overlay lets you inspect the road geometry and the recorded and simulated ego paths together.</p>
-<div class="explorer-controls"><label>Encounter<select id="map-case"><option>D1</option><option>D2</option><option>D7</option><option>Empty road</option></select></label><label>Detail<select id="map-zoom"><option value="0">Whole encounter</option><option value="50">50 m window</option><option value="20">20 m window</option></select></label></div><div class="comparison-controls" hidden="" id="map-position-control"><label for="map-position">Along recorded path</label><input id="map-position" max="100" min="0" step="1" type="range" value="50"/></div>
+<div class="card"><h3>1. Put the map and trajectories in the same frame</h3><p>Compare the road geometry with the recorded and simulated ego paths across the full encounter.</p>
+<div class="explorer-controls"><label>Encounter<select id="map-case"><option>D1</option><option>D2</option><option>D7</option><option>Empty road</option></select></label></div>
 <fieldset id="map-layers"><legend>Show map layers</legend><label><input checked="" type="checkbox" value="lanelet"/> Lanelet2 boundaries</label><label><input checked="" type="checkbox" value="carla"/> CARLA lane centers</label><label><input checked="" type="checkbox" value="recording"/> Recorded ego</label><label><input checked="" type="checkbox" value="simulation"/> Simulated ego</label></fieldset>
 <svg aria-label="Map alignment with recorded and simulated ego paths" id="alignment-map" role="img" viewbox="0 0 760 420"></svg>
 <p class="plot-legend"><span style="color:#697687">━━ Lanelet2 boundaries</span>   <span style="color:#9473b8">┄ CARLA lane centers</span>   <span style="color:#2f6bc8">━━ recorded ego</span>   <span style="color:#da7d16">━━ simulated ego</span></p>
-<p class="note">CARLA lane centers come from archived OpenDRIVE samples; they are distinct from lane boundaries. The configured horizontal projection correction is applied to the recording and Lanelet2, with no extra fitting for this display. Geometry agreement does not establish survey accuracy or remove local differences in elevation, topology and traffic-light semantics.</p>
+<p class="note">Lane boundaries and lane centers describe different parts of the road. Both help show how the simulated road follows the recorded route.</p>
 </div>
-<div class="card"><h3>2. Follow commands through to motion</h3><p>The empty-road example from the paper isolates ego execution from traffic interactions. The stack runs during replay and takes control at time zero below. Inspect its target speed, acceleration and steering commands alongside the vehicle’s speed and position error.</p>
+<div class="card"><h3>2. Follow commands through to motion</h3><p>On an empty road, compare the stack’s commands with the vehicle’s response and drift from the recorded path. The stack takes control at time zero.</p>
 <div class="explorer-controls"><label>Inspect<select id="motion-view"><option value="speed">Speed response</option><option value="acceleration">Acceleration command</option><option value="steering">Steering command</option><option value="components">Along-path and lateral drift</option></select></label></div>
 <div class="two plots"><svg aria-label="Vehicle commands and response" id="motion-command" role="img" viewbox="0 0 500 340"></svg><svg aria-label="Ego position deviation around handover" id="motion-drift" role="img" viewbox="0 0 500 340"></svg></div><noscript><figure><img alt="Ego execution deviation around handover: 1.0 m after 5 s and 1.8 m after 10 s." height="385" src="fig/ego-drift.png" width="759"/></figure></noscript>
-<p class="plot-legend" id="motion-legend"></p><div class="comparison-controls"><label for="motion-time">Inspect time</label><input id="motion-time" max="10" min="-5" step="0.05" type="range" value="5"/><output id="motion-clock"></output></div><p aria-live="polite" id="motion-readout"></p>
+<p class="plot-legend" id="motion-legend"></p><p class="note" id="motion-status" role="status"></p>
 <p>The replay portion stays within 1.2 cm of the recorded ego path in this window. Under stack control, deviation reaches 1.0 m after 5 s and 1.8 m after 10 s; at 5 s the simulated ego is about 0.2 m/s slower. These are execution measurements against the recording. They motivate handing over close enough to the event to preserve its context.</p>
-<details><summary>Timing and measurement details</summary><p>This is the existing empty-road run used for the paper’s ego-drift figure, with handover at scenario time 14 s. The display covers scenario times 9–24 s. Commands use their message timestamps aligned to the simulator’s source clock; position and speed use the archived 20 Hz comparison. The command curves show published requests, including during replay when they do not drive the ego. They do not identify a vehicle-model transfer function.</p></details>
+<details><summary>Reading the command plots</summary><p>Time zero marks the handover from recorded motion to stack control. Before it, the stack produces commands while the ego follows the recording. After it, the vehicle responds to those commands. Position deviation is measured against the recorded ego path.</p></details>
 </div>
 </div>
 </section>
@@ -225,7 +218,7 @@
 <dt>Association and completion</dt><dd>111 scored natural tracker gaps, including 56 moving and 55 nearly stationary cases. Association counts recovered pairs and incorrect links. Completion is scored with the correct pairs supplied, pooling squared XY error over 3,296 ground-truth timestamps.</dd>
 <dt>Reference methods</dt><dd>The benchmark uses the lane-aware Zhu-inspired configuration from Table II. The real examples use the archived Cartesian completion and have no ground truth inside their gaps.</dd>
 <dt>Execution and behavior</dt><dd>CARLA 0.9.16, SUMO 1.27.1 and the adapted Autoware Universe stack. Reconstruction and execution errors are measured separately. Event-wise behavioral judgments use stop position, speed, acceleration, vehicle gaps and planner logs.</dd>
-<dt>Supplement preparation</dt><dd>D1 is the supplied anonymized submission video. D2/D7 combine existing simulation camera frames and matching simulator states; R markers follow recorded release events. The BEV includes all available actors. The gap, map and command views use archived data. No new simulation runs or event classifications were introduced.</dd>
+
 </dl><p class="note">Main pipeline code release is planned upon acceptance.</p></details></div>
 </section>
 
@@ -247,10 +240,10 @@
 </main>
 
 <footer>
-  <div class="col">Anonymized for double-blind review. D1 includes the anonymized real-camera footage supplied for the submission. The other camera videos show simulation. No cookies, trackers or external resources.</div>
+  <div class="col">Anonymized for double-blind review. No cookies or trackers.</div>
 </footer>
 
-<dialog id="comparison-dialog" aria-labelledby="comparison-title"><div class="comparison-heading"><h2 id="comparison-title">D2 · Synchronized comparison</h2><button type="button" id="close-comparison" autofocus>Close</button></div><div class="comparison-focus" role="group" aria-label="Comparison view"><button type="button" data-view="both" aria-pressed="true">Both runs</button><button type="button" data-view="hybrid" aria-pressed="false">Focus hybrid</button><button type="button" data-view="replay" aria-pressed="false">Focus log replay</button></div><p class="note">Both runs stay synchronized when one is in focus.</p></dialog>
+
 <script src="site.js" defer></script>
 </body>
 </html>

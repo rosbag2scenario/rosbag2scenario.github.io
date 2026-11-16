@@ -20,7 +20,7 @@ class Links(HTMLParser):
         if tag in ['td','th'] and self.row is not None:self.row.append(self.cell.strip());self.cell=None
         if tag=='tr':self.rows.append(self.row);self.row=None
 h=Links();h.feed((ROOT/'index.html').read_text());assert len(h.ids)==len(set(h.ids))
-assert len(h.video_sources)==len(set(h.video_sources))==8
+assert len(h.video_sources)==len(set(h.video_sources))==7
 assert h.video_sources.count('media/d1-submission.mp4')==1
 for link in h.links:
     u=urlsplit(link)
@@ -60,12 +60,17 @@ for name,m in media.items():
         assert m['render']['frames']==len(m['render']['timing'])
     assert hashlib.sha256((ROOT/m['video']).read_bytes()).hexdigest()==m['sha256'],name
 assert media['d1-submission']['sha256']==media['d1-submission']['source_sha256']
-a,b=[media[n]['render'] for n in ['d2-regression-hybrid','d2-regression-logreplay']]
+comparison=media['d2-comparison'];a,b=[comparison['inputs'][n]['render'] for n in ['d2-regression-hybrid','d2-regression-logreplay']]
+assert comparison['composition']['frames']==222 and comparison['composition']['all_actors']
+assert comparison['encoding']['streams'][0]['width']==1920
+assert comparison['encoding']['streams'][0]['height']==900
+assert float(comparison['encoding']['format']['duration'])==22.2
 assert a['frames']==b['frames']==222
 assert a['map_bounds']==b['map_bounds'] and a['source_start_s']==b['source_start_s']
 assert [r['t'] for r in a['timing']]==[r['t'] for r in b['timing']]
-assert all(media[n]['render']['all_actors'] for n in ['d2-regression-hybrid','d2-regression-logreplay','d7-diverged'])
-assert all(media[n]['render']['cone_overlay'] is False for n in ['d2-regression-hybrid','d2-regression-logreplay','d7-diverged'])
+assert all(r['all_actors'] for r in [a,b])
+assert all(r['cone_overlay'] is False for r in [a,b])
+assert all(k not in h.ids for k in ['gap-time','motion-time','map-zoom','map-position','compare-play','comparison-dialog'])
 support=json.loads((ROOT/'data/support.json').read_text())
 assert len(support['maps'])==4 and len(support['ambiguity']['fragments'])==5
 assert support['ambiguity']['margin']==.7748
