@@ -122,7 +122,7 @@
       $('gap-context').textContent=selected.kind==='real'?'Compare how the methods connect the observed fragments. The missing motion in this real recording has no ground truth; the benchmark gallery provides the accuracy comparison.':'Compare each completion with simulator ground truth. The errors below describe this gap; the paper reports results pooled across all 111 gaps.';
       $('gap-metrics').replaceChildren();
       if(selected.rmse){
-        const table=document.createElement('table');const cap=document.createElement('caption');cap.textContent='This gap: XY RMSE against simulator ground truth [m]';table.append(cap);
+        const table=document.createElement('table');const cap=document.createElement('caption');cap.textContent='This gap: XY RMSE against simulator ground truth [m] ↓ (lower is better)';table.append(cap);
         const head=document.createElement('thead'),body=document.createElement('tbody'),hr=document.createElement('tr'),br=document.createElement('tr');
         for(const [k,name] of Object.entries(data.methods)){const th=document.createElement('th'),td=document.createElement('td');th.scope='col';th.textContent=name;td.textContent=selected.rmse[k].toFixed(3);hr.append(th);br.append(td);}
         head.append(hr);body.append(br);table.append(head,body);$('gap-metrics').append(table);

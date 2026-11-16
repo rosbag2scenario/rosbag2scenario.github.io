@@ -54,6 +54,18 @@ for result in association['rows']:
     label=f"Zhu et al., {result['gate_s']:g} s / {result['dist_m']:g} m"
     row=next(r for r in h.rows if r and r[0].replace('\u00a0',' ')==label)
     assert [int(v) for v in row[1:]]==[result['rejoined'],result['moving'],result['links']['wrong']]
+ablation=json.loads((ROOT/'data/completion-ablation.json').read_text())
+assert len(ablation['per_case'])==111
+for method,label in [('joint_uniform','Ours, uniform weights'),('joint','Ours, end-aware')]:
+    row=next(r for r in h.rows if r and r[0]==label)
+    expected=[]
+    for group in ['all','moving']:
+        cases=[r for r in ablation['per_case'] if group=='all' or r['motion']==group]
+        n=sum(r['methods'][method]['samples'] for r in cases)
+        rmse=math.sqrt(sum(r['methods'][method]['sum_squared_error'] for r in cases)/n)
+        assert math.isclose(rmse,ablation['summary'][group]['methods'][method]['rmse_m'])
+        expected.append(round(rmse,2))
+    assert [float(v) for v in row[1:]]==expected
 with (ROOT/'data/disengagements.csv').open() as f:events=list(csv.DictReader(f))
 assert len(events)==9 and sum(r['outcome']=='reproduced' for r in events)==5
 for e in events:
@@ -71,6 +83,12 @@ assert d1['source_sha256']=='de98fe3d3ec9b6f275bdf79919630516592a126a35ae3a62e11
 assert d1['layout_edit']['timing_unchanged'] and d1['layout_edit']['frames']==172
 assert float(d1['encoding']['format']['duration'])==17.2
 assert (ROOT/d1['layout_edit']['filter']).is_file()
+overlay=d1['mode_overlay'];d1_motion=json.loads((ROOT/'data/encounter-motion.json').read_text())['d1']
+assert overlay['timing_unchanged']
+assert abs(overlay['disengagement_video_s']-(d1_motion['t_d']-overlay['source_start_s']))<1e-9
+assert abs(overlay['handover_video_s']-(d1_motion['t_h']-overlay['source_start_s']))<1e-9
+assert overlay['real_modes']==['Autonomous','Manual'] and overlay['simulation_modes']==['Replay','Autonomous']
+assert hashlib.sha256((ROOT/overlay['renderer']).read_bytes()).hexdigest()==overlay['renderer_sha256']
 comparison=media['d2-comparison'];a,b=[comparison['inputs'][n]['render'] for n in ['d2-regression-hybrid','d2-regression-logreplay']]
 assert comparison['composition']['frames']==222 and comparison['composition']['all_actors']
 assert comparison['encoding']['streams'][0]['width']==3840

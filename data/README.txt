@@ -4,6 +4,7 @@ This supplement follows the submitted eight-page manuscript, not a later draft.
 Tables II and III are transcribed without changing the numerical results or
 reclassifying any event. The association table also includes the archived
 2 s / 10 m and 5 s / 10 m gate settings on the same 111-gap benchmark.
+The completion table adds the archived uniform-weight ablation.
 No new simulator runs were made for this website.
 
 ASSOCIATION GATE COMPARISON
@@ -20,6 +21,19 @@ full candidate pool. Correct/wrong/unscorable link totals and the counts of
 rejoined gaps in chains containing a wrong link are retained in the JSON.
 Only the time and endpoint-distance gates vary; preprocessing, vehicle pool,
 greedy linking and identity scoring are shared. No new run was needed.
+
+END-AWARE COMPLETION ABLATION
+data/completion-ablation.json contains the saved uniform/end-aware comparison
+on the same 111 natural gaps (56 moving). Uniform weighting disables the extra
+uncertainty near the beginning and end of each observed trajectory. Both
+variants use the same inputs, boundary fits, 10 Hz completion and scoring.
+RMSE pools the 3296 ground-truth timestamps, including fits rejected by motion
+checks: one uniform fit and three end-aware fits. Uniform weighting yields
+0.931920 m overall and 1.019993 m moving; end-aware weighting yields 0.880508 m
+and 0.959242 m. The exporter recomputes the aggregates from the existing
+per-sample errors and checks the end-aware errors against the published
+completion evaluation. Source hashes and per-gap sufficient statistics are
+included. No new experiment or manuscript change was made.
 
 GAP EXPLORER
 111 scored natural tracker gaps from the three Town10 evaluation drives.
@@ -67,6 +81,14 @@ real cameras, simulation and the author-supplied rear-cone/R overlay. The
 original layout and timing are retained; readable camera labels replace the
 small labels and the 10-pixel camera-row gap is removed. The original source
 hash and presentation filter are retained in media provenance.
+Highlighted mode badges identify the real and simulated views. The real-drive
+badge changes from Autonomous to Manual at the recorded autonomous-to-external
+command-gate switch (t_d). The simulation changes from Replay to Autonomous at
+the actual handover; it remains autonomous at the recorded disengagement.
+The clock and persistent t_d label use video time (source time minus the first
+camera timestamp, 0.05 s). The 11.967668 s video event is shown as 12.0 s to match
+the clock precision. A red event callout appears then, with a 1.5 s outline of
+the real-camera panels. All 172 original frame timestamps are retained.
 D1 is a presentation rerun with an ambulance
 proxy for the blocking truck, separate from the scored Table III run.
 

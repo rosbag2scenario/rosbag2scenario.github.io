@@ -1964,10 +1964,10 @@
   },
   "d1-submission": {
     "video": "media/d1-submission.mp4",
-    "origin": "Author-supplied anonymized submission video; original real/SIM/BEV layout with readable camera labels and the camera-row gap removed.",
+    "origin": "Author-supplied anonymized submission video; original real/SIM/BEV composition with camera labels, closed row gap, prominent mode badges and recorded-disengagement marker.",
     "source_sha256": "de98fe3d3ec9b6f275bdf79919630516592a126a35ae3a62e11761215f51d84d",
     "cone_visualization": "Author-supplied rear-cone overlay; green R follows recorded release events.",
-    "sha256": "307a346d5d9e0acd5fa34f5314ca31a121198f3624f118fdb3e9a9a970aa050f",
+    "sha256": "f1c7e3b59e76cb124b3d2d1ca7d10756473cb1dff3049c6533cd6f68a3e3031d",
     "encoding": {
       "programs": [],
       "streams": [
@@ -1980,7 +1980,7 @@
       ],
       "format": {
         "duration": "17.200000",
-        "size": "9999771"
+        "size": "9926629"
       }
     },
     "layout_edit": {
@@ -1998,6 +1998,39 @@
       "frames": 172,
       "timing_unchanged": true,
       "layout": "Real cameras left, simulated cameras right, original BEV below. Remove the 10-pixel row separator, shift the lower content up, pad 10 pixels at bottom, overlay readable camera names."
+    },
+    "mode_overlay": {
+      "source_sha256": "de98fe3d3ec9b6f275bdf79919630516592a126a35ae3a62e11761215f51d84d",
+      "source_start_s": 0.05000000074505806,
+      "handover_source_s": 7.049999999999983,
+      "disengagement_source_s": 12.017668369,
+      "handover_video_s": 6.999999999254925,
+      "disengagement_video_s": 11.967668368254943,
+      "displayed_disengagement_s": 12.0,
+      "real_modes": [
+        "Autonomous",
+        "Manual"
+      ],
+      "simulation_modes": [
+        "Replay",
+        "Autonomous"
+      ],
+      "mode_y": 8,
+      "clock_position": [
+        1455,
+        847
+      ],
+      "event_position": [
+        1455,
+        900
+      ],
+      "event_callout_y": 940,
+      "real_camera_outline_duration_s": 1.5,
+      "timing_unchanged": true,
+      "renderer_sha256": "72e0c834c33c5502370c44cdd323af0e244d2d27bdf1f9295ff67375fa962b05",
+      "filter_sha256": "61c49e5ac409fff1e20ba28abe346908627b66a13a0b1551ee435291d7dd8ee9",
+      "renderer": "tools/render_d1_overlay.py",
+      "mode_definition": "Real drive: autonomous until the recorded command gate switches to external/remote at t_d, then manual. Simulation: replay until actual ego handover, then autonomous; the recorded disengagement does not change simulation mode."
     }
   },
   "d3-reproduced": {

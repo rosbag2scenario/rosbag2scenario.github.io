@@ -12,6 +12,8 @@ third-party requests are required.
 - `data/association.json`: the archived 2 s / 5 s × 5 m / 10 m association sweep,
   with link counts, metric definitions and source hashes. Export with
   `tools/export_association.py --study PATH --output data/association.json`.
+- `data/completion-ablation.json`: existing uniform/end-aware completion results,
+  per-gap sufficient statistics and source hashes, exported by `tools/export_ablation.py`.
 - `data/support.json`: observed ambiguity fragments, four map overlays and
   the paper's empty-road commands, speed and drift series.
 - `data/reconstruction-settings.json`: verified configuration and code hashes
@@ -49,6 +51,17 @@ labels are enlarged and the 10-pixel camera-row gap is removed. The FFmpeg filte
 is saved in `tools/d1-layout.ffmpeg`; apply it to the original submission video
 with `-filter_complex_script tools/d1-layout.ffmpeg -map '[out]'`.
 All event labels are unchanged.
+`tools/render_d1_overlay.py` applies the D1 presentation filter to the original
+submission video, adds highlighted real/simulated mode badges, and displays the
+clock and recorded disengagement time above the player controls. It reads
+handover and disengagement times from `data/encounter-motion.json` and converts
+them to the video clock using its first source timestamp. The real-drive badge
+changes to Manual at the recorded external/remote command-gate switch; the
+simulation changes from Replay to Autonomous at handover and stays autonomous.
+The red camera outline lasts 1.5 s after the recorded disengagement.
+
+`tools/figures/pipeline.tex` and `pipeline.tikz` preserve the pipeline drawing
+source with the website's trajectory terminology; the manuscript is untouched.
 
 GitHub Pages serves the root of `main` in
 `rosbag2scenario/rosbag2scenario.github.io`. The public site is

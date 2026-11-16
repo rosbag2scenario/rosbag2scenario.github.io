@@ -1,0 +1,1837 @@
+{
+  "scope": "Correct fragment pairs supplied; same inputs and completion method; all 111 gaps including rejected fits.",
+  "ablation": "joint_uniform disables the extra observation uncertainty near trajectory starts and ends; joint retains end-aware weighting.",
+  "summary": {
+    "all": {
+      "gaps": 111,
+      "methods": {
+        "joint_uniform": {
+          "samples": 3296,
+          "rmse_m": 0.9319199942276477,
+          "rejected": 1
+        },
+        "joint": {
+          "samples": 3296,
+          "rmse_m": 0.8805075229453315,
+          "rejected": 3
+        }
+      }
+    },
+    "moving": {
+      "gaps": 56,
+      "methods": {
+        "joint_uniform": {
+          "samples": 1785,
+          "rmse_m": 1.0199929033289397,
+          "rejected": 0
+        },
+        "joint": {
+          "samples": 1785,
+          "rmse_m": 0.9592415756059866,
+          "rejected": 1
+        }
+      }
+    },
+    "near_stationary": {
+      "gaps": 55,
+      "methods": {
+        "joint_uniform": {
+          "samples": 1511,
+          "rmse_m": 0.815714711747158,
+          "rejected": 1
+        },
+        "joint": {
+          "samples": 1511,
+          "rmse_m": 0.777287454748617,
+          "rejected": 2
+        }
+      }
+    }
+  },
+  "per_case": [
+    {
+      "case": "T001",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 13,
+          "sum_squared_error": 0.238544825238249,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 13,
+          "sum_squared_error": 0.2079074720180144,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T002",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 21,
+          "sum_squared_error": 4.6563308834764525,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 21,
+          "sum_squared_error": 4.498200612824128,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T003",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 33,
+          "sum_squared_error": 2.2183630001160086,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 33,
+          "sum_squared_error": 2.58706461108359,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T004",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 82,
+          "sum_squared_error": 79.71767402979569,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 82,
+          "sum_squared_error": 72.78367623992652,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T005",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 92,
+          "sum_squared_error": 121.77164318573982,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 92,
+          "sum_squared_error": 56.040852133908245,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T006",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 55,
+          "sum_squared_error": 8.108726440745915,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 55,
+          "sum_squared_error": 17.118155806539917,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T007",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 28,
+          "sum_squared_error": 18.51929582972341,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 28,
+          "sum_squared_error": 10.815783604127802,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T008",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 45,
+          "sum_squared_error": 13.79146061858364,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 45,
+          "sum_squared_error": 10.729328858194137,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T009",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 71,
+          "sum_squared_error": 133.56514845770315,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 71,
+          "sum_squared_error": 74.75453290885649,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T010",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 44,
+          "sum_squared_error": 30.009706301135953,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 44,
+          "sum_squared_error": 21.164554352424933,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T011",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 17,
+          "sum_squared_error": 7.867659044582398,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 17,
+          "sum_squared_error": 8.422790327707515,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T012",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 11,
+          "sum_squared_error": 3.5056813124679844,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 11,
+          "sum_squared_error": 4.94519250182592,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T013",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 15,
+          "sum_squared_error": 60.549240997672825,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 15,
+          "sum_squared_error": 52.914413265127486,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T014",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 18,
+          "sum_squared_error": 2.070162221846826,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 18,
+          "sum_squared_error": 2.8672236662098123,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T015",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 14,
+          "sum_squared_error": 3.7641491777330156,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 14,
+          "sum_squared_error": 2.4110329929425625,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T016",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 19,
+          "sum_squared_error": 11.037174961938653,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 19,
+          "sum_squared_error": 12.102372946324195,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T017",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 15,
+          "sum_squared_error": 2.2023709433336847,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 15,
+          "sum_squared_error": 2.977459406505526,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T018",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 41,
+          "sum_squared_error": 79.0849975317671,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 41,
+          "sum_squared_error": 99.20575076301127,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T019",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 31,
+          "sum_squared_error": 192.09719195682112,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 31,
+          "sum_squared_error": 173.34104355519548,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T020",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 65,
+          "sum_squared_error": 11.41238382996199,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 65,
+          "sum_squared_error": 8.582325131593306,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T021",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 1.407598127782395,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 1.174071684716295,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T022",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 11,
+          "sum_squared_error": 2.5934164848739782,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 11,
+          "sum_squared_error": 2.1472108359972215,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T023",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 16,
+          "sum_squared_error": 11.145631923375563,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 16,
+          "sum_squared_error": 4.4896191233480245,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T024",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 25,
+          "sum_squared_error": 3.1198357521100224,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 25,
+          "sum_squared_error": 5.451053704979985,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T025",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 72,
+          "sum_squared_error": 28.334413039795894,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 72,
+          "sum_squared_error": 22.397652190942047,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T026",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 39,
+          "sum_squared_error": 6.55553159719778,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 39,
+          "sum_squared_error": 3.7140865860633716,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T027",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 20,
+          "sum_squared_error": 12.81839587397114,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 20,
+          "sum_squared_error": 13.318350832959355,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T028",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 75,
+          "sum_squared_error": 96.67542059671771,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 75,
+          "sum_squared_error": 27.52032043548508,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T029",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 58,
+          "sum_squared_error": 63.29412279229928,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 58,
+          "sum_squared_error": 72.63193475309922,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T030",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 14,
+          "sum_squared_error": 24.43610648350106,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 14,
+          "sum_squared_error": 15.213984236397527,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T031",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 22,
+          "sum_squared_error": 29.44093856176493,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 22,
+          "sum_squared_error": 21.94717819010113,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T032",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 29,
+          "sum_squared_error": 46.61758353662578,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 29,
+          "sum_squared_error": 37.23263724759384,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T033",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 34,
+          "sum_squared_error": 36.11250004695468,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 34,
+          "sum_squared_error": 12.983971660791765,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T034",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 16,
+          "sum_squared_error": 36.59596577973069,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 16,
+          "sum_squared_error": 36.30293034276586,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T035",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 54,
+          "sum_squared_error": 33.66857638675046,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 54,
+          "sum_squared_error": 26.54121570394437,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T036",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 43,
+          "sum_squared_error": 34.75337269627832,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 43,
+          "sum_squared_error": 34.17334025309574,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T037",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 27,
+          "sum_squared_error": 2.0361601788790082,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 27,
+          "sum_squared_error": 3.3186509730538587,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T038",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 38,
+          "sum_squared_error": 5.747928259395906,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 38,
+          "sum_squared_error": 10.971931423763785,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T039",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 34,
+          "sum_squared_error": 40.18399806540261,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 34,
+          "sum_squared_error": 40.47397571145952,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T040",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 79,
+          "sum_squared_error": 105.21437509479371,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 79,
+          "sum_squared_error": 110.3408375640856,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T041",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 23,
+          "sum_squared_error": 5.691107893997115,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 23,
+          "sum_squared_error": 5.43476834724557,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T042",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 20,
+          "sum_squared_error": 0.4708214156664137,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 20,
+          "sum_squared_error": 0.7192725813972298,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T043",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 30,
+          "sum_squared_error": 24.22268373704383,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 30,
+          "sum_squared_error": 19.38052724962105,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T044",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 70,
+          "sum_squared_error": 9.510774996973108,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 70,
+          "sum_squared_error": 42.956872166417696,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T045",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 25,
+          "sum_squared_error": 1.8916480044021742,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 25,
+          "sum_squared_error": 2.7666876717879445,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T046",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 24,
+          "sum_squared_error": 17.568475790324662,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 24,
+          "sum_squared_error": 11.828749101361089,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T047",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 12,
+          "sum_squared_error": 2.083350456758602,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 12,
+          "sum_squared_error": 1.846078278357287,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T048",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 47,
+          "sum_squared_error": 49.88637319068163,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 47,
+          "sum_squared_error": 40.813170465006884,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T049",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 30,
+          "sum_squared_error": 2.543561540575256,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 30,
+          "sum_squared_error": 2.0035444810132685,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T050",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 23,
+          "sum_squared_error": 29.459797475321977,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 23,
+          "sum_squared_error": 42.174749686850355,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T051",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 43,
+          "sum_squared_error": 0.9970267027010961,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 43,
+          "sum_squared_error": 3.092216145067764,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T052",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 33,
+          "sum_squared_error": 4.541798046787126,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 33,
+          "sum_squared_error": 14.99482971870047,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T053",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 16,
+          "sum_squared_error": 1.8161484268513786,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 16,
+          "sum_squared_error": 2.3491810931648582,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T054",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 38,
+          "sum_squared_error": 320.4036708996824,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 38,
+          "sum_squared_error": 286.8070891361982,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T055",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 67,
+          "sum_squared_error": 1.843244318122068,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 67,
+          "sum_squared_error": 2.133499089604376,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T056",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 0.3180712392009036,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 0.2138545788055647,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T057",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 1.562060335374713,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 1.207877054006494,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T058",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 47,
+          "sum_squared_error": 6.511997601781895,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 47,
+          "sum_squared_error": 28.03201525244334,
+          "accepted": false
+        }
+      }
+    },
+    {
+      "case": "T059",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 13,
+          "sum_squared_error": 1.1489661973328764,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 13,
+          "sum_squared_error": 1.1305592263626627,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T060",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 20,
+          "sum_squared_error": 0.7159638659398418,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 20,
+          "sum_squared_error": 0.8948498447636064,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T061",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 13,
+          "sum_squared_error": 3.7363730858658886,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 13,
+          "sum_squared_error": 3.816138867746944,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T062",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 0.9731720485891003,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 1.4447822304230333,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T063",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 35,
+          "sum_squared_error": 11.798663010319416,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 35,
+          "sum_squared_error": 17.554743186316067,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T064",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 9.096696881118374,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 6.448931090821906,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T065",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 41,
+          "sum_squared_error": 15.909432350813304,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 41,
+          "sum_squared_error": 11.434764626822211,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T066",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 64,
+          "sum_squared_error": 126.17888654127042,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 64,
+          "sum_squared_error": 175.09375301478877,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T067",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 24,
+          "sum_squared_error": 17.43868654143762,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 24,
+          "sum_squared_error": 16.911576280351795,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T068",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 37,
+          "sum_squared_error": 131.97851795803143,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 37,
+          "sum_squared_error": 144.58189027669866,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T069",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 15,
+          "sum_squared_error": 7.47309688826853,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 15,
+          "sum_squared_error": 4.682052359586036,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T070",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 45,
+          "sum_squared_error": 4.040932758379662,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 45,
+          "sum_squared_error": 5.428527780112714,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T071",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 69,
+          "sum_squared_error": 42.75883372466341,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 69,
+          "sum_squared_error": 28.144663852070572,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T072",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 38,
+          "sum_squared_error": 4.59526537838244,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 38,
+          "sum_squared_error": 4.313455328149557,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T073",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 38,
+          "sum_squared_error": 39.11672911847709,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 38,
+          "sum_squared_error": 44.936483583153056,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T074",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 36,
+          "sum_squared_error": 123.09498877568572,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 36,
+          "sum_squared_error": 81.2699113794418,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T075",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 13,
+          "sum_squared_error": 1.784864849033578,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 13,
+          "sum_squared_error": 0.9380359627691316,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T076",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 13,
+          "sum_squared_error": 35.974976288562615,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 13,
+          "sum_squared_error": 34.29601495354094,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T077",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 11,
+          "sum_squared_error": 3.264921569259178,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 11,
+          "sum_squared_error": 4.080566525143856,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T078",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 14,
+          "sum_squared_error": 1.3658369162458586,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 14,
+          "sum_squared_error": 2.1943454557595468,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T079",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 0.6088133347585295,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 0.6580550738247669,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T080",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 20,
+          "sum_squared_error": 1.6315473496752981,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 20,
+          "sum_squared_error": 2.7437108366296474,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T081",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 19.23127173143653,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 20.456108676439616,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T082",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 14,
+          "sum_squared_error": 25.945506456580713,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 14,
+          "sum_squared_error": 15.207412674942626,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T083",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 28,
+          "sum_squared_error": 6.087730186359671,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 28,
+          "sum_squared_error": 2.2969641399119096,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T084",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 17,
+          "sum_squared_error": 0.6771845127509575,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 17,
+          "sum_squared_error": 0.6919861540332132,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T085",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 1.2282282421464183,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 1.283428248387422,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T086",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 42,
+          "sum_squared_error": 25.955898117354117,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 42,
+          "sum_squared_error": 28.354367047809404,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T087",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 14,
+          "sum_squared_error": 1.5093896682944257,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 14,
+          "sum_squared_error": 1.492553155505113,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T088",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 18,
+          "sum_squared_error": 1.2375998670160162,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 18,
+          "sum_squared_error": 1.4474201290739586,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T089",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 22,
+          "sum_squared_error": 1.647062574244248,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 22,
+          "sum_squared_error": 1.7521071284501617,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T090",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 12,
+          "sum_squared_error": 2.65963204760973,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 12,
+          "sum_squared_error": 2.9861463222478157,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T091",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 18,
+          "sum_squared_error": 0.39568421998302816,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 18,
+          "sum_squared_error": 0.9621949512382949,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T092",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 14,
+          "sum_squared_error": 2.30892903564249,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 14,
+          "sum_squared_error": 1.407340593531735,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T093",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 41,
+          "sum_squared_error": 1.1633949765952747,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 41,
+          "sum_squared_error": 4.113126984850459,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T094",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 16,
+          "sum_squared_error": 11.46516016114846,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 16,
+          "sum_squared_error": 11.77544108838601,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T095",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 12,
+          "sum_squared_error": 1.6422431346026936,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 12,
+          "sum_squared_error": 2.2017186114722263,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T096",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 15,
+          "sum_squared_error": 6.662224699310941,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 15,
+          "sum_squared_error": 9.725183448764929,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T097",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 49,
+          "sum_squared_error": 41.486297384907544,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 49,
+          "sum_squared_error": 35.39220682828743,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T098",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 19,
+          "sum_squared_error": 9.6333698009491,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 19,
+          "sum_squared_error": 10.820715263021633,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T099",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 28,
+          "sum_squared_error": 53.92540640428025,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 28,
+          "sum_squared_error": 47.34965902220922,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T100",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 14.262634990570314,
+          "accepted": false
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 22.017461120023608,
+          "accepted": false
+        }
+      }
+    },
+    {
+      "case": "T101",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 15,
+          "sum_squared_error": 15.40747305187725,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 15,
+          "sum_squared_error": 14.9862954853163,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T102",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 23,
+          "sum_squared_error": 0.07329281741103945,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 23,
+          "sum_squared_error": 0.13333760261516692,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T103",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 12,
+          "sum_squared_error": 0.145435560400831,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 12,
+          "sum_squared_error": 0.0903742604605631,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T104",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 16,
+          "sum_squared_error": 0.03163432548600207,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 16,
+          "sum_squared_error": 0.07931948465112859,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T105",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 10,
+          "sum_squared_error": 0.40518137671586973,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 10,
+          "sum_squared_error": 0.357129293406348,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T106",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 12,
+          "sum_squared_error": 0.6591542815846182,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 12,
+          "sum_squared_error": 0.7978219978847466,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T107",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 62,
+          "sum_squared_error": 0.6580700395417207,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 62,
+          "sum_squared_error": 0.7610669502541875,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T108",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 16,
+          "sum_squared_error": 0.5026773654961105,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 16,
+          "sum_squared_error": 0.42823867360962364,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T109",
+      "motion": "near_stationary",
+      "methods": {
+        "joint_uniform": {
+          "samples": 54,
+          "sum_squared_error": 0.5687589186982436,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 54,
+          "sum_squared_error": 0.49514080119102977,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T110",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 44,
+          "sum_squared_error": 2.037885338546664,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 44,
+          "sum_squared_error": 1.0044957765965916,
+          "accepted": true
+        }
+      }
+    },
+    {
+      "case": "T111",
+      "motion": "moving",
+      "methods": {
+        "joint_uniform": {
+          "samples": 20,
+          "sum_squared_error": 139.9302244931078,
+          "accepted": true
+        },
+        "joint": {
+          "samples": 20,
+          "sum_squared_error": 71.93319892922497,
+          "accepted": false
+        }
+      }
+    }
+  ],
+  "provenance": {
+    "execution": "Recomputed aggregates from existing per-sample errors; no reconstruction or simulator rerun.",
+    "source_sha256": {
+      "cases.json.gz": "37643198642cc08f0d15c6b4baa6f790d153e272e75ccedbbf5aee87f64ee68d",
+      "fill_cases.json": "f3b563da3aa228516ff08e6babadf9b1a33fe7c70014dec82e768332abd9249f",
+      "run_gap_diagnostics.py": "031d8e4e7644441612eaf4e18bc6704630b585eca7aaee54641cb72469b04ad2"
+    }
+  }
+}

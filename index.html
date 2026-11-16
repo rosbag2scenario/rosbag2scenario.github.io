@@ -43,21 +43,21 @@
 </div>
 
 <main id="main">
-<section id="intro"><div class="col"><p class="lead">Rosbag2Scenario turns fragmented on-board object tracks into continuous traffic scenarios. Reproducing a recorded failure lets developers inspect it in simulation and test whether a revised driving stack handles it differently.</p></div></section>
+<section id="intro"><div class="col"><p class="lead">Rosbag2Scenario turns fragmented on-board object trajectories into continuous traffic scenarios. Reproducing a recorded failure lets developers inspect it in simulation and test whether a revised driving stack handles it differently.</p></div></section>
 
 <section class="band" id="overview">
 <div class="wide">
 <h2>How It Works</h2>
 <div class="card">
 <figure class="scroll-x" style="margin-top:0">
-<div class="plate"><img alt="Block diagram. Input: a ROS bag with object tracks, camera and LiDAR, and ego state, plus an optional Lanelet2 map. Perception source: online recorded tracker output, or offline relabeling of recorded sensor data. Track reconstruction: filter, associate, complete. Scenario export: OpenSCENARIO and SUMO export with prescribed, reactive or hybrid rear-cone traffic. Output: a .xosc scenario and a .json traffic plan." height="496" src="fig/pipeline.png" width="2000"/></div>
+<div class="plate"><img alt="Block diagram. Input: a ROS bag with object trajectories, camera and LiDAR, and ego state, plus an optional Lanelet2 map. Perception source: online recorded tracker output, or offline relabeling of recorded sensor data. Trajectory reconstruction: filter, associate, complete. Scenario export: OpenSCENARIO and SUMO export with prescribed, reactive or hybrid rear-cone traffic. Output: a .xosc scenario and a .json traffic plan." height="494" src="fig/pipeline.png" width="2000"/></div>
 <figcaption>Rosbag2Scenario from the recording to the OpenSCENARIO file and the traffic plan (section numbers refer to the paper).</figcaption>
 </figure>
 </div>
 
 <div class="pipeline-steps">
-<div><h3>1. Read the observed scene</h3><p>Start from the ego pose and object tracks in a ROS bag. The online tracker provides what the driving stack perceived; offline perception labels can be used as an optional source.</p></div>
-<div><h3>2. Repair fragmented tracks</h3><p>Filter fragmented trajectories, associate compatible fragments and complete their motion across gaps. <a href="#gaps">Inspect the completion methods and ambiguous links.</a></p></div>
+<div><h3>1. Read the observed scene</h3><p>Start from the ego pose and object trajectories in a ROS bag. The online tracker provides what the driving stack perceived; offline perception labels can be used as an optional source.</p></div>
+<div><h3>2. Repair fragmented trajectories</h3><p>Filter fragmented trajectories, associate compatible fragments and complete their motion across gaps. <a href="#gaps">Inspect the completion methods and ambiguous links.</a></p></div>
 <div><h3>3. Export and hand over</h3><p>Export OpenSCENARIO and a traffic plan. Replay the ego until shortly before the recorded disengagement, then hand control to the driving stack. Vehicles in the rear cone (90° opening, 100 m range) become reactive.</p></div>
 <div><h3>4. Test the driving stack</h3><p>Run the reconstructed encounter in CARLA/SUMO. Compare its behavior with the recording and reuse reproduced events to test a revised stack.</p></div>
 </div></div>
@@ -76,7 +76,7 @@
 <div class="wide">
 <h2>Published Results</h2>
 <div class="col justify" style="padding:0">
-<p>Evaluation combines three Town10 drives with simulator ground truth and nine real urban disengagements. The tables retain the submitted results and extend the association comparison with two wider-distance gates.</p>
+<p>Evaluation combines three Town10 drives with simulator ground truth and nine real urban disengagements. The tables retain the submitted results, with supplementary association-gate comparisons and an end-aware completion ablation.</p>
 </div><ul class="stats">
 <li><b>5 of 9</b><span>recorded disengagements reproduced in closed loop</span></li>
 <li><b>63 / 111</b><span>tracker gaps rejoined, with no wrong link</span></li>
@@ -84,18 +84,18 @@
 <li><b>0.8 m</b><span>mean traffic deviation at the disengagement under the hybrid policy, against 5.6 m with all traffic reactive</span></li>
 </ul>
 <div class="card" id="reconstruction-results">
-<h3>Reconstruction of fragmented tracks</h3>
+<h3>Reconstruction of fragmented trajectories</h3>
 <div class="justify">
-<p>Two tests separate finding the right fragments from filling the missing motion. Both use the same 111 tracker gaps from three CARLA drives, including 56 gaps in moving-vehicle tracks.</p>
+<p>Two tests separate finding the right fragments from filling the missing motion. ↑ means higher is better; ↓ means lower is better. Both use the same 111 tracker gaps from three CARLA drives, including 56 gaps in moving-vehicle trajectories.</p>
 </div>
 <div class="two reconstruction-tests">
 <div>
 <h4 id="association-title">1. Association: which fragments belong together?</h4>
-<p>Find compatible fragments among the observed tracks and rejoin them into one actor.</p>
+<p>Find compatible fragments among the observed trajectories and rejoin them into one actor.</p>
 <div class="tablewrap">
 <table aria-labelledby="association-title">
 <thead>
-<tr><th scope="col">Method</th><th scope="col">Rejoined<br>all</th><th scope="col">Rejoined<br>moving</th><th scope="col">Wrong<br>links</th></tr>
+<tr><th scope="col">Method</th><th scope="col">Rejoined<br>all ↑</th><th scope="col">Rejoined<br>moving ↑</th><th scope="col">Wrong<br>links ↓</th></tr>
 </thead>
 <tbody>
 <tr><td>Zhu et al., 2 s / 5 m</td><td>58</td><td>17</td><td>2</td></tr>
@@ -114,17 +114,18 @@
 <div class="tablewrap">
 <table aria-labelledby="completion-title">
 <thead>
-<tr><th scope="col">Method</th><th scope="col">RMSE [m]<br>all</th><th scope="col">RMSE [m]<br>moving</th></tr>
+<tr><th scope="col">Method</th><th scope="col">RMSE [m]<br>all ↓</th><th scope="col">RMSE [m]<br>moving ↓</th></tr>
 </thead>
 <tbody>
 <tr><td>Constant velocity</td><td>1.00</td><td>1.16</td></tr>
 <tr><td>Hermite</td><td>1.21</td><td>1.23</td></tr>
 <tr><td>Zhu et al.</td><td>1.17</td><td>1.25</td></tr>
-<tr class="best"><td>Ours</td><td>0.88</td><td>0.96</td></tr>
+<tr><td>Ours, uniform weights</td><td>0.93</td><td>1.02</td></tr>
+<tr class="best"><td>Ours, end-aware</td><td>0.88</td><td>0.96</td></tr>
 </tbody>
 </table>
 </div>
-<p class="tcap">Lower XY position RMSE is better (paper, Table II). All four association-gate settings use the same completion method.</p>
+<p class="tcap">Table II results with the uniform-weight ablation added. Uniform weighting disables the extra uncertainty near trajectory ends; both variants score all 111 gaps, including rejected fits. All four Zhu association-gate settings use the same completion method.</p>
 </div>
 </div>
 </div>
@@ -140,12 +141,12 @@
 <div class="card">
 <h3>Disengagement reproduction</h3>
 <details><summary>Reconstruction and execution measurements</summary><div class="justify">
-<p>With the handover 5 s before the disengagement, reconstruction moves the recorded samples by a median of 0.06 m up to the handover, execution adds 4 mm for the vehicles and 7 mm for the ego, and 98.5 % of the expected vehicle samples are present. The simulated stack tracks 87.6 % of the vehicles that the real stack tracked. At the disengagement, the simulated ego differs from the recorded one by a median of 1.0 m along its path, 0.06 m laterally and 0.8 m/s in speed. Creating a scenario takes 0.5–3.5 min per recording on a desktop CPU, for scenes with 74–248 actors.</p>
+<p>With the handover 5 s before the disengagement, reconstruction moves the recorded samples by a median of 0.06 m up to the handover, execution adds 4 mm for the vehicles and 7 mm for the ego, and 98.5 % of the expected vehicle samples are present. The simulated tracker observes 87.6 % of the vehicles observed by the real tracker. At the disengagement, the simulated ego differs from the recorded one by a median of 1.0 m along its path, 0.06 m laterally and 0.8 m/s in speed. Creating a scenario takes 0.5–3.5 min per recording on a desktop CPU, for scenes with 74–248 actors.</p>
 </div></details>
 <div class="tablewrap">
 <table class="dis">
 <thead>
-<tr><th>ID</th><th>Situation</th><th>Cone</th><th>Cov.</th><th>≤ 2 m</th><th><i>e<sub>d</sub></i></th><th>Outcome</th></tr>
+<tr><th>ID</th><th>Situation</th><th>Cone</th><th>Cov. ↑</th><th>≤ 2 m ↑</th><th><i>e<sub>d</sub></i> ↓</th><th>Outcome</th></tr>
 </thead>
 <tbody>
 <tr><td>D1</td><td>truck blocks lane</td><td>6</td><td>100.0</td><td>90.8</td><td>0.41</td><td class="out"><span class="tag ok">reproduced</span></td></tr>
@@ -171,7 +172,7 @@
 <section class="band" id="gaps">
 <div class="wide">
 <h2>What Happens Inside a Tracker Gap?</h2>
-<p class="section-intro">A tracker can lose a vehicle and assign a new ID when it returns. Association first decides which fragments belong to the same vehicle. Completion then fills the missing motion and extends the track ends.</p><figure class="reconstruction-intro"><img loading="lazy" src="fig/reconstruction.png" width="1000" height="592" alt="Association links compatible fragments; completion fills the gap and extends track ends."><figcaption>From separate observations to a continuous vehicle trajectory.</figcaption></figure><p>A car pulling away in D7 illustrates these two steps: it disappears for 3.1 seconds and returns under a new ID. Below, the pairing is fixed so you can compare four ways to complete its motion. The gallery also includes benchmark gaps with simulator ground truth.</p>
+<p class="section-intro">A tracker can lose a vehicle and assign a new ID when it returns. Association first decides which fragments belong to the same vehicle. Completion then fills the missing motion and extends the trajectory ends.</p><figure class="reconstruction-intro"><img loading="lazy" src="fig/reconstruction.png" width="1000" height="592" alt="Association links compatible fragments; completion fills the gap and extends trajectory ends."><figcaption>From separate observations to a continuous vehicle trajectory.</figcaption></figure><p>A car pulling away in D7 illustrates these two steps: it disappears for 3.1 seconds and returns under a new ID. Below, the pairing is fixed so you can compare four ways to complete its motion. The gallery also includes benchmark gaps with simulator ground truth.</p>
 <div class="card explorer" id="gap-explorer">
 
 
@@ -196,11 +197,11 @@
 <details class="card" id="reconstruction-settings"><summary>Reconstruction settings behind the real-gap examples</summary>
 <p>The archived configuration and its implementation specify the following settings. Association gates decide whether fragments may belong together; completion limits check the resulting motion.</p>
 <div class="tablewrap"><table><thead><tr><th>Stage</th><th>Setting</th></tr></thead><tbody>
-<tr><td>Track splitting</td><td>Observation-gap threshold 0.35 s; jump-speed threshold 50 m/s.</td></tr>
+<tr><td>Trajectory splitting</td><td>Observation-gap threshold 0.35 s; jump-speed threshold 50 m/s.</td></tr>
 <tr><td>Association window</td><td>Maximum gap 5 s; endpoint velocity window 1 s; speed gate 45 m/s; travel-heading gate 100° when both endpoints move above 0.5 m/s; dimension ratio at most 1.8.</td></tr>
 <tr><td>Assignment ambiguity</td><td>Unmatched cost 4; retain a link only when forbidding it increases the global assignment cost by more than 1.</td></tr>
 <tr><td>Boundary estimation</td><td>Forward/backward constant-acceleration smoothing; position-noise floor 0.3 m; jerk process-noise variance parameter 2; 5 Hz reconstruction grid.</td></tr>
-<tr><td>Track-end weighting</td><td>Position-noise multiplier rises to 1.5 at birth over 1 s, and to 3 at the end over 1.5 s.</td></tr>
+<tr><td>Trajectory-end weighting</td><td>Position-noise multiplier rises to 1.5 at birth over 1 s, and to 3 at the end over 1.5 s.</td></tr>
 <tr><td>Completion checks</td><td>Cubic Hermite motion; limits of 60 m/s speed, 8 m/s² acceleration/braking and 6 m/s² lateral acceleration; validation step 0.02 s.</td></tr>
 <tr><td>Extension and fallback</td><td>Extend by at most 10 m and 2 s. Use lane support relative to the observed fragments; retain observed motion when a joint fit fails.</td></tr>
 </tbody></table></div><p class="note">Settings used to reconstruct the real-gap examples.</p></details></div>
@@ -232,7 +233,7 @@
 <h2>Scope and Reproducibility</h2>
 <div class="card" style="margin:0">
 <ul class="limits">
-<li><strong>What can be re-simulated.</strong> The five reproduced events are planning-related: an object in the recorded scene determines the behavior of the stack. Events caused by perception or localization errors are outside the scope of a re-simulation from object tracks, because the simulated stack perceives the reconstructed objects anew and localizes without the real error.</li>
+<li><strong>What can be re-simulated.</strong> The five reproduced events are planning-related: an object in the recorded scene determines the behavior of the stack. Events caused by perception or localization errors are outside the scope of a re-simulation from object trajectories, because the simulated stack perceives the reconstructed objects anew and localizes without the real error.</li>
 <li><strong>Small margins after the handover.</strong> The diverged events were decided by clearances of 0.1–0.4 m and by timing within a second, which the pipeline does not preserve after the handover.</li>
 <li><strong>Tracker artifacts and vehicle models.</strong> Partly visible vehicles can have shifting boxes and changing dimensions, making standing and moving vehicles difficult to distinguish. Spawned vehicle models differ from the recorded vehicles; in D4 the model is wider for 95 % of the vehicles. Several limits originate in the tracker, so a better tracker improves the pipeline directly.</li>
 <li><strong>Dynamics at the switch.</strong> Released vehicles lose speed when they switch from prescribed to physical motion, and the simulated ego brakes harder than commanded (D3).</li>
