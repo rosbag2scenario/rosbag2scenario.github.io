@@ -56,7 +56,7 @@ for e in events:
 media=json.loads((ROOT/'data/media-provenance.json').read_text())
 for name,m in media.items():
     if 'render' in m:
-        assert m['render']['all_actors'] and m['render']['cone_overlay'] is False
+        assert m['render']['all_actors'] and m['render']['cone_overlay'] is True
         assert m['render']['frames']==len(m['render']['timing'])
     assert hashlib.sha256((ROOT/m['video']).read_bytes()).hexdigest()==m['sha256'],name
 assert media['d1-submission']['sha256']==media['d1-submission']['source_sha256']
@@ -69,7 +69,11 @@ assert a['frames']==b['frames']==222
 assert a['map_bounds_by_frame']==b['map_bounds_by_frame'] and a['source_start_s']==b['source_start_s']
 assert [r['t'] for r in a['timing']]==[r['t'] for r in b['timing']]
 assert all(r['all_actors'] for r in [a,b])
-assert all(r['cone_overlay'] is False for r in [a,b])
+assert a['cone_overlay'] is True and b['cone_overlay'] is False
+for render in [a,b,*[m['render'] for m in media.values() if 'render' in m]]:
+    assert render['camera_rows']['gutter_removed']
+    assert render['cone_visualization']['opening_deg']==90 and render['cone_visualization']['range_m']==100
+    assert render['status_position'][1]<1300 and render['clock_position'][1]<1300
 assert all(k not in h.ids for k in ['gap-time','motion-time','map-zoom','map-position','compare-play','comparison-dialog'])
 support=json.loads((ROOT/'data/support.json').read_text())
 assert len(support['maps'])==4 and len(support['ambiguity']['fragments'])==5

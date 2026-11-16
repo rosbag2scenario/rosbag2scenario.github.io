@@ -55,8 +55,8 @@ raw camera mosaics and simulator states. Only simulation camera pixels are
 included in these views. Six cameras and BEV use exact matching CARLA
 frame IDs. Every available actor is included, without a 50 m scoring filter.
 The two D2 runs share source times 0.05 to 22.15 s and the same map extent.
-R markers follow actual release transitions. These clips are presented without
-cone shading; archived run parameters remain in the provenance. BEVs are geometry visualizations,
+R markers follow actual release transitions. Reactive clips show a 90-degree
+opening, 100 m rear cone; source hashes remain in the provenance. BEVs are geometry visualizations,
 not overhead camera images. These exports do not change any trajectories.
 
 MAP, COMMANDS AND TEMPORAL CONTEXT
@@ -120,7 +120,7 @@ BEV extent calculation so the two views have identical bounds at each frame.
 The standard submission draw_bev and sample functions are copied unchanged
 into tools/standard_bev.py. All actor states are passed to the renderer,
 without the original 50 m scoring-radius eligibility filter; the normal
-viewport clips at its edges. No cone shading is added. Camera extraction
+viewport clips at its edges. Reactive clips show the requested rear cone. Camera extraction
 uses only the simulation half of the original mosaic. Lanelet hashes match
 the original standard render. Real camera pixels never enter these exports.
 
@@ -143,3 +143,12 @@ match the supplied reference screenshot. These illustrative signals do not
 replace the paper's published aggregate measurements.
 Town10 is a tracker/ground-truth capture, not a paired real-drive encounter;
 no real-vs-sim command comparison is assigned to that benchmark video.
+
+VIDEO PRESENTATION UPDATE
+The source camera rows (y=45 and y=360, height=300) are cropped separately
+and stacked directly, removing the source mosaic gutter. Each row retains
+its aspect ratio. A 90-degree opening, 100 m rear cone follows the simulated
+ego, grey before handover and green after it. Existing R markers are
+unchanged. Log replay retains prescribed motion and has no reactive overlay.
+Control-state text and the clock sit beside the BEV above the native player
+controls. Page content, plots, frame timing and actor motion are unchanged.

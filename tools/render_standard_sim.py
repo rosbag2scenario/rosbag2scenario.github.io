@@ -29,13 +29,14 @@ def render(a):
     video=run/'surround-comparison/comparison.mp4'
     info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','stream=width,height,r_frame_rate','-of','json',str(video)]))['streams'][0]
     assert (info['width'],info['height'],info['r_frame_rate'])==(2880,680,'10/1')
-    # Crop the simulation half before any composition; preserve the native aspect ratio.
-    dec=subprocess.Popen(['ffmpeg','-v','error','-i',str(video),'-vf','crop=1440:630:1440:50,scale=1920:840:flags=lanczos','-f','rawvideo','-pix_fmt','rgb24','-'],stdout=subprocess.PIPE)
+    # Extract the actual 300-pixel camera rows separately, excluding the source mosaic's 15-pixel gutter.
+    camera_filter='[0:v]split=2[top][bottom];[top]crop=1440:300:1440:45:exact=1[t];[bottom]crop=1440:300:1440:360:exact=1[b];[t][b]vstack=inputs=2,scale=1920:800:flags=lanczos[cameras]'
+    dec=subprocess.Popen(['ffmpeg','-v','error','-i',str(video),'-filter_complex',camera_filter,'-map','[cameras]','-f','rawvideo','-pix_fmt','rgb24','-'],stdout=subprocess.PIPE)
     enc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','1920x1470','-r','10','-i','-','-an','-c:v','libx264','-threads','4','-preset','medium','-crf','19','-pix_fmt','yuv420p','-movflags','+faststart',str(out)],stdin=subprocess.PIPE)
     font=lambda size:ImageFont.truetype(FONT,size)
     times=[];bounds_log=[];start=cameras[0]['source_s'];handover=audit.get('actual_source_s');event=audit['options'].get('event_s')
     for index,c in enumerate(cameras):
-        raw=dec.stdout.read(1920*840*3);assert len(raw)==1920*840*3
+        raw=dec.stdout.read(1920*800*3);assert len(raw)==1920*800*3
         row=frames[c['frame']];t=row['time'];assert abs(t-c['source_s'])<.001
         f={'r':[],'a':[]}
         for r in refs:
@@ -54,22 +55,28 @@ def render(a):
         center=np.mean(centers,axis=0);span=max(130.,float(np.ptp(np.asarray(centers)[:,0]))+70.,(float(np.ptp(np.asarray(centers)[:,1]))+55.)*1400/480)
         bounds=[center[0]-span/2,center[1]-span*480/2800,center[0]+span/2,center[1]+span*480/2800]
         visible=[line for line in roads if any(bounds[0]-20<=x<=bounds[2]+20 and bounds[1]-20<=y<=bounds[3]+20 for x,y in line)]
-        image=Image.new('RGB',(1920,1470),BG);image.paste(Image.frombytes('RGB',(1920,840),raw),(0,56));d=ImageDraw.Draw(image)
+        image=Image.new('RGB',(1920,1470),BG);image.paste(Image.frombytes('RGB',(1920,800),raw),(0,56));d=ImageDraw.Draw(image)
         d.text((20,12),a.title,font=font(30),fill='white')
-        for y,labels in [(56,['Front left','Front center','Front right']),(476,['Rear left','Rear center','Rear right'])]:
+        for y,labels in [(56,['Front left','Front center','Front right']),(456,['Rear left','Rear center','Rear right'])]:
             d.rectangle((0,y,1919,y+27),fill=BG)
             for col,label in enumerate(labels):d.text((12+640*col,y),label,font=font(22),fill='white')
-        d.text((20,909),'Bird’s-eye view',font=font(24),fill='white')
+        d.text((20,869),'Bird’s-eye view',font=font(24),fill='white')
         active={k for k,v in released.items() if t>=v}
-        draw_bev(image,dict(bounds=bounds,roads=visible,actors=[dict(id=r['id'],path=[]) for r in refs],road_color='#637588',road_width=2,reactive_ids=active,heading_arrows=True),f,(15,945,1400,480))
-        for j,(label,color) in enumerate([('Blue: reconstructed recording','#47c7ec'),('Orange: simulation','#ffab54'),('Green R: reactive vehicle','#70ed91'),('Red: position error > 2 m','#ed6470'),('Grey: lane boundaries','#b0b8c8')]):d.text((1440,964+j*45),label,font=font(21),fill=color)
+        ego=f['a'][ego_index];cone=None
+        if ego and audit['options'].get('traffic_mode')!='kinematic':
+            angles=ego[2]+np.pi+np.linspace(-np.pi/4,np.pi/4,61)
+            cone=[tuple(ego[:2])]+[(ego[0]+100*np.cos(angle),ego[1]+100*np.sin(angle)) for angle in angles]
+        draw_bev(image,dict(bounds=bounds,roads=visible,actors=[dict(id=r['id'],path=[]) for r in refs],road_color='#637588',road_width=2,reactive_ids=active,heading_arrows=True,cone=cone,cone_active=handover is not None and t>=handover),f,(15,905,1400,480))
+        for j,(label,color) in enumerate([('Blue: reconstructed recording','#47c7ec'),('Orange: simulation','#ffab54'),('Green R: reactive vehicle','#70ed91'),('Red: position error > 2 m','#ed6470'),('Grey: lane boundaries','#b0b8c8')]):d.text((1440,924+j*45),label,font=font(21),fill=color)
         phase='Recorded ego motion' if handover is None or t<handover else 'Driving stack in control'
-        if event is not None and t>=event:phase+=' · Recorded intervention time reached'
-        d.text((20,1434),phase,font=font(23),fill='#ffcf87');d.text((1690,1434),f't = {t-start:.1f} s',font=font(23),fill='white')
+        d.text((1440,1160),phase,font=font(23),fill='#ffcf87')
+        if event is not None and t>=event:d.text((1440,1196),'Recorded intervention time reached',font=font(21),fill='#ffcf87')
+        d.text((1440,1234),f't = {t-start:.1f} s',font=font(23),fill='white')
         enc.stdin.write(image.tobytes());times.append({'frame':c['frame'],'t':round(t-start,5),'source_s':t});bounds_log.append(bounds)
         if index==120:image.save(out.with_suffix('.jpg'))
+        if index==0:image.save(out.with_name(out.stem+'-before.jpg'))
     assert not dec.stdout.read(1);dec.stdout.close();enc.stdin.close();assert dec.wait()==0 and enc.wait()==0
-    meta=dict(case=a.case,run=run.name,frames=len(times),all_actors=True,cone_overlay=False,view='Usual ego-centered BEV; all actors considered, no scoring-radius filter',source_start_s=start,timing=times,map_bounds_by_frame=bounds_log,source_video_sha256=digest(video),source_states_sha256=digest(rp/'source.json'),traffic_frames_sha256=digest(rp/'traffic/frames.jsonl'),lanelet_sha256=digest(Path(a.lanelet)),standard_drawing_sha256=digest(Path(__file__).with_name('standard_bev.py')),renderer_sha256=digest(Path(__file__)))
+    meta=dict(case=a.case,run=run.name,frames=len(times),all_actors=True,cone_overlay=audit['options'].get('traffic_mode')!='kinematic',cone_visualization=dict(opening_deg=90,range_m=100,anchor='simulated ego',activation_source_s=handover),camera_rows=dict(source_y=[45,360],source_height=300,output_height=400,gutter_removed=True),status_position=[1440,1160],clock_position=[1440,1234],view='Usual ego-centered BEV; all actors considered, no scoring-radius filter',source_start_s=start,timing=times,map_bounds_by_frame=bounds_log,source_video_sha256=digest(video),source_states_sha256=digest(rp/'source.json'),traffic_frames_sha256=digest(rp/'traffic/frames.jsonl'),lanelet_sha256=digest(Path(a.lanelet)),standard_drawing_sha256=digest(Path(__file__).with_name('standard_bev.py')),renderer_sha256=digest(Path(__file__)))
     out.with_suffix('.json').write_text(json.dumps(meta,indent=2)+'\n')
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--run',required=True);p.add_argument('--lanelet',required=True);p.add_argument('--output',required=True);p.add_argument('--title',required=True);p.add_argument('--case',required=True);p.add_argument('--paired-run');render(p.parse_args())

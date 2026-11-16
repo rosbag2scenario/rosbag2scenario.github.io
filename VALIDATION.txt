@@ -19,7 +19,7 @@ Videos
 - D2 is a single native-control side-by-side video: 3840x1470, 222 frames,
   22.2 seconds, identical time-varying map bounds on both sides.
 - Six simulation cameras per run; real camera pixels discarded at decoding.
-- Actual R release markers retained; no added cone shading.
+- Actual R release markers retained; rear-cone shading added to reactive clips.
 
 Plots
 - Seven exact-run sets: D1, both D2 variants, D3, D6, D7, D8.
@@ -38,3 +38,13 @@ Chromium and asset verification
   external requests; local links, media hashes and public path scans pass.
 - Removed map detail windows and gap/command time sliders remain absent.
 - Anonymous author identity and existing GitHub Pages deployment retained.
+
+Video-only presentation refinement
+- Removed the source camera gutter using separate row crops.
+- Rear cone: 90-degree opening, 100 m, anchored behind the simulated ego.
+- Control-state label and clock moved beside the BEV; visibility checked with
+  native controls shown inline and fullscreen.
+- Run identities, source-state hashes, traffic hashes, frame timestamps and
+  BEV extents verified identical to the prior published videos.
+- All revised videos load and seek; dimensions and durations unchanged.
+- HTML, CSS, JavaScript, plotted data and published results unchanged.

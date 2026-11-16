@@ -1,14 +1,37 @@
 {
   "d7-diverged": {
     "video": "media/d7-diverged.mp4",
-    "sha256": "792711c4b758a0500ffa9587b43c629990cf39686abf39c9ad14b782dc7e9228",
+    "sha256": "3b9aecaf44ae8efdf32a17386d428e16eb1625888bb85c8994919239e5b43815",
     "origin": "Standard simulation-only rendering of AWE-20261110-212645",
     "render": {
       "case": "D7",
       "run": "AWE-20261110-212645",
       "frames": 171,
       "all_actors": true,
-      "cone_overlay": false,
+      "cone_overlay": true,
+      "cone_visualization": {
+        "opening_deg": 90,
+        "range_m": 100,
+        "anchor": "simulated ego",
+        "activation_source_s": 6.999999999999983
+      },
+      "camera_rows": {
+        "source_y": [
+          45,
+          360
+        ],
+        "source_height": 300,
+        "output_height": 400,
+        "gutter_removed": true
+      },
+      "status_position": [
+        1440,
+        1160
+      ],
+      "clock_position": [
+        1440,
+        1234
+      ],
       "view": "Usual ego-centered BEV; all actors considered, no scoring-radius filter",
       "source_start_s": 0.05000000074505806,
       "timing": [
@@ -1901,7 +1924,7 @@
       "traffic_frames_sha256": "f889fc435d54e62b9b3e7a0f6f85f24c4561e6ac112bdb60c827040dee432c0c",
       "lanelet_sha256": "139b0a3b85e01b705532fcfe6a0afa70898f1c611957fccb27348ee5bd746f9c",
       "standard_drawing_sha256": "8039ae74b5a81c9038ca4eb65c1ab948f50ed9e1050d4f06f64b9fb39585fbc9",
-      "renderer_sha256": "eb690e62531bdd07cec318e0aff37f9df50dba86e6d0578e0d6ded30d8cbedc6"
+      "renderer_sha256": "b397f8339d89687236457c4d6c17ebcc4096af17e93a9d0d19be88a45789ec5e"
     },
     "encoding": {
       "programs": [],
@@ -1915,7 +1938,7 @@
       ],
       "format": {
         "duration": "17.100000",
-        "size": "22147145"
+        "size": "22394815"
       }
     }
   },
@@ -1963,14 +1986,37 @@
   },
   "d3-reproduced": {
     "video": "media/d3-reproduced.mp4",
-    "sha256": "aa20081469026280b34a334330adc619a5ecdb89f34a5b6efefce321e038bac2",
+    "sha256": "7ecb36e510c1e455792bf1f8dda59500a3a09d49a1741130bfd1cd3b571a5bf1",
     "origin": "Standard simulation-only rendering of AWE-20261111-115708",
     "render": {
       "case": "D3",
       "run": "AWE-20261111-115708",
       "frames": 171,
       "all_actors": true,
-      "cone_overlay": false,
+      "cone_overlay": true,
+      "cone_visualization": {
+        "opening_deg": 90,
+        "range_m": 100,
+        "anchor": "simulated ego",
+        "activation_source_s": 6.999999999999983
+      },
+      "camera_rows": {
+        "source_y": [
+          45,
+          360
+        ],
+        "source_height": 300,
+        "output_height": 400,
+        "gutter_removed": true
+      },
+      "status_position": [
+        1440,
+        1160
+      ],
+      "clock_position": [
+        1440,
+        1234
+      ],
       "view": "Usual ego-centered BEV; all actors considered, no scoring-radius filter",
       "source_start_s": 0.05000000074505806,
       "timing": [
@@ -3863,7 +3909,7 @@
       "traffic_frames_sha256": "a650457ff23278afdc7d81f5cd656adffb86383c90969b2b87319603f22b3fd0",
       "lanelet_sha256": "139b0a3b85e01b705532fcfe6a0afa70898f1c611957fccb27348ee5bd746f9c",
       "standard_drawing_sha256": "8039ae74b5a81c9038ca4eb65c1ab948f50ed9e1050d4f06f64b9fb39585fbc9",
-      "renderer_sha256": "eb690e62531bdd07cec318e0aff37f9df50dba86e6d0578e0d6ded30d8cbedc6"
+      "renderer_sha256": "b397f8339d89687236457c4d6c17ebcc4096af17e93a9d0d19be88a45789ec5e"
     },
     "encoding": {
       "programs": [],
@@ -3877,20 +3923,43 @@
       ],
       "format": {
         "duration": "17.100000",
-        "size": "25805097"
+        "size": "25984894"
       }
     }
   },
   "d6-reproduced": {
     "video": "media/d6-reproduced.mp4",
-    "sha256": "087b441ebcbfedd4c59e26d87d27deb5d8269156b61bf79ee2345317ece79440",
+    "sha256": "f7df8bf2f7420d97dc52b3c651210e9a20a39103d2020bae6f0fe8682866a188",
     "origin": "Standard simulation-only rendering of AWE-20261110-201649",
     "render": {
       "case": "D6",
       "run": "AWE-20261110-201649",
       "frames": 171,
       "all_actors": true,
-      "cone_overlay": false,
+      "cone_overlay": true,
+      "cone_visualization": {
+        "opening_deg": 90,
+        "range_m": 100,
+        "anchor": "simulated ego",
+        "activation_source_s": 6.999999999999983
+      },
+      "camera_rows": {
+        "source_y": [
+          45,
+          360
+        ],
+        "source_height": 300,
+        "output_height": 400,
+        "gutter_removed": true
+      },
+      "status_position": [
+        1440,
+        1160
+      ],
+      "clock_position": [
+        1440,
+        1234
+      ],
       "view": "Usual ego-centered BEV; all actors considered, no scoring-radius filter",
       "source_start_s": 0.05000000074505806,
       "timing": [
@@ -5783,7 +5852,7 @@
       "traffic_frames_sha256": "cb1ebd03e818518617f47cf547e3e20b732b8b84e0be4224cf0f08936eb63a6d",
       "lanelet_sha256": "139b0a3b85e01b705532fcfe6a0afa70898f1c611957fccb27348ee5bd746f9c",
       "standard_drawing_sha256": "8039ae74b5a81c9038ca4eb65c1ab948f50ed9e1050d4f06f64b9fb39585fbc9",
-      "renderer_sha256": "eb690e62531bdd07cec318e0aff37f9df50dba86e6d0578e0d6ded30d8cbedc6"
+      "renderer_sha256": "b397f8339d89687236457c4d6c17ebcc4096af17e93a9d0d19be88a45789ec5e"
     },
     "encoding": {
       "programs": [],
@@ -5797,20 +5866,43 @@
       ],
       "format": {
         "duration": "17.100000",
-        "size": "12222395"
+        "size": "12434624"
       }
     }
   },
   "d8-diverged": {
     "video": "media/d8-diverged.mp4",
-    "sha256": "6487cbbdc1e6067b6d58be70d6fb151bc3a30d04dd09b34bfdf7f78b699ff52e",
+    "sha256": "9e3b4a7aa0818de58f4b224945a88baaace32e3ea414362e2d049a33ef5f98f8",
     "origin": "Standard simulation-only rendering of AWE-20261110-203002",
     "render": {
       "case": "D8",
       "run": "AWE-20261110-203002",
       "frames": 171,
       "all_actors": true,
-      "cone_overlay": false,
+      "cone_overlay": true,
+      "cone_visualization": {
+        "opening_deg": 90,
+        "range_m": 100,
+        "anchor": "simulated ego",
+        "activation_source_s": 6.999999999999983
+      },
+      "camera_rows": {
+        "source_y": [
+          45,
+          360
+        ],
+        "source_height": 300,
+        "output_height": 400,
+        "gutter_removed": true
+      },
+      "status_position": [
+        1440,
+        1160
+      ],
+      "clock_position": [
+        1440,
+        1234
+      ],
       "view": "Usual ego-centered BEV; all actors considered, no scoring-radius filter",
       "source_start_s": 0.05000000074505806,
       "timing": [
@@ -7703,7 +7795,7 @@
       "traffic_frames_sha256": "7959c7a8d2afa5a49a786596d28f1d56821ef5981a4855345d8efd76c4767d15",
       "lanelet_sha256": "139b0a3b85e01b705532fcfe6a0afa70898f1c611957fccb27348ee5bd746f9c",
       "standard_drawing_sha256": "8039ae74b5a81c9038ca4eb65c1ab948f50ed9e1050d4f06f64b9fb39585fbc9",
-      "renderer_sha256": "eb690e62531bdd07cec318e0aff37f9df50dba86e6d0578e0d6ded30d8cbedc6"
+      "renderer_sha256": "b397f8339d89687236457c4d6c17ebcc4096af17e93a9d0d19be88a45789ec5e"
     },
     "encoding": {
       "programs": [],
@@ -7717,13 +7809,13 @@
       ],
       "format": {
         "duration": "17.100000",
-        "size": "8283896"
+        "size": "8325498"
       }
     }
   },
   "d2-comparison": {
     "video": "media/d2-comparison.mp4",
-    "sha256": "f0c20a0e4439ba67caea00176cb317343b0d3d0fb80be9ce39381142d66409e0",
+    "sha256": "80e48355a887a2f796f3abc9274b7614f29e506efa82433f512b363bfa4ff502",
     "origin": "Standard BEV renderer, simulation cameras only, synchronized D2 comparison",
     "composition": {
       "frames": 222,
@@ -7739,13 +7831,36 @@
     },
     "inputs": {
       "d2-regression-hybrid": {
-        "sha256": "a3976f21dd2933da5063c74982cb82bd51394b2e4715b019e2a33f796d3b3278",
+        "sha256": "2058851ea25a2e85932b3760c647086ae9e53d50bf65002309e95953adff7435",
         "render": {
           "case": "D2",
           "run": "AWE-20261111-131623",
           "frames": 222,
           "all_actors": true,
-          "cone_overlay": false,
+          "cone_overlay": true,
+          "cone_visualization": {
+            "opening_deg": 90,
+            "range_m": 100,
+            "anchor": "simulated ego",
+            "activation_source_s": 7.049999999999983
+          },
+          "camera_rows": {
+            "source_y": [
+              45,
+              360
+            ],
+            "source_height": 300,
+            "output_height": 400,
+            "gutter_removed": true
+          },
+          "status_position": [
+            1440,
+            1160
+          ],
+          "clock_position": [
+            1440,
+            1234
+          ],
           "view": "Usual ego-centered BEV; all actors considered, no scoring-radius filter",
           "source_start_s": 0.05000000074505806,
           "timing": [
@@ -10199,17 +10314,40 @@
           "traffic_frames_sha256": "4ee3a4485f8efe5a3af674b607761d5abd09c5262c85eb7aa9cfe44f4cea5803",
           "lanelet_sha256": "139b0a3b85e01b705532fcfe6a0afa70898f1c611957fccb27348ee5bd746f9c",
           "standard_drawing_sha256": "8039ae74b5a81c9038ca4eb65c1ab948f50ed9e1050d4f06f64b9fb39585fbc9",
-          "renderer_sha256": "eb690e62531bdd07cec318e0aff37f9df50dba86e6d0578e0d6ded30d8cbedc6"
+          "renderer_sha256": "b397f8339d89687236457c4d6c17ebcc4096af17e93a9d0d19be88a45789ec5e"
         }
       },
       "d2-regression-logreplay": {
-        "sha256": "ee51b803ab4497e486b7eebfb33db151afb918ca794838ca977441a3583115e6",
+        "sha256": "a740bee64f78a81de12d07e74f3f7989f70899c4dd7b66660f9f9d7a42c23333",
         "render": {
           "case": "D2",
           "run": "AWE-20261111-132245",
           "frames": 222,
           "all_actors": true,
           "cone_overlay": false,
+          "cone_visualization": {
+            "opening_deg": 90,
+            "range_m": 100,
+            "anchor": "simulated ego",
+            "activation_source_s": 7.049999999999983
+          },
+          "camera_rows": {
+            "source_y": [
+              45,
+              360
+            ],
+            "source_height": 300,
+            "output_height": 400,
+            "gutter_removed": true
+          },
+          "status_position": [
+            1440,
+            1160
+          ],
+          "clock_position": [
+            1440,
+            1234
+          ],
           "view": "Usual ego-centered BEV; all actors considered, no scoring-radius filter",
           "source_start_s": 0.05000000074505806,
           "timing": [
@@ -12663,7 +12801,7 @@
           "traffic_frames_sha256": "4d9e808bb84734b758db8fc694d3f3bc57c1b9be5f4394759805fd1c14b5d43e",
           "lanelet_sha256": "139b0a3b85e01b705532fcfe6a0afa70898f1c611957fccb27348ee5bd746f9c",
           "standard_drawing_sha256": "8039ae74b5a81c9038ca4eb65c1ab948f50ed9e1050d4f06f64b9fb39585fbc9",
-          "renderer_sha256": "eb690e62531bdd07cec318e0aff37f9df50dba86e6d0578e0d6ded30d8cbedc6"
+          "renderer_sha256": "b397f8339d89687236457c4d6c17ebcc4096af17e93a9d0d19be88a45789ec5e"
         }
       }
     },
@@ -12680,7 +12818,7 @@
       ],
       "format": {
         "duration": "22.200000",
-        "size": "59460098"
+        "size": "60576046"
       }
     }
   }

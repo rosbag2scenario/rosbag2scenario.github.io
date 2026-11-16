@@ -39,7 +39,7 @@ path. It uses the unchanged `draw_bev` and `sample` functions from the usual
 submission renderer, preserved in `tools/standard_bev.py`. D2 uses reciprocal
 `--paired-run` arguments for identical ego-centered bounds at every frame.
 Rendering reuses archived frames; it does not execute a simulator.
-The simulation-only clips use recorded R markers without cone shading. The page retains the
+The simulation-only clips use recorded R markers and a rear-cone overlay. The page retains the
 author-requested 90° total-opening wording; recorded metadata remains intact.
 The supplied D1 video and all event labels are unchanged.
 
