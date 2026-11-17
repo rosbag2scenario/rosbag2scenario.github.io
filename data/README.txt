@@ -130,10 +130,8 @@ The 20 Hz deviation and speed samples are the archived paper-figure data.
 The Town10 video shows one of the three evaluation captures. Its redetection
 counter belongs to that recording; it is not a count of recovered links.
 
-REGENERATION
-See tools/export_gaps.py, tools/export_support.py, tools/export_settings.py and
-tools/render_standard_sim.py. They take explicit
-local input paths and do not need to be run to view this static site.
+PROVENANCE
+The website displays prepared data, figures and videos.
 Source hashes and definitions are in gap-provenance.json and
 media-provenance.json; supporting-source hashes are in support.json. Private recordings, raw logs and local filesystem
 paths are not included in the web bundle. The pipeline code release remains
@@ -167,8 +165,7 @@ The D2 pair is composed side by side into one 3840x1470, 22.2 s video. All
 222 frames are retained, with six simulation cameras and the standard BEV
 panel for each side. Both simulated ego poses contribute to the usual
 BEV extent calculation so the two views have identical bounds at each frame.
-The standard submission draw_bev and sample functions are copied unchanged
-into tools/standard_bev.py. All actor states are passed to the renderer,
+The videos use the standard submission renderer. All actor states are passed to the renderer,
 without the original 50 m scoring-radius eligibility filter; the normal
 viewport clips at its edges. Reactive clips show the requested rear cone. Camera extraction
 uses only the simulation half of the original mosaic. Lanelet hashes match

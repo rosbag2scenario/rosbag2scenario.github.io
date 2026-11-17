@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 media/*-check-*.jpg
+
+# Local export, render and validation utilities; excluded from publication.
+/tools/
