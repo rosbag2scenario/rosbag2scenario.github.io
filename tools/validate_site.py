@@ -96,13 +96,18 @@ assert comparison['encoding']['streams'][0]['width']==3840
 assert comparison['encoding']['streams'][0]['height']==1470
 assert float(comparison['encoding']['format']['duration'])==22.2
 assert a['frames']==b['frames']==222
-assert a['map_bounds_by_frame']==b['map_bounds_by_frame'] and a['source_start_s']==b['source_start_s']
+assert len(a['map_bounds_by_frame'])==len(b['map_bounds_by_frame'])==222
+assert all(math.isclose(x,y,rel_tol=0,abs_tol=1e-9) for aa,bb in zip(a['map_bounds_by_frame'],b['map_bounds_by_frame']) for x,y in zip(aa,bb))
+assert a['source_start_s']==b['source_start_s']
 assert [r['t'] for r in a['timing']]==[r['t'] for r in b['timing']]
 assert all(r['all_actors'] for r in [a,b])
 assert a['cone_overlay'] is True and b['cone_overlay'] is False
 for render in [a,b,*[m['render'] for m in media.values() if 'render' in m]]:
     assert render['camera_rows']['gutter_removed']
-    assert render['cone_visualization']['opening_deg']==90 and render['cone_visualization']['range_m']==100
+    if render['cone_overlay']:
+        assert render['cone_visualization']['opening_deg']==90 and render['cone_visualization']['range_m']==100
+    else:
+        assert render['cone_visualization']['opening_deg'] is None and render['cone_visualization']['range_m'] is None
     assert render['status_position'][1]<1300 and render['clock_position'][1]<1300
     mode=render['mode_overlay']
     assert mode['modes']==['Replay','Autonomous']
