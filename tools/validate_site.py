@@ -1,5 +1,6 @@
 """Check public assets, data integrity and agreement with the submitted tables."""
 import csv,hashlib,json,math,re
+import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
@@ -143,3 +144,19 @@ assert motion_cases['d1']['run']=='AWE-20261116-004752'
 for case,name in [('d2-hybrid','d2-regression-hybrid'),('d2-replay','d2-regression-logreplay')]:
     assert motion_cases[case]['run']==comparison['inputs'][name]['render']['run']
 print('PASS: seven case-matched four-panel plot sets, requested D3 run and screenshot values, usual BEV renderer and aligned D2 frames.')
+
+d2_axes={}
+for case in ['d2-hybrid','d2-replay']:
+    for suffix,fields in [('speed',['v_real','v_sim']),('position',['ds']),('command',['a_cmd_real','a_cmd_sim']),('achieved',['a_real','a_sim'])]:
+        root=ET.parse(ROOT/f'fig/motion/{case}-{suffix}.svg').getroot()
+        axis=json.loads(root.find('.//{http://purl.org/dc/elements/1.1/}description').text)
+        d2_axes[case,suffix]=axis
+        series=motion_cases[case]['series']
+        for field in fields:
+            values=[v for t,v in zip(series['t'],series[field]) if axis['xlim'][0]<=t<=axis['xlim'][1] and v is not None]
+            assert min(values)>=axis['ylim'][0] and max(values)<=axis['ylim'][1],(case,suffix,'clipped data')
+for suffix in ['speed','position','command','achieved']:
+    for field in ['xlim','ylim','xticks','yticks','axes_position','figure_inches']:
+        assert d2_axes['d2-hybrid',suffix][field]==d2_axes['d2-replay',suffix][field],(suffix,field)
+assert d2_axes['d2-hybrid','command']['ylim']==d2_axes['d2-hybrid','achieved']['ylim']
+print('PASS: D2 paired plots share axis limits, ticks and panel dimensions; all displayed data fits within the axes.')

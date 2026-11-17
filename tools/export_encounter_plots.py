@@ -58,6 +58,8 @@ def export(a):
         plt.close(fig)
         output[key]=dict(title=title,run=c['run'],source_sha256=digest(p),t_h=th,t_d=td,window=[start,end],summary=summary,takeover=dict(real_speed=rr,sim_speed=ss,along_path_difference=dd),series=dict(t=clean(t),v_real=clean(vr),v_sim=clean(vs),ds=clean(ds),a_cmd_real=clean(ar),a_cmd_sim=clean(ass),a_real=clean(dr),a_sim=clean(dss)))
     (site/'data/encounter-motion.json').write_text(json.dumps(output,separators=(',',':'),allow_nan=False)+'\n')
+    from render_d2_motion import render as render_d2
+    render_d2(site)
     print('Exported',len(output),'four-panel comparisons; D3:',output['d3']['summary'])
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--compare-dir',required=True);p.add_argument('--d1-comparison',required=True);p.add_argument('--site',default='.');export(p.parse_args())
